@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "setupFiles": [
-    "./src/setupTests.js"
+    "./test/setupTests.js"
   ],
   "dependencies": {
     "react": "^16.8.6",

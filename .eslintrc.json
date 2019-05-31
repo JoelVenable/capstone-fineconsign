@@ -21,6 +21,7 @@
         "flowtype"
     ],
     "rules": {
-        "import/prefer-default-export": false
+        "import/prefer-default-export": false,
+        "no-use-before-define": 0
     }
 }
