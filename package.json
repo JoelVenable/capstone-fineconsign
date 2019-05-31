@@ -16,15 +16,18 @@
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint src"
+    "lint": "eslint src --fix"
   },
   "husky": {
     "hooks": {
+      "pre-commit": "pretty-quick --pattern '**/*.*(js|jsx)' --staged",
       "pre-push": "npm run lint && npm run test"
     }
   },
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -54,6 +57,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
     "husky": "^2.3.0",
-    "prettier": "^1.17.1"
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.11.0"
   }
 }
