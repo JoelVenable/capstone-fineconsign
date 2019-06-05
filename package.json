@@ -9,12 +9,14 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-responsive-picture": "^3.1.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "typescript": "^3.5.1"
   },
   "scripts": {
-    "start": "npm-run-all -p api webpack",
+    "start": "npm-run-all -p api watch webpack",
+    "watch": "npx npm-watch",
     "webpack": "react-scripts start",
     "api": "npx json-server --watch api/database.json --port 8088",
     "build": "react-scripts build",
@@ -22,6 +24,15 @@
     "eject": "react-scripts eject",
     "lintFix": "eslint ./src/**/*.{js,jsx} --fix",
     "lint": "eslint ./src/**/*.{js,jsx}"
+  },
+  "watch": {
+    "lintFix": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx",
+      "quiet": false
+    }
   },
   "husky": {
     "hooks": {
@@ -64,6 +75,7 @@
     "husky": "^2.3.0",
     "json-server": "^0.15.0",
     "npm-run-all": "^4.1.5",
+    "npm-watch": "^0.6.0",
     "prettier": "^1.17.1",
     "pretty-quick": "^1.11.0"
   }
