@@ -2,12 +2,10 @@ import React, { PureComponent } from 'react';
 import './App.css';
 import { API } from './modules/API';
 
-export class App extends PureComponent {
-  componentDidMount() {
-    API.storageLocations.read();
-  }
+import { CustomTheme } from './CustomTheme';
 
+export class App extends PureComponent {
   render() {
-    return <></>;
+    return <CustomTheme>Content...</CustomTheme>;
   }
 }
