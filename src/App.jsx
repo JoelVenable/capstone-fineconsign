@@ -1,9 +1,17 @@
 import React, { PureComponent } from 'react';
+import { CustomTheme } from './components/utility/CustomTheme';
+import { ContextWrapper } from './Context/Context';
+import { ApplicationViews } from './ApplicationViews';
 
-import { CustomTheme } from './CustomTheme';
 
 export class App extends PureComponent {
   render() {
-    return <CustomTheme>Content...</CustomTheme>;
+    return (
+      <ContextWrapper>
+        <CustomTheme>
+          <ApplicationViews />
+        </CustomTheme>
+      </ContextWrapper>
+    );
   }
 }
