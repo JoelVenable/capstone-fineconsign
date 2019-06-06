@@ -27,6 +27,8 @@
         "no-unused-vars": 1,
         "react/prop-types": 1,
         "implicit-arrow-linebreak": 0,
-        "arrow-parens": 0
+        "arrow-parens": 2,
+        "react/destructuring-assignment": 1,
+        "max-len": [1, 120, 2, {"ignoreComments": true}]
     }
 }

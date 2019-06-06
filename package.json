@@ -6,38 +6,30 @@
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.0.2",
+    "material-ui-image": "^3.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-responsive-picture": "^3.1.1",
+    "react-responsive": "^6.1.2",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "typescript": "^3.5.1"
   },
   "scripts": {
     "start": "npm-run-all -p api watch webpack",
-    "watch": "npx npm-watch",
+    "watch": "npx esw -w --changed --fix src/**/*.{js,jsx}",
     "webpack": "react-scripts start",
     "api": "npx json-server --watch api/database.json --port 8088",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "lintWatch": "eslint --fix",
     "lintFix": "eslint ./src/**/*.{js,jsx} --fix",
     "lint": "eslint ./src/**/*.{js,jsx}"
   },
-  "watch": {
-    "lintFix": {
-      "patterns": [
-        "src"
-      ],
-      "extensions": "js,jsx",
-      "quiet": false
-    }
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test",
-      "pre-push": "npm run lint && npm run test"
+      "pre-commit": "npm run lint && npm run test"
     }
   },
   "jest": {
@@ -72,10 +64,10 @@
     "eslint-plugin-jest": "^22.6.4",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
+    "eslint-watch": "^5.1.2",
     "husky": "^2.3.0",
     "json-server": "^0.15.0",
     "npm-run-all": "^4.1.5",
-    "npm-watch": "^0.6.0",
     "prettier": "^1.17.1",
     "pretty-quick": "^1.11.0"
   }
