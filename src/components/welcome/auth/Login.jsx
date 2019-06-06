@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignIn(props) {
+export function Login(props) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 

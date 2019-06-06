@@ -6,8 +6,6 @@ const style = {
     color: 'white',
     textDecoration: 'none',
     padding: '4px 6px',
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif',
     fontSize: '12px',
     fontWeight: 'bold',
     lineHeight: '1.2',

@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp({ register }) {
+export function SignUp({ register }) {
   const classes = useStyles();
 
   const [email, setEmail] = useState(null);
