@@ -1,6 +1,4 @@
 import React, { PureComponent } from 'react';
-import './App.css';
-import { API } from './modules/API';
 
 import { CustomTheme } from './CustomTheme';
 
