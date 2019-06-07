@@ -3,8 +3,8 @@ import React from 'react';
 import Image from '../utility/Image';
 import heroDesktopHi from './assets/hero-4k.jpg';
 import heroDesktopLo from './assets/hero-1080p.jpg';
-import heroTabletHi from './assets/hero-retina.jpg';
-import heroTabletLo from './assets/hero-1024.jpg';
+import heroTabletHi from './assets/hero-retina2.jpg';
+import heroTabletLo from './assets/hero-1024-2.jpg';
 import heroMobileHi from './assets/hero-mobile-retina.jpg';
 import heroMobileLo from './assets/hero-mobile-small.jpg';
 import {

@@ -46,7 +46,7 @@ export function Title({ position, children }) {
 
 
 Title.propTypes = {
-  position: PropTypes.oneOf(['hero', 'navbar']),
+  position: PropTypes.oneOf(['hero', 'navbar']).isRequired,
   children: PropTypes.node,
 };
 
