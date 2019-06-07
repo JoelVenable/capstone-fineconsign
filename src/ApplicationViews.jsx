@@ -10,34 +10,79 @@ import { Customers } from './components/Customers/Customers';
 import { Orders } from './components/Orders/Orders';
 import { PriceAdjustments } from './components/PriceAdjustments/PriceAdjustments';
 import { Stores } from './components/Stores/Stores';
+import { UserConsumer } from './Context/UserContextProvider';
+
 
 export class ApplicationViews extends PureComponent {
+  makeProtectedRoutes = routes => routes.map(route => <ProtectedRoute {...route} />)
+
+  makeClearRoutes = routes => routes.map(route => <Route {...route} />)
+
   render() {
     return (
       <>
-        <Route
-          exact
-          path="/"
-          render={props => (
-            <Welcome {...props} />
-          )}
-        />
-        <Route
-          exact
-          path="/gallery"
-          render={props => (
-            <Gallery {...props} />
-          )}
-        />
-        <ProtectedRoute isAuthorized exact path="/users" render={props => <Users {...props} />} />
-        <ProtectedRoute isAuthorized exact path="/appraisals" render={props => <Appraisals {...props} />} />
-        <ProtectedRoute isAuthorized exact path="/approvals" render={props => <Approvals {...props} />} />
-        <ProtectedRoute isAuthorized exact path="/customers" render={props => <Customers {...props} />} />
-        <ProtectedRoute isAuthorized exact path="/orders" render={props => <Orders {...props} />} />
-        <ProtectedRoute isAuthorized exact path="/priceAdjustments" render={props => <PriceAdjustments {...props} />} />
-        <ProtectedRoute isAuthorized exact path="/stores" render={props => <Stores {...props} />} />
+        <UserConsumer>
+          {user => (('id' in user) ? <div className="hello" /> : null)}
+        </UserConsumer>
 
+        {this.makeClearRoutes(this.routes)}
+        {this.makeProtectedRoutes(this.protectedRoutes)}
       </>
     );
   }
+
+
+  protectedRoutes = [
+    {
+      path: '/users',
+      render: props => <Users {...props} />,
+      isAuthorized: true,
+      exact: true,
+    },
+    {
+      path: '/appraisals',
+      render: props => <Appraisals {...props} />,
+      isAuthorized: true,
+      exact: true,
+    },
+    {
+      path: '/approvals',
+      render: props => <Approvals {...props} />,
+      isAuthorized: true,
+      exact: true,
+    }, {
+      path: '/customers',
+      render: props => <Customers {...props} />,
+      isAuthorized: true,
+      exact: true,
+    }, {
+      path: '/orders',
+      render: props => <Orders {...props} />,
+      isAuthorized: true,
+      exact: true,
+    }, {
+      path: '/priceAdjustments',
+      render: props => <PriceAdjustments {...props} />,
+      isAuthorized: true,
+      exact: true,
+    }, {
+      path: '/stores',
+      render: props => <Stores {...props} />,
+      isAuthorized: true,
+      exact: true,
+    },
+  ]
+
+  routes = [
+    {
+      path: '/',
+      render: props => <Welcome {...props} />,
+      exact: true,
+    },
+    {
+      path: '/gallery',
+      render: props => <Gallery {...props} />,
+      exact: true,
+    },
+  ]
 }
