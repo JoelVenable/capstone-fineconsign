@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
-import { Consumer } from '../Context/ContextProvider';
+import { Consumer } from '../ContextProvider';
 
 
 export function Navbar() {

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Route } from 'react-router-dom';
 import { ProtectedRoute } from './components/utility/ProtectedRoute';
-import { Consumer } from './Context/ContextProvider';
+import { Consumer } from './ContextProvider';
 import { routes, protectedRoutes } from './routes';
 
 

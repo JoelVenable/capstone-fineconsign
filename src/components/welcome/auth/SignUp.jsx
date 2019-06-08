@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Form, Input, Button, Checkbox,
 } from 'semantic-ui-react';
-import { Consumer } from '../../../Context/ContextProvider';
+import { Consumer } from '../../../ContextProvider';
 
 
 export function SignUp({ register }) {
@@ -71,7 +71,7 @@ export function SignUp({ register }) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            color="blue"
             style={{ float: 'right' }}
 
             onClick={(e) => {

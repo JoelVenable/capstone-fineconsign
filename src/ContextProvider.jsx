@@ -3,8 +3,8 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { API } from '../modules/api/API';
-import { ErrorDialog } from '../components/utility/ErrorDialog';
+import { API } from './modules/api/API';
+import { ErrorDialog } from './components/utility/ErrorDialog';
 
 
 const Context = React.createContext();

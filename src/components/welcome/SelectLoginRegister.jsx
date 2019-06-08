@@ -1,37 +1,25 @@
 import React, { useState } from 'react';
-import {
-  Tabs, Tab, Typography,
-} from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { Menu } from 'semantic-ui-react';
 import { SignUp } from './auth/SignUp';
 import { Login } from './auth/Login';
-import { style } from './style';
-
-function TabContainer({ children }) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = { children: PropTypes.node.isRequired };
-
 
 export function SelectLoginRegister() {
+  const [tabPosition, setTabPosition] = useState('menuItem--0');
+  // 0 = login
+  // 1 = SignUp
+
   function handleChange(e, newPosition) {
-    setTabPosition(newPosition);
+    setTabPosition(e.target.id);
   }
 
-  const [tabPosition, setTabPosition] = useState(0);
-
   return (
-    <div style={style.loginDiv}>
-      <Tabs onChange={handleChange} variant="fullWidth" value={tabPosition} style={{ marginBottom: '1rem' }}>
-        <Tab label={<TabContainer>Login</TabContainer>} disableRipple />
-        <Tab label={<TabContainer>Register</TabContainer>} disableRipple />
-      </Tabs>
-      {tabPosition ? <SignUp /> : <Login />}
+    <div className="loginRegisterBox">
+      <Menu className="loginRegisterMenu">
+        <Menu.Item className="loginRegisterMenu-item" name="Login" active={tabPosition === 'menuItem--0'} onClick={handleChange} id="menuItem--0">LOGIN</Menu.Item>
+        <Menu.Item className="loginRegisterMenu-item" name="Register" active={tabPosition === 'menuItem--1'} onClick={handleChange} id="menuItem--1">REGISTER</Menu.Item>
+      </Menu>
+      {(tabPosition === 'menuItem--1') ? <SignUp /> : <Login />}
     </div>
   );
 }

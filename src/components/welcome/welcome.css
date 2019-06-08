@@ -1,0 +1,77 @@
+.MuiTabs-indicator {
+  background-color:#05B52D;
+}
+
+.loginRegisterBox {
+  box-sizing: border-box;
+  padding: 2rem 1rem;
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  background-color: rgba(255,255,255,.85);
+}
+
+.loginRegisterBox * {
+  font-size: .8rem;
+}
+
+.title--hero {
+  position: absolute;
+  width: 90%;
+  top: 10px;
+  left: 5%;
+}
+
+@media screen and (min-width: 480px) {
+  .loginRegisterBox {
+    top: 40%;
+    left: 40%;
+    width: 50%;
+  }
+
+  .title--hero {
+    width: 70%;
+    left: 15%;
+  }
+
+  .loginRegisterBox * {
+    font-size: 1rem;
+  }
+  
+
+}
+
+@media screen and (min-width: 1100px) {
+  .loginRegisterBox {
+    top: 40%;
+    left: 55%;
+    width: 35%;
+  }
+
+  .title--hero {
+    width: 45%;
+    left: 15%;
+    top: 20px;
+  }
+
+  .loginRegisterBox * {
+    font-size: 1rem;
+  }
+  
+
+}
+
+.loginRegisterMenu {
+  display: flex;
+  flex-direction: row;
+}
+
+.loginRegisterMenu-item {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Button, Checkbox, Form, Input,
 } from 'semantic-ui-react';
-import { Consumer } from '../../../Context/ContextProvider';
+import { Consumer } from '../../../ContextProvider';
 
 export function Login() {
   const [username, setUsername] = useState(null);
@@ -53,11 +53,8 @@ export function Login() {
         {({ login, showError }) => (
           <Button
             type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
             style={{ float: 'right' }}
-
+            color="blue"
             onClick={(e) => {
               e.preventDefault();
               if (terms) login(username, password);
