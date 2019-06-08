@@ -17,16 +17,22 @@ export class ContextProvider extends PureComponent {
     employees: [],
     customers: [],
     artists: [],
+    paintings: [],
     login: (username, pw) => this.setState(this.doLogin(username, pw)),
     logout: () => this.setState(handleLogout()),
     showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
     errorMessage: '',
+    update: async () => this.setState({
+      artists: await API.artists.getAll(),
+      paintings: await API.paintings.getAll(),
+    }),
     isErrorDialogVisible: false,
   }
 
 
   componentDidMount() {
-
+    /* eslint-disable-next-line */
+    this.state.update();
   }
 
 
@@ -36,7 +42,6 @@ export class ContextProvider extends PureComponent {
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
       user[userType] = typeObj;
-      console.log(user);
       sessionStorage.setItem('userdata', JSON.stringify(user));
       return user;
     }
@@ -45,10 +50,9 @@ export class ContextProvider extends PureComponent {
 
   hideError= () => this.setState({ isErrorDialogVisible: false, errorMessage: '' })
 
-  handleInvalidLogin = (error) => {
-    console.log(error.message);
-    this.state.showError(error.message);
-  }
+  /* eslint-disable-next-line */
+  handleInvalidLogin = error => this.state.showError(error.message);
+
 
   render() {
     const { children } = this.props;
