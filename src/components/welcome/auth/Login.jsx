@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { UserConsumer } from '../../../Context/UserContextProvider';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -33,24 +33,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function Login(props) {
-  const [email, setEmail] = useState(null);
+export function Login() {
+  const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
   // Update state whenever an input field is edited
   const handleFieldChange = (evt) => {
     if (evt.target.id === 'username') {
-      setEmail(evt.target.value);
+      setUsername(evt.target.value);
     } else if (evt.target.id === 'password') {
       setPassword(evt.target.value);
     }
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    props.login(email, password);
-  };
 
   const classes = useStyles();
 
@@ -83,16 +78,25 @@ export function Login(props) {
             autoComplete="current-password"
             onChange={handleFieldChange}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleLogin}
-          >
-            Sign In
-          </Button>
+          <UserConsumer>
+            {({ login }) => (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={(e) => {
+                  e.preventDefault();
+                  login(username, password);
+                }}
+              >
+                Sign In
+              </Button>
+            )}
+
+
+          </UserConsumer>
           <Grid container>
             <Grid item>
               <Link href="/sign-up" variant="body2">

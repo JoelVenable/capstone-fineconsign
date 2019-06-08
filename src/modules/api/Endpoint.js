@@ -31,11 +31,9 @@ export function Endpoint(url) {
       .catch(catchError);
   };
 
-  this.getAll = (params) => {
-    fetch(url + params || '')
-      .then(checkAndParseResponse)
-      .catch(catchError);
-  };
+  this.getAll = params => fetch(url + (params || ''))
+    .then(checkAndParseResponse)
+    .catch(catchError);
 
   this.getOne = (id) => {
     fetch(`${url}/${id}`)

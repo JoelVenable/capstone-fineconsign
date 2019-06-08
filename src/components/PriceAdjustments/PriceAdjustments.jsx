@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class PriceAdjustments extends Component {
-  render() {
-    return (
-      <div>Hello from PriceAdjustments!</div>
-    );
-  }
+export function PriceAdjustments() {
+  return (
+    <div>Hello from PriceAdjustments!</div>
+  );
 }

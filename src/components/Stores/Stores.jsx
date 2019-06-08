@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Stores extends Component {
-  render() {
-    return (
-      <div>Hello from Stores!</div>
-    );
-  }
+export function Stores() {
+  return (
+    <div>Hello from Stores!</div>
+  );
 }

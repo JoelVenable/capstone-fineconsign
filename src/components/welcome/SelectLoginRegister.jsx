@@ -3,12 +3,11 @@ import {
   Tabs, Tab, Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { networkInterfaces } from 'os';
 import { SignUp } from './auth/SignUp';
 import { Login } from './auth/Login';
 import { style } from './style';
 
-function TabContainer({ value, children }) {
+function TabContainer({ children }) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
       {children}
@@ -19,7 +18,7 @@ function TabContainer({ value, children }) {
 TabContainer.propTypes = { children: PropTypes.node.isRequired };
 
 
-export function SelectLoginRegister(props) {
+export function SelectLoginRegister() {
   function handleChange(e, newPosition) {
     setTabPosition(newPosition);
   }

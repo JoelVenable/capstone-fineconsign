@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Appraisals extends Component {
-  render() {
-    return (
-      <div>Hello from Appraisals!</div>
-    );
-  }
+export function Appraisals() {
+  return (
+    <div>Hello from Appraisals!</div>
+  );
 }

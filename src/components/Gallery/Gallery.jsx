@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button } from 'semantic-ui-react';
+import { Navbar } from '../Navbar';
 
 
-export class Gallery extends Component {
-  render() {
-    return (
-      <>
-        <div>Hello from Gallery!</div>
-        <Button primary>Click Here</Button>
-      </>
-    );
-  }
+export function Gallery() {
+  return (
+    <>
+      <Navbar />
+      <div>Hello from Gallery!</div>
+      <Button primary>Click Here</Button>
+    </>
+  );
 }
