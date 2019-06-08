@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Route } from 'react-router-dom';
 import { ProtectedRoute } from './components/utility/ProtectedRoute';
-import { UserConsumer } from './Context/UserContextProvider';
+import { Consumer } from './Context/ContextProvider';
 import { routes, protectedRoutes } from './routes';
 
 
@@ -13,9 +13,9 @@ export class ApplicationViews extends PureComponent {
   render() {
     return (
       <>
-        <UserConsumer>
+        <Consumer>
           {user => (('id' in user) ? <div className="hello" /> : null)}
-        </UserConsumer>
+        </Consumer>
 
         {this.makeClearRoutes(routes)}
         {this.makeProtectedRoutes(protectedRoutes)}

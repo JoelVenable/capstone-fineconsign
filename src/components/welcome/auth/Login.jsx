@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import React, { useState } from 'react';
-import { UserConsumer } from '../../../Context/UserContextProvider';
+import { Consumer } from '../../../Context/ContextProvider';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -78,7 +78,7 @@ export function Login() {
             autoComplete="current-password"
             onChange={handleFieldChange}
           />
-          <UserConsumer>
+          <Consumer>
             {({ login }) => (
               <Button
                 type="submit"
@@ -96,7 +96,7 @@ export function Login() {
             )}
 
 
-          </UserConsumer>
+          </Consumer>
           <Grid container>
             <Grid item>
               <Link href="/sign-up" variant="body2">
