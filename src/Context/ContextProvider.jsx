@@ -20,6 +20,7 @@ export class ContextProvider extends PureComponent {
     paintings: [],
     login: (username, pw) => this.setState(this.doLogin(username, pw)),
     logout: () => this.setState(handleLogout()),
+    register: () => { console.log('register!'); },
     showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
     errorMessage: '',
     update: async () => this.setState({

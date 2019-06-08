@@ -27,7 +27,7 @@ export function SelectLoginRegister() {
 
   return (
     <div style={style.loginDiv}>
-      <Tabs onChange={handleChange} variant="fullWidth" value={tabPosition}>
+      <Tabs onChange={handleChange} variant="fullWidth" value={tabPosition} style={{ marginBottom: '1rem' }}>
         <Tab label={<TabContainer>Login</TabContainer>} disableRipple />
         <Tab label={<TabContainer>Register</TabContainer>} disableRipple />
       </Tabs>

@@ -1,41 +1,14 @@
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import React, { useState } from 'react';
+import {
+  Button, Checkbox, Form, Input,
+} from 'semantic-ui-react';
 import { Consumer } from '../../../Context/ContextProvider';
-
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
 export function Login() {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const [terms, setTerms] = useState(false);
+
 
   // Update state whenever an input field is edited
   const handleFieldChange = (evt) => {
@@ -46,66 +19,57 @@ export function Login() {
     }
   };
 
+  const toggleCheck = () => setTerms(!terms);
 
-  const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
+    <Form>
+      <Form.Field>
+        <Input
+          placeholder="Username"
+          id="username"
+          icon="users"
+          iconPosition="left"
+          onChange={handleFieldChange}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Input
+          placeholder="password"
+          id="password"
+          icon="lock"
+          type="password"
+          iconPosition="left"
+          onChange={handleFieldChange}
+        />
+      </Form.Field>
+      <Checkbox
+        label="I accept the terms and conditions"
+        checked={terms}
+        onChange={toggleCheck}
+      />
+
+      <Consumer>
+        {({ login, showError }) => (
+          <Button
+            type="submit"
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            onChange={handleFieldChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleFieldChange}
-          />
-          <Consumer>
-            {({ login }) => (
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={(e) => {
-                  e.preventDefault();
-                  login(username, password);
-                }}
-              >
+            variant="contained"
+            color="primary"
+            style={{ float: 'right' }}
+
+            onClick={(e) => {
+              e.preventDefault();
+              if (terms) login(username, password);
+              else {
+                showError('Please accept the terms and conditions');
+              }
+            }}
+          >
                 Sign In
-              </Button>
-            )}
-
-
-          </Consumer>
-          <Grid container>
-            <Grid item>
-              <Link href="/sign-up" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </Button>
+        )}
+      </Consumer>
+    </Form>
   );
 }

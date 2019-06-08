@@ -1,44 +1,18 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import {
+  Form, Input, Button, Checkbox,
+} from 'semantic-ui-react';
+import { Consumer } from '../../../Context/ContextProvider';
+
 
 export function SignUp({ register }) {
-  const classes = useStyles();
-
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
+  const [terms, setTerms] = useState(false);
+
 
   // Update state whenever an input field is edited
   const handleFieldChange = (evt) => {
@@ -51,76 +25,68 @@ export function SignUp({ register }) {
     }
   };
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
+  const toggleCheck = () => setTerms(!terms);
 
-    register(username, email, password);
-  };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                onChange={handleFieldChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={handleFieldChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={handleFieldChange}
-              />
-            </Grid>
-          </Grid>
+    <Form>
+      <Form.Field>
+        <Input
+          placeholder="Username"
+          id="username"
+          icon="users"
+          iconPosition="left"
+          onChange={handleFieldChange}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Input
+          placeholder="email"
+          id="email"
+          icon="mail"
+          type="email"
+          iconPosition="left"
+          onChange={handleFieldChange}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Input
+          placeholder="password"
+          id="password"
+          icon="lock"
+          type="password"
+          iconPosition="left"
+          onChange={handleFieldChange}
+        />
+      </Form.Field>
+      <Checkbox
+        label="I accept the terms and conditions"
+        checked={terms}
+        onChange={toggleCheck}
+      />
+
+      <Consumer>
+        {({ register, showError }) => (
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
-            onClick={handleSignUp}
+            style={{ float: 'right' }}
+
+            onClick={(e) => {
+              e.preventDefault();
+              if (terms) register(username, email, password);
+              else {
+                showError('Please accept the terms and conditions');
+              }
+            }}
           >
-            Sign Up
+                Register New User
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+        )}
+      </Consumer>
+    </Form>
   );
 }
 

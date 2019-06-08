@@ -23,7 +23,7 @@ const style = {
 
 export function Title({ position, children }) {
   const [width, setWidth] = React.useState(window.innerWidth);
-  const updateWidth = () => { if (width !== window.innerWidth) setWidth(window.innerWidth); };
+  function updateWidth() { if (width !== window.innerWidth) setWidth(window.innerWidth); }
   let heroType;
 
   useEffect(() => {

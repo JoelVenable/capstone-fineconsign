@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import {
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Dialog,
-  DialogTitle,
-  Button,
-} from '@material-ui/core';
+  Modal, Header, Button, Icon,
+} from 'semantic-ui-react';
 
 export function ErrorDialog({
   //  Props:
@@ -18,22 +14,18 @@ export function ErrorDialog({
   textColor, // String value.  Accepts color of all text.
 }) {
   return (
-    <Dialog
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-      open={isVisible}
-      onClose={hide}
-    >
-      <DialogTitle style={{ color: textColor }}>{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText style={{ color: textColor }}>{text}</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button className="" variant="contained" onClick={hide}>
+    <Modal open={isVisible} onClose={hide} basic size="small">
+      <Header icon="warning" color={textColor} content={title} />
+      {text ? <Modal.Content><h3>{text}</h3></Modal.Content> : null}
+      <Modal.Actions>
+        <Button color="grey" onClick={hide}>
+          <Icon name="checkmark" />
+          {' '}
           Ok
         </Button>
-      </DialogActions>
-    </Dialog>
+      </Modal.Actions>
+    </Modal>
+
   );
 }
 
@@ -47,5 +39,5 @@ ErrorDialog.propTypes = {
 
 ErrorDialog.defaultProps = {
   text: null,
-  textColor: '#000',
+  textColor: 'orange',
 };
