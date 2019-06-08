@@ -23,8 +23,6 @@ export class ResponsiveContextProvider extends PureComponent {
 
   updateWidth = () => {
     const width = window.innerWidth;
-
-    console.log(width);
     this.setState({ width });
   }
 

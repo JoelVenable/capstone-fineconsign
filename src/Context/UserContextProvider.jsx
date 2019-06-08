@@ -3,6 +3,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { API } from '../modules/api/API';
 
 const UserContext = React.createContext();
 
@@ -11,9 +12,26 @@ export const UserConsumer = UserContext.Consumer;
 export class UserContextProvider extends PureComponent {
   state = {
     user: {},
-    login: user => this.setState({ user }),
-    logout: () => { console.log('Logout'); },
+    employees: {},
+    customers: {},
+    artists: {},
+    userType: '',
+    login: this.login,
+    logout: () => { sessionStorage.clear(); },
   }
+
+  componentDidMount() {
+    console.log(sessionStorage.getItem('userdata'));
+  }
+
+  login = async (username, password) => {
+    const user = await API.users.login(username, password);
+    const { userType } = user;
+    const [typeObj] = await API[userType].getFromUserId(user.id);
+    this.setState({ user, userType, [userType]: typeObj });
+    sessionStorage.setItem('userdata', JSON.stringify(user));
+  }
+
 
   render() {
     const { children } = this.props;
