@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Image from '../utility/Image';
+import Image from 'material-ui-image';
 import heroDesktopHi from './assets/hero-4k.jpg';
 import heroDesktopLo from './assets/hero-1080p.jpg';
 import heroTabletHi from './assets/hero-retina2.jpg';
@@ -18,7 +18,7 @@ import {
 
 const options = {
   disableSpinner: true,
-  altText: 'Artist paintbrushes in a mason jar',
+  alt: 'Artist paintbrushes in a mason jar',
   imageStyle: {
     width: '100%',
     height: '100vh',
