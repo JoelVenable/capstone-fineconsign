@@ -28,7 +28,9 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 *	In addition to all employee actions, Administrators should be able to edit and delete users of all types, and assign access rights to individual employees.
 *	Ability to view store's account balance
 
+## Entity Relationship Diagram:
 
+![entity relationship diagram](./ERD.png)
 
 ## Personal goals:
 *	Demonstrate knowledge of React, React styling libraries, and database design.
