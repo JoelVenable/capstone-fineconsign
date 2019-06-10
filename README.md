@@ -1,4 +1,67 @@
+
+# FineConsign
+
+
+While most eCommerce platforms are designed for direct sales and repeatable items, they not well-suited to consignment stores.  FineConsign is purpose-built for your consignment store operation!
+
+## Goals for user types
+
+### Customers:
+* Potential customers should be able to view the current items for sale without requiring a login.
+* A customer should be able to create an account enabling them to "buy" a painting (pay with "exposure bucks!").
+*	Ability to review current account balance from purchased items.
+
+### Artists:
+*	Ability to register an account as a "customer" and request store admins to update to an artist account.
+* Once approved, artists should be able to create a profile, save the draft, and submit for admin review.
+* Artists can also create a page about paintings they are consigning with the store, save drafts, and submit for review.
+* Ability to review current account balance from paintings sold.
+
+### Employees (depending on permissions):
+* The site administrator should have controls enabling employees varying levels of permissions.
+*	Ability to assign prices and approve artist-submitted paintings for live viewing on the customer-facing site.
+*	Ability to process customer orders in-store/online and credit the artist's account appropriately.
+*	Ability to define automatic price reduction logic for aged inventory and create lists for marking down prices on the physical items in-store.
+
+### Administrators:
+
+*	In addition to all employee actions, Administrators should be able to edit and delete users of all types, and assign access rights to individual employees.
+*	Ability to view store's account balance
+
+
+
+## Personal goals:
+*	Demonstrate knowledge of React, React styling libraries, and database design.
+*	Create an app that has practical real-world application.
+*	Potentially deploy live application for my aunt's non-profit painting guild that uses a similiar sales model.
+
+## Technology needed:
+*	ReactJS
+*	JavaScript
+*	Semantic UI for ReactJS
+*	Firebase image hosting
+*	JSON server
+
+### APIs used: None
+
+## MVP:
+*	Customers can submit items for potential consignment, and view items currently available for sale.
+*	Employees can review submitted items, assign a price, and approve submissions which will cause the submission to be listed as available for sale.  Employees can also CRUD items available for sale.
+*	Administrators can CRUD all endpoints.
+*	Firebase image hosting
+
+## Stretch goals:
+*	Mock Order checkout functionality and customer account management.
+*	Varying employee access rights.
+*	Authentication with Firebase
+
+
+
+***
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
 
 ## Available Scripts
 
