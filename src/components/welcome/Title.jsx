@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import largeLogo from './assets/logo2.svg';
 
 
 export function Title({ position, children }) {
-  const [width, setWidth] = React.useState(window.innerWidth);
-  function updateWidth() { if (width !== window.innerWidth) setWidth(window.innerWidth); }
-  let titleClassName;
-
-  useEffect(() => {
-    window.addEventListener('resize', updateWidth);
-  }, () => window.removeEventListener('resize', updateWidth));
-
-  titleClassName = (position === 'hero') ? 'title--hero' : 'title--navbar';
+  const titleClassName = (position === 'hero') ? 'title--hero' : 'title--navbar';
 
   return (
     <div className={titleClassName}>

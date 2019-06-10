@@ -30,8 +30,5 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-
-.painting--card-button {
-  margin: .3rem;
+  margin-bottom: .4rem;
 }

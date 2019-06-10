@@ -7,6 +7,7 @@ const endpoint = new Endpoint(`${baseURL}/paintings`);
 export const paintings = {
   create: obj => endpoint.create(obj),
   getAll: () => endpoint.getAll('?_expand=artist'),
+  getOne: id => endpoint.getOne(`${id}?_expand=artist`),
   edit: (id, newParams) => endpoint.update(id, newParams),
   delete: id => endpoint.delete(id),
 };

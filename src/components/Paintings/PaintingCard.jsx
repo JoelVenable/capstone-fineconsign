@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card, Image, Button, Icon,
 } from 'semantic-ui-react';
@@ -32,10 +33,12 @@ export function PaintingCard({
       </Card.Meta>
       <Card.Description className="painting--card-description">
         {`Price: $${currentPrice}`}
-        <Button icon labelPosition="right" class="ui button">
+        <Link to={`/paintings/${id}`}>
+          <Button icon labelPosition="right" className="ui button">
           Details
-          <Icon name="search" />
-        </Button>
+            <Icon name="search" />
+          </Button>
+        </Link>
       </Card.Description>
     </Card>
   );

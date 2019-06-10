@@ -8,6 +8,7 @@ import { Orders } from './components/Orders/Orders';
 import { PriceAdjustments } from './components/PriceAdjustments/PriceAdjustments';
 import { Stores } from './components/Stores/Stores';
 import { Welcome } from './components/welcome/Welcome';
+import { PaintingDetail } from './components/Paintings/PaintingDetail';
 
 
 export const protectedRoutes = [
@@ -55,8 +56,13 @@ export const routes = [
     render: props => <Welcome {...props} />,
     exact: true,
   }, {
-    path: '/gallery',
+    path: '/paintings',
     render: props => <Gallery {...props} />,
+    exact: true,
+  },
+  {
+    path: '/paintings/:paintingId(\\d+)',
+    render: props => <PaintingDetail {...props} id={parseInt(props.match.params.paintingId)} />,
     exact: true,
   },
 ];
