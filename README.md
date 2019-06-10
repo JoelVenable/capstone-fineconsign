@@ -2,7 +2,7 @@
 # FineConsign
 
 
-While most eCommerce platforms are designed for direct sales and repeatable items, they not well-suited to consignment stores.  FineConsign is purpose-built for your consignment store operation!
+While most eCommerce platforms are designed for direct sales and repeatable items, they are not well-suited to consignment stores.  FineConsign is purpose-built for your consignment store operation!
 
 ## Goals for user types
 
