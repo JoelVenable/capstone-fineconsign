@@ -47,15 +47,15 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 ### APIs used: None
 
 ## MVP:
-*	Customers can submit items for potential consignment, and view items currently available for sale.
+*	Artists can submit items for potential consignment, and view items currently available for sale.
 *	Employees can review submitted items, assign a price, and approve submissions which will cause the submission to be listed as available for sale.  Employees can also CRUD items available for sale.
 *	Administrators can CRUD all endpoints.
-*	Firebase image hosting
+*	Firebase image hosting for artist/employee upload capability.
 
 ## Stretch goals:
 *	Mock Order checkout functionality and customer account management.
 *	Varying employee access rights.
-*	Authentication with Firebase
+*	Authentication with Firebase.
 
 
 
