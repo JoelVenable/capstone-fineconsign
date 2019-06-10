@@ -20,20 +20,29 @@ export class ContextProvider extends PureComponent {
     paintings: [],
     login: (username, pw) => this.setState(this.doLogin(username, pw)),
     logout: () => this.setState(handleLogout()),
+    /* eslint-disable-next-line */
     register: () => { console.log('register!'); },
     showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
     errorMessage: '',
-    update: async () => this.setState({
-      artists: await API.artists.getAll(),
-      paintings: await API.paintings.getAll(),
-    }),
+    get: {
+      artists: () => this.getAll('artists'),
+      paintings: () => this.getAll('paintings'),
+      employees: () => this.getAll('employees'),
+      customers: () => this.getAll('customers'),
+    },
     isErrorDialogVisible: false,
   }
 
 
   componentDidMount() {
+    const { get } = this.state;
+    get.artists();
+    get.paintings();
     /* eslint-disable-next-line */
-    this.state.update();
+  }
+
+  getAll = async (endpoint) => {
+    this.setState({ [endpoint]: await API[endpoint].getAll() });
   }
 
 

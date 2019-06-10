@@ -12,9 +12,8 @@ export function Title({ position, children }) {
     window.addEventListener('resize', updateWidth);
   }, () => window.removeEventListener('resize', updateWidth));
 
-  if (position === 'hero') {
-    titleClassName = 'title--hero';
-  }
+  titleClassName = (position === 'hero') ? 'title--hero' : 'title--navbar';
+
   return (
     <div className={titleClassName}>
       <div>

@@ -1,0 +1,37 @@
+
+
+.painting--card {
+  border: 1px solid red;
+  width: 300px;
+  margin: .6rem;
+}
+
+.painting--card-image {
+  width: 100%;
+  height: auto;
+}
+
+.painting--card-header, 
+.painting--card-meta,
+.painting--card-description {
+  margin-left: .5rem;
+  margin-top: .3rem;
+}
+
+.painting--card-header {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.painting--card-description {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.painting--card-button {
+  margin: .3rem;
+}

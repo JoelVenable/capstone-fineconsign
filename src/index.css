@@ -24,3 +24,19 @@ code {
   text-decoration: none;
   list-style: none;
 }
+
+
+.inner-container {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: auto;
+  display: block;
+}
+
+
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

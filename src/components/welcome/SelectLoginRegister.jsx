@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Menu } from 'semantic-ui-react';
 import { SignUp } from './auth/SignUp';
 import { Login } from './auth/Login';

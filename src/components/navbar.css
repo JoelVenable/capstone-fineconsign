@@ -1,0 +1,13 @@
+
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title--navbar {
+  width: 15%;
+  padding: 4px;
+}
