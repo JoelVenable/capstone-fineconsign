@@ -7,7 +7,6 @@ import { Consumer } from '../../../ContextProvider';
 export function Login() {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
-  const [terms, setTerms] = useState(false);
 
 
   // Update state whenever an input field is edited
@@ -18,8 +17,6 @@ export function Login() {
       setPassword(evt.target.value);
     }
   };
-
-  const toggleCheck = () => setTerms(!terms);
 
 
   return (
@@ -43,11 +40,7 @@ export function Login() {
           onChange={handleFieldChange}
         />
       </Form.Field>
-      <Checkbox
-        label="I accept the terms and conditions"
-        checked={terms}
-        onChange={toggleCheck}
-      />
+
 
       <Consumer>
         {({ login, showError }) => (
@@ -57,10 +50,7 @@ export function Login() {
             color="blue"
             onClick={(e) => {
               e.preventDefault();
-              if (terms) login(username, password);
-              else {
-                showError('Please accept the terms and conditions');
-              }
+              login(username, password);
             }}
           >
                 Sign In
