@@ -7,4 +7,13 @@ import { ContextProvider } from './ContextProvider';
 import { ApplicationViews } from './ApplicationViews';
 
 
-ReactDOM.render(<ContextProvider><BrowserRouter><ApplicationViews /></BrowserRouter></ContextProvider>, document.getElementById('root'));
+ReactDOM.render(
+  <BrowserRouter>
+    <ContextProvider>
+
+      <ApplicationViews />
+    </ContextProvider>
+
+  </BrowserRouter>,
+  document.getElementById('root'),
+);

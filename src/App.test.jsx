@@ -1,10 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { App } from './App';
+import { ApplicationViews } from './ApplicationViews';
 
-describe('<App />', () => {
-  it('renders <App /> without crashing', () => {
-    const wrapper = shallow(<App />);
+
+describe('<ApplicationViews />', () => {
+  it('renders <ApplicationViews /> without crashing', () => {
+    const wrapper = shallow(<ApplicationViews />);
     expect(wrapper.length).toEqual(1);
   });
 });
