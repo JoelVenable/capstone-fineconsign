@@ -18,7 +18,7 @@ export class ContextProvider extends PureComponent {
     customers: [],
     artists: [],
     paintings: [],
-    login: (username, pw) => this.setState(this.doLogin(username, pw)),
+    login: (username, pw, cb) => this.setState(this.doLogin(username, pw), cb),
     logout: () => this.setState(handleLogout()),
     /* eslint-disable-next-line */
     register: () => { console.log('register!'); },

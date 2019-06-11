@@ -1,15 +1,15 @@
 import React from 'react';
 import { Container, Button } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 import { Navbar } from '../Navbar';
-import { API } from '../../modules/api/API';
+// import { API } from '../../modules/api/API';
 import { Consumer } from '../../ContextProvider';
 
-
-const getPainting = async id => await API.paintings.getOne(id);
+// const getPainting = async id => await API.paintings.getOne(id);
 
 
 export function PaintingDetail({ id }) {
-  const [painting, setPainting] = React.useState([]);
+  // const [painting, setPainting] = React.useState([]);
   // setPainting(getPainting(id));
 
   return (
@@ -18,7 +18,7 @@ export function PaintingDetail({ id }) {
       <Container text>
         <Consumer>
           {({ paintings }) => {
-            const painting = paintings.find(painting => painting.id === id);
+            const painting = paintings.find(pntg => pntg.id === id);
             return painting ? (
               <>
                 <img src={painting.imgUrl} alt={painting.name} />
@@ -42,3 +42,8 @@ Original Price: $
     </>
   );
 }
+
+
+PaintingDetail.propTypes = {
+  id: PropTypes.number.isRequired,
+};
