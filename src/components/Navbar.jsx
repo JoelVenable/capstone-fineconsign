@@ -3,7 +3,8 @@ import { Menu, Button, Icon } from 'semantic-ui-react';
 import { Consumer } from '../ContextProvider';
 import { Title } from './welcome/Title';
 import './navbar.css';
-import { MediaPhone } from './utility/media';
+import { MediaPhone, MediaTablet } from './utility/media';
+import { PhoneMenu } from './Nav/PhoneNav';
 
 export function Navbar() {
   return (
@@ -13,10 +14,11 @@ export function Navbar() {
         {({ user }) => (user ? (
           <>
             <MediaPhone>
-              <Button icon>
-                <Icon name="bars" />
-              </Button>
+              <PhoneMenu user={user} />
             </MediaPhone>
+            <MediaTablet>
+            I'm a tablet
+            </MediaTablet>
           </>
         ) : (
           <Button icon>
