@@ -62,7 +62,8 @@ export const routes = [
   },
   {
     path: '/paintings/:paintingId(\\d+)',
-    render: props => <PaintingDetail {...props} id={parseInt(props.match.params.paintingId)} />,
+    /* eslint-disable-next-line */
+    render: props => <PaintingDetail {...props} id={parseInt(props.match.params.paintingId, 10)} />,
     exact: true,
   },
 ];

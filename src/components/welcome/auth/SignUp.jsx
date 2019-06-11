@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   Form, Input, Button, Checkbox,
@@ -7,7 +6,7 @@ import {
 import { Consumer } from '../../../ContextProvider';
 
 
-export function SignUp({ register }) {
+export function SignUp() {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
@@ -89,7 +88,3 @@ export function SignUp({ register }) {
     </Form>
   );
 }
-
-SignUp.propTypes = {
-  register: PropTypes.func.isRequired,
-};

@@ -43,3 +43,24 @@ export function PaintingCard({
     </Card>
   );
 }
+
+PaintingCard.propTypes = {
+  artist: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+  }).isRequired,
+  artistId: PropTypes.number.isRequired,
+  currentPrice: PropTypes.number.isRequired,
+  forSaleDate: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  imgUrl: PropTypes.string.isRequired,
+  isLive: PropTypes.bool.isRequired,
+  isPriced: PropTypes.bool.isRequired,
+  isSold: PropTypes.bool.isRequired,
+  liveDescription: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  originalPrice: PropTypes.number.isRequired,
+  priceAdjustmentId: PropTypes.number.isRequired,
+  submittedDescription: PropTypes.string.isRequired,
+  thumbUrl: PropTypes.string.isRequired,
+};
