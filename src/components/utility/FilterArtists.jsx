@@ -4,7 +4,9 @@ import { Dropdown } from 'semantic-ui-react';
 import { Consumer } from '../../ContextProvider';
 
 
-export function FilterArtists({ setArtist, showOnlyActive }) {
+export function FilterArtists({
+  setArtist, showOnlyActive, inline, selection, clearable, placeholder,
+}) {
   function handleChange(_e, { value: artistId }) {
     setArtist(artistId);
   }
@@ -12,8 +14,9 @@ export function FilterArtists({ setArtist, showOnlyActive }) {
     <Consumer>
       {({ artists }) => (
         <Dropdown
-          inline
-          clearable
+          placeholder={placeholder}
+          inline={inline}
+          clearable={clearable}
           onChange={handleChange}
           options={showOnlyActive ? showActive(artists) : showAll(artists)}
         />
@@ -43,4 +46,15 @@ function showActive(artists) {
 FilterArtists.propTypes = {
   setArtist: PropTypes.func.isRequired,
   showOnlyActive: PropTypes.bool.isRequired,
+  inline: PropTypes.bool,
+  selection: PropTypes.bool,
+  clearable: PropTypes.bool,
+  placeholder: PropTypes.string,
+};
+
+FilterArtists.defaultProps = {
+  inline: true,
+  selection: false,
+  clearable: true,
+  placeholder: null,
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Dropdown } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import { Consumer } from '../../ContextProvider';
 import { PaintingCard } from '../Paintings/PaintingCard';
 import { FilterArtists } from '../utility/FilterArtists';
@@ -10,7 +10,7 @@ export function Gallery() {
 
   return (
     <>
-      <span>
+      <span className="filterArtists">
         {'Show only paintings by '}
         <FilterArtists setArtist={setArtistId} showOnlyActive />
       </span>

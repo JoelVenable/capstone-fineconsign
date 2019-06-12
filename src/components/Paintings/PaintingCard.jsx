@@ -33,7 +33,7 @@ export function PaintingCard({
       </Card.Meta>
       <Card.Description className="painting--card-description">
         {`Price: $${currentPrice}`}
-        <Link to={`/paintings/${id}`}>
+        <Link to={`/gallery/${id}`}>
           <Button icon labelPosition="right" className="ui button">
           Details
             <Icon name="search" />

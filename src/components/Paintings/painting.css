@@ -32,3 +32,10 @@
   align-items: center;
   margin-bottom: .4rem;
 }
+
+
+
+.table-actionIconContainer {
+  display: flex;
+  flex-direction: row;
+}

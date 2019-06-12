@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Button, Checkbox, Form, Input,
+  Button, Form, Input,
 } from 'semantic-ui-react';
 import { Consumer } from '../../../ContextProvider';
 
@@ -43,7 +43,7 @@ export function Login() {
 
 
       <Consumer>
-        {({ login, showError }) => (
+        {({ login }) => (
           <Button
             type="submit"
             style={{ float: 'right' }}
