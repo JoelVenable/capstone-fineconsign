@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 import { ProtectedRoute } from './components/utility/ProtectedRoute';
-import { Consumer } from './ContextProvider';
-import { routes, protectedRoutes } from './routes';
+import { routes, checkProtectedRoutes } from './routes';
 import { Navbar } from './components/Navbar';
-
+import { Consumer } from './ContextProvider';
 
 export class ApplicationViews extends PureComponent {
   makeProtectedRoutes = myRoutes => myRoutes.map(route => <ProtectedRoute {...route} key={route.path} />)
@@ -15,9 +15,16 @@ export class ApplicationViews extends PureComponent {
     return (
       <>
         <Route path="/:subpath" component={Navbar} />
-
-        {this.makeClearRoutes(routes)}
-        {this.makeProtectedRoutes(protectedRoutes)}
+        <Container style={{ overflowY: 'auto' }}>
+          <Consumer>
+            {({ user }) => (
+              <>
+                {this.makeClearRoutes(routes)}
+                {this.makeProtectedRoutes(checkProtectedRoutes(user))}
+              </>
+            )}
+          </Consumer>
+        </Container>
       </>
     );
   }

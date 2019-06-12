@@ -15,7 +15,7 @@ export function PhoneMenu({ user }) {
           <Dropdown.Menu>
             {emp.canEditInventory
               ? (
-                <Link to="/appraisals">
+                <Link to="/paintings">
                   <Dropdown.Item
                     key="paintings"
                     icon="file image"
@@ -26,57 +26,69 @@ export function PhoneMenu({ user }) {
               ) : null}
             {emp.canEditInventory
               ? (
-                <Dropdown.Item
-                  key="artists"
-                  icon="paint brush"
-                  text="Artists"
-                  value="artists"
-                />
+                <Link to="/artists">
+                  <Dropdown.Item
+                    key="artists"
+                    icon="paint brush"
+                    text="Artists"
+                    value="artists"
+                  />
+                </Link>
               ) : null}
             {emp.canEditEmployees
               ? (
-                <Dropdown.Item
-                  key="employees"
-                  icon="id card"
-                  text="Employees"
-                  value="employees"
-                />
+                <Link to="/employees">
+                  <Dropdown.Item
+                    key="employees"
+                    icon="id card"
+                    text="Employees"
+                    value="employees"
+                  />
+                </Link>
               ) : null}
             {emp.canProcessOrders
               ? (
-                <Dropdown.Item
-                  key="orders"
-                  icon="box"
-                  text="Orders"
-                  value="orders"
-                />
+                <Link to="/orders">
+                  <Dropdown.Item
+                    key="orders"
+                    icon="box"
+                    text="Orders"
+                    value="orders"
+                  />
+                </Link>
               ) : null}
             {emp.canEditCustomers
               ? (
-                <Dropdown.Item
-                  key="customers"
-                  icon="users"
-                  text="Customers"
-                  value="customers"
-                />
+                <Link to="/customers">
+                  <Dropdown.Item
+                    key="customers"
+                    icon="users"
+                    text="Customers"
+                    value="customers"
+                  />
+                </Link>
               ) : null}
             {emp.canEditEmployees
               ? (
-                <Dropdown.Item
-                  key="users"
-                  icon="wrench"
-                  text="Users"
-                  value="users"
-                />
+                <Link to="/users">
+                  <Dropdown.Item
+                    key="users"
+                    icon="wrench"
+                    text="Users"
+                    value="users"
+                  />
+                </Link>
               ) : null}
             {emp.canDefinePriceAdjustments
               ? (
-                <Dropdown.Item
-                  key="priceAdjustments"
-                  icon="dollar sign"
-                  text="Price Adjustments"
-                  value="priceAdjustments"
-                />
+                <Link to="/priceAdjustments">
+                  <Dropdown.Item
+                    key="priceAdjustments"
+                    icon="dollar sign"
+                    text="Price Adjustments"
+                    value="priceAdjustments"
+                  />
+                </Link>
               ) : null}
             <Dropdown.Divider />
             <SignOutButton />

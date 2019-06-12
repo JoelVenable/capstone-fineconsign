@@ -3,7 +3,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { API } from './modules/api/API';
 import { ErrorDialog } from './components/utility/ErrorDialog';
 
@@ -23,6 +23,8 @@ class Provider extends PureComponent {
     logout: () => {
       sessionStorage.clear();
       this.setState({ user: null });
+      /* eslint-disable-next-line */
+      this.props.history.push("/");
     },
     /* eslint-disable-next-line */
     register: () => { console.log('register!'); },
@@ -34,6 +36,24 @@ class Provider extends PureComponent {
       employees: () => this.getAll('employees'),
       customers: () => this.getAll('customers'),
     },
+    add: {
+      artist: newArtist => this.add(newArtist, 'artists'),
+      painting: newPainting => this.add(newPainting, 'paintings'),
+      employee: newEmployee => this.add(newEmployee, 'employees'),
+      customer: newCustomer => this.add(newCustomer, 'customers'),
+    },
+    edit: {
+      artist: (newArtist, id) => this.update(newArtist, 'artists', id),
+      painting: (newPainting, id) => this.update(newPainting, 'paintings', id),
+      customer: (newCustomer, id) => this.update(newCustomer, 'customers', id),
+      employee: (newEmployee, id) => this.update(newEmployee, 'employees', id),
+    },
+    delete: {
+      artist: id => this.delete(id, 'artists'),
+      painting: id => this.delete(id, 'paintings'),
+      customer: id => this.delete(id, 'customers'),
+      employee: id => this.delete(id, 'employees'),
+    },
     isErrorDialogVisible: false,
   }
 
@@ -42,30 +62,45 @@ class Provider extends PureComponent {
     const { get } = this.state;
     get.artists();
     get.paintings();
-    /* eslint-disable-next-line */
   }
 
   getAll = async (endpoint) => {
     this.setState({ [endpoint]: await API[endpoint].getAll() });
   }
 
+  add = async (obj, endpoint) => {
+    await API[endpoint].create(obj);
+    this.getAll(endpoint);
+  }
+
+  update = async (obj, endpoint, id) => {
+    await API[endpoint].edit(id, obj);
+    this.getAll(endpoint);
+  }
+
+  delete = async (id, endpoint) => {
+    await API[endpoint].delete(id);
+    this.getAll(endpoint);
+  }
+
 
   doLogin = async (username, password) => {
+    sessionStorage.clear();
     const user = await API.users.login(username, password).catch(this.handleInvalidLogin);
     if (user) {
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
-      const { push } = this.props.history;
+      const { history } = this.props;
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
-      if (userType === 'customer') push('/paintings');
-      if (userType === 'artist' || userType === 'employee') push('/painting-list');
+      if (userType === 'customer') history.push('/gallery');
+      if (userType === 'artist' || userType === 'employee') history.push('/paintings');
       return user;
     }
     return null;
   }
 
-  hideError= () => this.setState({ isErrorDialogVisible: false, errorMessage: '' })
+  hideError = () => this.setState({ isErrorDialogVisible: false, errorMessage: '' })
 
   /* eslint-disable-next-line */
   handleInvalidLogin = error => this.state.showError(error.message);
@@ -86,19 +121,10 @@ class Provider extends PureComponent {
 
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 
 export const ContextProvider = withRouter(Provider);
-
-function handleLogout() {
-  sessionStorage.clear();
-  const newState = {
-    user: null,
-    employees: null,
-    customers: null,
-    artists: null,
-    userType: null,
-  };
-  return newState;
-}
