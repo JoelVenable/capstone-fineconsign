@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { Consumer } from '../../ContextProvider';
 
 
 export function PhoneMenu({ user }) {
@@ -78,14 +79,7 @@ export function PhoneMenu({ user }) {
                 />
               ) : null}
             <Dropdown.Divider />
-            <Dropdown.Item
-              key="signout"
-              icon="sign-out"
-              text="Sign Out"
-              value="signout"
-            />
-
-
+            <SignOutButton />
           </Dropdown.Menu>
 
 
@@ -109,24 +103,14 @@ export function PhoneMenu({ user }) {
                 value="orders"
               />
               <Dropdown.Item
-                key="profile"
-                icon="paint brush"
-                text="My Profile"
-                value="profile"
-              />
-              <Dropdown.Item
                 key="account"
                 icon="edit"
                 text="My Account"
                 value="account"
               />
               <Dropdown.Divider />
-              <Dropdown.Item
-                key="signout"
-                icon="sign-out"
-                text="Sign Out"
-                value="signout"
-              />
+              <SignOutButton />
+
             </Dropdown.Menu>
           </Dropdown>
 
@@ -159,12 +143,7 @@ export function PhoneMenu({ user }) {
               value="account"
             />
             <Dropdown.Divider />
-            <Dropdown.Item
-              key="signout"
-              icon="sign-out"
-              text="Sign Out"
-              value="signout"
-            />
+            <SignOutButton />
           </Dropdown.Menu>
         </Dropdown>
 
@@ -178,6 +157,23 @@ export function PhoneMenu({ user }) {
         <Dropdown item icon="shopping cart" />
       </Menu.Menu>
     </>
+  );
+}
+
+function SignOutButton() {
+  return (
+    <Consumer>
+      {({ logout }) => (
+        <Dropdown.Item
+          key="signout"
+          icon="sign-out"
+          text="Sign Out"
+          value="signout"
+          onClick={logout}
+        />
+      )
+    }
+    </Consumer>
   );
 }
 

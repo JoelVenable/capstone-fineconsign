@@ -3,6 +3,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Router, withRouter } from 'react-router-dom';
 import { API } from './modules/api/API';
 import { ErrorDialog } from './components/utility/ErrorDialog';
 
@@ -11,15 +12,18 @@ const Context = React.createContext();
 
 export const { Consumer } = Context;
 
-export class ContextProvider extends PureComponent {
+class Provider extends PureComponent {
   state = {
     user: JSON.parse(sessionStorage.getItem('userdata')),
     employees: [],
     customers: [],
     artists: [],
     paintings: [],
-    login: (username, pw, cb) => this.setState(this.doLogin(username, pw), cb),
-    logout: () => this.setState(handleLogout()),
+    login: (username, pw) => this.setState(this.doLogin(username, pw)),
+    logout: () => {
+      sessionStorage.clear();
+      this.setState({ user: null });
+    },
     /* eslint-disable-next-line */
     register: () => { console.log('register!'); },
     showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
@@ -51,8 +55,11 @@ export class ContextProvider extends PureComponent {
     if (user) {
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
+      const { push } = this.props.history;
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
+      if (userType === 'customer') push('/paintings');
+      if (userType === 'artist' || userType === 'employee') push('/painting-list');
       return user;
     }
     return null;
@@ -77,10 +84,12 @@ export class ContextProvider extends PureComponent {
   }
 }
 
-ContextProvider.propTypes = {
+Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+
+export const ContextProvider = withRouter(Provider);
 
 function handleLogout() {
   sessionStorage.clear();

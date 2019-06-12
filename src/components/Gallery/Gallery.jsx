@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Grid, Dropdown } from 'semantic-ui-react';
-import { Navbar } from '../Navbar';
 import { Consumer } from '../../ContextProvider';
 import { PaintingCard } from '../Paintings/PaintingCard';
 import { FilterArtists } from '../utility/FilterArtists';
@@ -11,26 +10,47 @@ export function Gallery() {
 
   return (
     <>
-      <Navbar />
       <span>
         {'Show only paintings by '}
         <FilterArtists setArtist={setArtistId} showOnlyActive />
       </span>
-      <Grid container />
+      <Grid container>
+        {artistId ? filterPaintings(artistId) : showAllPaintings()}
+
+      </Grid>
     </>
   );
 }
 
 
-// paintings.map(
-//   painting => (
-//     <Grid.Column
-//       mobile={16}
-//       tablet={8}
-//       computer={5}
-//       key={painting.id}
-//     >
-//       <PaintingCard {...painting} />
-//     </Grid.Column>
-//   ),
-// )
+function filterPaintings(artistId) {
+  return (
+    <Consumer>
+      {({ paintings }) => paintings
+        .filter(painting => painting.artistId === artistId)
+        .map(showPainting)}
+    </Consumer>
+  );
+}
+
+function showAllPaintings() {
+  return (
+    <Consumer>
+      {({ paintings }) => paintings.map(showPainting)}
+    </Consumer>
+  );
+}
+
+
+function showPainting(painting) {
+  return (
+    <Grid.Column
+      mobile={16}
+      tablet={8}
+      computer={5}
+      key={painting.id}
+    >
+      <PaintingCard {...painting} />
+    </Grid.Column>
+  );
+}

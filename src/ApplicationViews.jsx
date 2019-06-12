@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from './components/utility/ProtectedRoute';
 import { Consumer } from './ContextProvider';
 import { routes, protectedRoutes } from './routes';
+import { Navbar } from './components/Navbar';
 
 
 export class ApplicationViews extends PureComponent {
@@ -13,9 +14,7 @@ export class ApplicationViews extends PureComponent {
   render() {
     return (
       <>
-        <Consumer>
-          {user => (('id' in user) ? <div className="hello" /> : null)}
-        </Consumer>
+        <Route path="/:subpath" component={Navbar} />
 
         {this.makeClearRoutes(routes)}
         {this.makeProtectedRoutes(protectedRoutes)}

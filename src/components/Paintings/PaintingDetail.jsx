@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Navbar } from '../Navbar';
 // import { API } from '../../modules/api/API';
 import { Consumer } from '../../ContextProvider';
 
@@ -14,7 +13,6 @@ export function PaintingDetail({ id }) {
 
   return (
     <>
-      <Navbar />
       <Container text>
         <Consumer>
           {({ paintings }) => {
