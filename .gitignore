@@ -26,4 +26,5 @@ yarn-error.log*
 # local folders
 /api
 /env
+/src/env
 *.tmp

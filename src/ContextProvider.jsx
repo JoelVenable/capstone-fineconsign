@@ -4,11 +4,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import * as firebase from 'firebase/app';
 import { API } from './modules/api/API';
 import { ErrorDialog } from './components/utility/ErrorDialog';
-
+import { firebaseCredentials } from './env/firebaseCredentials';
+import 'firebase/firebase-storage';
 
 const Context = React.createContext();
+
+try {
+  firebase.initializeApp(firebaseCredentials);
+} catch (e) {
+  console.log("You'll need to create a firebase account and provide "
+  + 'credentials inside /src/env/firebaseCredentials.js to use this app.');
+  console.log('Error message follows...', e);
+}
+
 
 export const { Consumer } = Context;
 
@@ -19,6 +30,7 @@ class Provider extends PureComponent {
     customers: [],
     artists: [],
     paintings: [],
+    storageRef: firebase.storage().ref(),
     login: (username, pw) => this.setState(this.doLogin(username, pw)),
     logout: () => {
       sessionStorage.clear();
