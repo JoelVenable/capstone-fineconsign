@@ -27,6 +27,8 @@ class Provider extends PureComponent {
       this.props.history.push("/");
     },
     /* eslint-disable-next-line */
+    history: this.props.history,
+    /* eslint-disable-next-line */
     register: () => { console.log('register!'); },
     showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
     errorMessage: '',
