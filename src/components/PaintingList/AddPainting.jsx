@@ -32,11 +32,6 @@ export function AddPainting() {
     });
   }
 
-  function handleChange(_e, { id, value }) {
-    console.log(id);
-    console.log(value);
-  }
-
 
   return (
     <Consumer>
