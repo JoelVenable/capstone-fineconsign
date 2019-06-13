@@ -32,20 +32,6 @@ export function AddPainting() {
     });
   }
 
-  // saveProfile = () => {
-  //   const ref = this.storageRef.child(`${Date.now()}`);
-  //   ref
-  //     .put(this.state.photo)
-  //     .then(response => response.ref.getDownloadURL())
-  //     .then(url =>
-  //       postData({
-  //         username: this.state.username,
-  //         aboutMe: this.state.aboutMe,
-  //         photoUrl: url
-  //       })
-  //     );
-  // };
-
   function handleChange(_e, { id, value }) {
     console.log(id);
     console.log(value);
