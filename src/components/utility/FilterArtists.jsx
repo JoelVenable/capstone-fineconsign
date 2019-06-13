@@ -16,6 +16,7 @@ export function FilterArtists({
         <Dropdown
           placeholder={placeholder}
           inline={inline}
+          selection={selection}
           clearable={clearable}
           onChange={handleChange}
           options={showOnlyActive ? showActive(artists) : showAll(artists)}

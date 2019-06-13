@@ -67,7 +67,7 @@ const panes = [
   },
 ];
 
-export function PaintingList(props) {
+export function PaintingList() {
   return (
     <Tab defaultActiveIndex="3" panes={panes} />
   );

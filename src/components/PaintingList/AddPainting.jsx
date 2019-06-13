@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Input, TextArea, Form } from 'semantic-ui-react';
 import './addPainting.css';
-import { FilterArtists } from '../utility/FilterArtists';
 import { Consumer } from '../../ContextProvider';
 
 export function AddPainting() {
@@ -21,6 +20,7 @@ export function AddPainting() {
               value: artist.id,
               image: { avatar: true, src: artist.artistImageUrl },
             }))}
+            onChange={setArtistId}
           />
         )
         }

@@ -11,7 +11,7 @@ export function PaintingTableItem({
     <Table.Row>
 
       <Table.Cell selectable>
-        <Header as="h4" image>
+        <Header as="h4" image style={{ paddingLeft: '.5rem' }}>
           <Image src={painting.thumbUrl} />
           <Header.Content>
             <strong>{painting.name}</strong>

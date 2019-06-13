@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Button, Icon } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import { Consumer } from '../ContextProvider';
 import { Title } from './welcome/Title';
 import './navbar.css';
