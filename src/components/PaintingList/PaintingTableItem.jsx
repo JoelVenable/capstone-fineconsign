@@ -5,38 +5,36 @@ import {
 import PropTypes from 'prop-types';
 
 export function PaintingTableItem({
-  painting,
+  painting, user: { userType },
 }) {
   return (
     <Table.Row>
 
       <Table.Cell selectable>
-        <Header as="h4" image style={{ paddingLeft: '.5rem' }}>
+        <Header
+          as="h4"
+          image
+          style={{
+            minHeight: '58px', paddingLeft: '.5rem', display: 'flex', flexDirection: 'row', alignItems: 'center',
+          }}
+        >
           <Image src={painting.thumbUrl} />
           <Header.Content>
             <strong>{painting.name}</strong>
-            <Header.Subheader>
-              {`${painting.artist.firstName} ${painting.artist.lastName}`}
-            </Header.Subheader>
+            {(userType === 'artist') ? (
+              <Header.Subheader>
+                {`${painting.artist.firstName} ${painting.artist.lastName}`}
+              </Header.Subheader>
+            ) : null}
           </Header.Content>
         </Header>
       </Table.Cell>
       <Table.Cell>
-        <Header>
-          Some stuff
-        </Header>
-
-
+        {showStatus(userType, painting)}
       </Table.Cell>
       <Table.Cell>
-        <div className="table-actionIconContainer">
-          <Button icon>
-            <Icon name="edit" />
-          </Button>
-          <Button icon color="orange">
-            <Icon name="trash" />
-          </Button>
-        </div>
+        {showControls(userType, painting)}
+
       </Table.Cell>
       {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
       <Card.Header className="painting--card-header">{name}</Card.Header>
@@ -55,6 +53,64 @@ export function PaintingTableItem({
       </Card.Description> */}
     </Table.Row>
   );
+}
+
+function showControls(userType, {
+  isSubmitted, isLive, isSold, currentPrice,
+}) {
+  if (userType === 'artist') {
+    if (isSold) return null;
+    if (isLive) return null;
+    if (isSubmitted) return null;
+    return (
+      <div className="table-actionIconContainer">
+        <Button icon>
+          <Icon name="edit" />
+        </Button>
+        <Button icon color="orange">
+          <Icon name="trash" />
+        </Button>
+      </div>
+    );
+  }
+  if (userType === 'employee') {
+    if (isSold) return null;
+    if (isLive) {
+      return (
+        <div className="table-actionIconContainer">
+          <Button icon>
+            <Icon name="edit" />
+          </Button>
+        </div>
+      );
+    }
+    if (isSubmitted) {
+      return (
+        <div className="table-actionIconContainer">
+          <Button icon>
+            <Icon name="edit" />
+          </Button>
+        </div>
+      );
+    }
+  }
+}
+
+function showStatus(userType, {
+  isSubmitted, isLive, isSold, currentPrice,
+}) {
+  if (userType === 'artist') {
+    if (isSold) return <Header as="h4" color="green">{`Sold for $${currentPrice}`}</Header>;
+    if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
+    if (isSubmitted) return <Header as="h4" color="purple">Submitted</Header>;
+    return <Header as="h4" color="orange">Draft</Header>;
+  }
+
+  if (userType === 'employee') {
+    if (isSold) return <Header as="h4" color="green">{`Sold for $${currentPrice}`}</Header>;
+    if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
+    if (isSubmitted) return <Header as="h4" color="orange">Needs Review</Header>;
+  }
 }
 
 PaintingTableItem.propTypes = {
