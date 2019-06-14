@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
 export function ComputerMenu({ user, history }) {
+  const [activeLink, setactiveLink] = useState(null);
   function handleClick(_e, { link }) {
     history.push(link);
   }
@@ -22,8 +23,7 @@ export function ComputerMenu({ user, history }) {
                       key="key"
                       icon="paint brush"
                       text="Artists"
-                      value="value"
-                      link="/artists"
+                      value="/artists"
                       onClick={handleClick}
                     />
                   ) : null}
@@ -33,9 +33,8 @@ export function ComputerMenu({ user, history }) {
                       key="employees"
                       icon="id card"
                       text="Employees"
-                      value="employees"
+                      value="/employees"
                       onClick={handleClick}
-                      link="/employees"
                     />
                   ) : null}
                 {employee.canEditCustomers
@@ -45,8 +44,7 @@ export function ComputerMenu({ user, history }) {
                       icon="users"
                       text="Customers"
                       onClick={handleClick}
-                      value="customers"
-                      link="/customers"
+                      value="/customers"
                     />
                   ) : null}
                 {employee.canEditEmployees
@@ -56,8 +54,7 @@ export function ComputerMenu({ user, history }) {
                       onClick={handleClick}
                       icon="wrench"
                       text="Users"
-                      value="users"
-                      link="/users"
+                      value="/users"
                     />
                   ) : null}
               </Dropdown.Menu>
@@ -69,8 +66,7 @@ export function ComputerMenu({ user, history }) {
                   icon="file image"
                   onClick={handleClick}
                   name="Paintings"
-                  value="paintings"
-                  link="/paintings"
+                  value="/paintings"
                 />
               ) : null}
             {employee.canProcessOrders
@@ -80,8 +76,7 @@ export function ComputerMenu({ user, history }) {
                   onClick={handleClick}
                   icon="box"
                   name="Orders"
-                  value="orders"
-                  link="/orders"
+                  value="/orders"
                 />
               ) : null}
 
@@ -93,8 +88,7 @@ export function ComputerMenu({ user, history }) {
                   onClick={handleClick}
                   icon="dollar sign"
                   name="Price Adjustments"
-                  value="priceAdjustments"
-                  link="/priceAdjustments"
+                  value="/priceAdjustments"
                 />
               ) : null}
             <SignOutButton />
@@ -111,24 +105,21 @@ export function ComputerMenu({ user, history }) {
               onClick={handleClick}
               icon="paint brush"
               name="Favorite Artists"
-              value="artists"
-              link="/artists"
+              value="/artists"
             />
             <Menu.Item
               key="account"
               onClick={handleClick}
               icon="edit"
               name="My Account"
-              value="account"
-              link="/account"
+              value="/account"
             />
             <Menu.Item
               key="cart"
               onClick={handleClick}
               icon="shopping cart"
               name="My Cart"
-              value="cart"
-              link="/cart"
+              value="/cart"
             />
 
             <SignOutButton />
@@ -142,16 +133,14 @@ export function ComputerMenu({ user, history }) {
               onClick={handleClick}
               icon="file image"
               name="My Paintings"
-              value="paintings"
-              link="/paintings"
+              value="/paintings"
             />
             <Menu.Item
               key="account"
               onClick={handleClick}
               icon="edit"
               name="My Account"
-              value="account"
-              link="/account"
+              value="/account"
             />
             <SignOutButton />
 
