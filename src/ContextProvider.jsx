@@ -17,9 +17,10 @@ const Context = React.createContext();
 try {
   firebase.initializeApp(firebaseCredentials);
 } catch (e) {
+  /* eslint-disable-next-line */
   console.log("You'll need to create a firebase account and provide "
-  + 'credentials inside /src/env/firebaseCredentials.js to use this app.');
-  console.log('Error message follows...', e);
+  + 'credentials inside /src/env/firebaseCredentials.js to use this app.'
+  + '\n\nError message follows...\n\n', e);
 }
 
 
