@@ -85,6 +85,13 @@ export function AddPainting({
         rows={7}
         placeholder="Painting description"
       />
+      <Form.Field
+        control="input"
+        type="number"
+        label="Price"
+        onChange={e => setPrice(e.target.value)}
+        placeholder="Upload an image"
+      />
 
       <Button type="submit" content="Save" color="purple" />
     </Form>
