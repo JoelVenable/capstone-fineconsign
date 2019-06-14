@@ -7,26 +7,26 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 ## Goals for user types
 
 ### Customers:
-* Potential customers should be able to view the current items for sale without requiring a login.
-* A customer should be able to create an account enabling them to "buy" a painting (pay with "exposure bucks!").
-*	Ability to review current account balance from purchased items.
+- [x] Potential customers should be able to view the current items for sale without requiring a login.
+- [ ] A customer should be able to create an account enabling them to "buy" a painting (pay with "exposure bucks!").
+- [ ]	Ability to review current account balance from purchased items.
 
 ### Artists:
-*	Ability to register an account as a "customer" and request store admins to update to an artist account.
-* Once approved, artists should be able to create a profile, save the draft, and submit for admin review.
-* Artists can also create a page about paintings they are consigning with the store, save drafts, and submit for review.
-* Ability to review current account balance from paintings sold.
+- [ ]	Ability to register an account as a "customer" and request store admins to update to an artist account.
+- [ ] Once approved, artists should be able to create a profile, save the draft, and submit for admin review.
+- [x] Artists can also create a page about paintings they are consigning with the store, save drafts, and submit for review.
+- [ ] Ability to review current account balance from paintings sold.
 
 ### Employees (depending on permissions):
-* The site administrator should have controls enabling employees varying levels of permissions.
-*	Ability to assign prices and approve artist-submitted paintings for live viewing on the customer-facing site.
-*	Ability to process customer orders in-store/online and credit the artist's account appropriately.
-*	Ability to define automatic price reduction logic for aged inventory and create lists for marking down prices on the physical items in-store.
+- [ ] The site administrator should have controls enabling employees varying levels of permissions.
+- [ ]	Ability to assign prices and approve artist-submitted paintings for live viewing on the customer-facing site.
+- [ ]	Ability to process customer orders in-store/online and credit the artist's account appropriately.
+- [ ]	Ability to define automatic price reduction logic for aged inventory and create lists for marking down prices on the physical items in-store.
 
 ### Administrators:
 
-*	In addition to all employee actions, Administrators should be able to edit and delete users of all types, and assign access rights to individual employees.
-*	Ability to view store's account balance
+- [ ]	In addition to all employee actions, Administrators should be able to edit and delete users of all types, and assign access rights to individual employees.
+- [ ]	Ability to view store's account balance
 
 ## Entity Relationship Diagram:
 
@@ -47,15 +47,15 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 ### APIs used: None
 
 ## MVP:
-*	Artists can submit items for potential consignment, and view items currently available for sale.
-*	Employees can review submitted items, assign a price, and approve submissions which will cause the submission to be listed as available for sale.  Employees can also CRUD items available for sale.
-*	Administrators can CRUD all endpoints.
-*	Firebase image hosting for artist/employee upload capability.
+- [x]	Artists can submit items for potential consignment, and view items currently available for sale.
+- [ ]	Employees can review submitted items, assign a price, and approve submissions which will cause the submission to be listed as available for sale.  Employees can also CRUD items available for sale.
+- [ ]	Administrators can CRUD all endpoints.
+- [x]	Firebase image hosting for artist/employee upload capability.
 
 ## Stretch goals:
-*	Mock Order checkout functionality and customer account management.
-*	Varying employee access rights.
-*	Authentication with Firebase.
+- [ ]	Mock Order checkout functionality and customer account management.
+- [ ]	Varying employee access rights.
+- [ ]	Authentication with Firebase.
 
 
 
