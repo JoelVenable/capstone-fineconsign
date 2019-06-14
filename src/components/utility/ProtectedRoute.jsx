@@ -15,7 +15,7 @@ export function ProtectedRoute({ render, isAuthorized, ...rest }) {
             {incomingRender(props)}
             {' '}
           </>
-        ) : <Redirect to="/" />)
+        ) : <Redirect to="/gallery" />)
       }
     />
   );
