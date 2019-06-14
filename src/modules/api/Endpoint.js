@@ -19,62 +19,56 @@ with the following methods:
 export const baseURL = 'http://localhost:8088';
 
 export function Endpoint(url) {
-  this.create = (obj) => {
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(obj),
-    })
-      .then(checkAndParseResponse)
-      .catch(catchError);
-  };
+  this.create = obj => fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  })
+    .then(checkAndParseResponse)
+    .catch(catchError);
+
 
   this.getAll = params => fetch(url + (params || ''))
     .then(checkAndParseResponse)
     .catch(catchError);
 
-  this.getOne = (id) => {
-    fetch(`${url}/${id}`)
-      .then(checkAndParseResponse)
-      .catch(catchError);
-  };
+  this.getOne = id => fetch(`${url}/${id}`)
+    .then(checkAndParseResponse)
+    .catch(catchError);
 
-  this.update = (id, object) => {
-    fetch(`${url}/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(object),
-    })
-      .then(checkAndParseResponse)
-      .catch(catchError);
-  };
 
-  this.replace = (id, newObject) => {
-    fetch(`${url}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newObject),
-    })
-      .then(checkAndParseResponse)
-      .catch(catchError);
-  };
+  this.update = (id, object) => fetch(`${url}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(object),
+  })
+    .then(checkAndParseResponse)
+    .catch(catchError);
 
-  this.delete = (id) => {
-    fetch(`${url}/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(checkAndParseResponse)
-      .catch(catchError);
-  };
+
+  this.replace = (id, newObject) => fetch(`${url}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newObject),
+  })
+    .then(checkAndParseResponse)
+    .catch(catchError);
+
+
+  this.delete = id => fetch(`${url}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(checkAndParseResponse)
+    .catch(catchError);
 }
 
 function checkAndParseResponse(response) {
