@@ -9,6 +9,8 @@ import { API } from './modules/api/API';
 import { ErrorDialog } from './components/utility/ErrorDialog';
 import { firebaseCredentials } from './env/firebaseCredentials';
 import 'firebase/firebase-storage';
+import { ConfirmDialog } from './components/utility/ConfirmDialog';
+
 
 const Context = React.createContext();
 
@@ -43,6 +45,8 @@ class Provider extends PureComponent {
     /* eslint-disable-next-line */
     register: () => { console.log('register!'); },
     showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
+    showConfirm: confirmObject => this.setState({ confirmObject, isConfirmDialogVisible: true }),
+    confirmObject: {},
     errorMessage: '',
     get: {
       artists: () => this.getAll('artists'),
@@ -69,6 +73,7 @@ class Provider extends PureComponent {
       employee: id => this.delete(id, 'employees'),
     },
     isErrorDialogVisible: false,
+    isConfirmDialogVisible: false,
   }
 
 
@@ -87,9 +92,8 @@ class Provider extends PureComponent {
     this.getAll(endpoint);
   }
 
-  update = async (obj, endpoint, id) => {
-    await API[endpoint].edit(id, obj);
-    this.getAll(endpoint);
+  update = (obj, endpoint, id) => {
+    API[endpoint].edit(id, obj).then(() => this.getAll(endpoint));
   }
 
   delete = async (id, endpoint) => {
@@ -116,17 +120,24 @@ class Provider extends PureComponent {
 
   hideError = () => this.setState({ isErrorDialogVisible: false, errorMessage: '' })
 
+  hideConfirm = () => this.setState({ isConfirmDialogVisible: false, confirmObject: {} })
+
+
   /* eslint-disable-next-line */
   handleInvalidLogin = error => this.state.showError(error.message);
 
 
   render() {
     const { children } = this.props;
-    const { isErrorDialogVisible, errorMessage } = this.state;
+    const {
+      isErrorDialogVisible, errorMessage, confirmObject, isConfirmDialogVisible,
+    } = this.state;
     return (
       <Context.Provider value={this.state}>
         {children}
         <ErrorDialog title={errorMessage} hide={this.hideError} isVisible={isErrorDialogVisible} />
+        <ConfirmDialog {...confirmObject} hide={this.hideConfirm} isVisible={isConfirmDialogVisible} />
+
 
       </Context.Provider>
     );

@@ -15,6 +15,7 @@ export function ConfirmDialog({
   confirmBtnColor, // String value.  Accepts color of confirmation button.
   icon, // String value or null.  Icon next to the title
   btnIcon, // String value or null.  Icon inside the confirmation button
+  btnText, // string value.  Defaults to "yes"
 }) {
   const handleAction = () => {
     if (id) confirmAction(id);
@@ -33,7 +34,7 @@ export function ConfirmDialog({
         </Button>
         <Button color={confirmBtnColor} onClick={handleAction}>
           <Icon name={btnIcon} />
-          {' Yes'}
+          {` ${btnText}`}
         </Button>
       </Modal.Actions>
     </Modal>
@@ -49,14 +50,17 @@ ConfirmDialog.propTypes = {
   hide: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
   confirmAction: PropTypes.func.isRequired,
-  confirmBtnColor: PropTypes.string.isRequired,
+  confirmBtnColor: PropTypes.string,
   icon: PropTypes.string,
   btnIcon: PropTypes.string,
+  btnText: PropTypes.string,
 };
 
 ConfirmDialog.defaultProps = {
   text: null,
   id: NaN,
   icon: null,
+  confirmBtnColor: 'green',
   btnIcon: 'check',
+  btnText: 'Yes',
 };
