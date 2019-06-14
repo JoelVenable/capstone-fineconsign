@@ -1,11 +1,10 @@
 import React from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
-
 export function PhoneMenu({ user }) {
-  console.log('user', user);
   if (user.userType === 'employee') {
     const emp = user.employee;
     return (
@@ -190,6 +189,16 @@ function SignOutButton() {
 }
 
 
+PhoneMenu.propTypes = {
+  user: PropTypes.shape({
+    userType: PropTypes.string.isRequired,
+  }),
+};
+
+
+PhoneMenu.defaultProps = {
+  user: null,
+};
 /*
 
 

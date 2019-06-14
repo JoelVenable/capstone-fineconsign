@@ -5,8 +5,9 @@ import { Consumer } from '../../ContextProvider';
 
 export function ComputerMenu({ user, history }) {
   const [activeLink, setactiveLink] = useState(null);
-  function handleClick(_e, { link }) {
-    history.push(link);
+  function handleClick(_e, { value }) {
+    setactiveLink(value);
+    history.push(value);
   }
   if (user) {
     const { employee } = user;

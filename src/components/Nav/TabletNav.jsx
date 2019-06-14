@@ -3,9 +3,11 @@ import { Dropdown, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
-export function TabletMenu({ user, history }) {
+export function TabletMenu({ user, history, location }) {
+  console.log(location);
   const [activeLink, setactiveLink] = useState(null);
   function handleClick(_e, { value }) {
+    setactiveLink(value);
     history.push(value);
   }
   if (user) {
@@ -13,7 +15,7 @@ export function TabletMenu({ user, history }) {
     switch (user.userType) {
       case 'employee':
         return (
-          <Menu.Menu position="right">
+          <Menu.Menu position="right" activeIndex={activeLink}>
 
             <Dropdown item floating button text="User Types">
               <Dropdown.Menu>

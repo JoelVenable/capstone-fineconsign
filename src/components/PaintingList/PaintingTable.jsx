@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react';
 import { PaintingTableItem } from './PaintingTableItem';
 
 
-export function PaintingTable({ paintingList, tableType, user }) {
+export function PaintingTable({ paintingList, user }) {
   return (
     <Table unstackable>
       <Table.Header>
@@ -29,7 +29,9 @@ export function PaintingTable({ paintingList, tableType, user }) {
 
 PaintingTable.propTypes = {
   paintingList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tableType: PropTypes.oneOf(['pending', 'active', 'sold']).isRequired,
+  user: PropTypes.shape({
+    userType: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 

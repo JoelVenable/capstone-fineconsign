@@ -57,7 +57,7 @@ export function PaintingTableItem({
 }
 
 function showControls(userType, {
-  isSubmitted, isLive, isSold, currentPrice, id,
+  isSubmitted, isLive, isSold, id,
 }) {
   if (userType === 'artist') {
     if (isSold) return null;
@@ -132,6 +132,9 @@ function showControls(userType, {
       );
     }
   }
+  //  Under normal circumstances, this final return
+  //  statement should never be reached...
+  return null;
 }
 
 function showStatus(userType, {
@@ -149,6 +152,9 @@ function showStatus(userType, {
     if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
     if (isSubmitted) return <Header as="h4" color="orange">Needs Review</Header>;
   }
+
+  // this line should never be reached...
+  return null;
 }
 
 PaintingTableItem.propTypes = {
@@ -157,6 +163,7 @@ PaintingTableItem.propTypes = {
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
     }).isRequired,
+
     //   artistId: PropTypes.number.isRequired,
     // currentPrice: PropTypes.number.isRequired,
     // forSaleDate: PropTypes.string.isRequired,
@@ -168,5 +175,8 @@ PaintingTableItem.propTypes = {
     priceAdjustmentId: PropTypes.number.isRequired,
     submittedDescription: PropTypes.string.isRequired,
     thumbUrl: PropTypes.string.isRequired,
+  }).isRequired,
+  user: PropTypes.shape({
+    userType: PropTypes.string.isRequired,
   }).isRequired,
 };

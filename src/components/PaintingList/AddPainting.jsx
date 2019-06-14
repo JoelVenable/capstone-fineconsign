@@ -3,9 +3,8 @@ import {
   Input, TextArea, Form, Button,
 } from 'semantic-ui-react';
 import './addPainting.css';
-import { Consumer } from '../../ContextProvider';
+import PropTypes from 'prop-types';
 import { compressImage } from '../utility/compressImage';
-
 
 export function AddPainting({
   setActiveTab, user, storageRef, artists, add, history,
@@ -18,7 +17,7 @@ export function AddPainting({
   const [price, setPrice] = useState(null);
 
 
-  async function handleSubmit(e, firebaseStorage, add, history) {
+  async function handleSubmit(e, firebaseStorage) {
     e.preventDefault();
     setLoading(true);
     const mainImg = await compressImage(photo, 'mainImg');
@@ -91,3 +90,24 @@ export function AddPainting({
     </Form>
   );
 }
+
+
+AddPainting.propTypes = {
+  setActiveTab: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    userType: PropTypes.string.isRequired,
+  }).isRequired,
+  storageRef: PropTypes.shape({
+    child: PropTypes.func.isRequired,
+  }).isRequired,
+  artists: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  })).isRequired,
+  add: PropTypes.shape({
+    painting: PropTypes.func.isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+
+};

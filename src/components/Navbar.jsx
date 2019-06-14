@@ -13,16 +13,16 @@ export function Navbar() {
     <Menu className="navbar">
       <Title position="navbar" />
       <Consumer>
-        {({ user, history }) => (
+        {({ user, history, location }) => (
           <>
             <MediaPhone>
-              <PhoneMenu user={user} history={history} />
+              <PhoneMenu user={user} history={history} location={location} />
             </MediaPhone>
             <MediaTablet>
-              <TabletMenu user={user} history={history} />
+              <TabletMenu user={user} history={history} location={location} />
             </MediaTablet>
             <MediaDesktop>
-              <ComputerMenu user={user} history={history} />
+              <ComputerMenu user={user} history={history} location={location} />
             </MediaDesktop>
           </>
         )}
