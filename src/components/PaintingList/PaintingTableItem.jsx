@@ -3,6 +3,7 @@ import {
   Image, Button, Icon, Table, Header,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Consumer } from '../../ContextProvider';
 
 export function PaintingTableItem({
   painting, user: { userType },
@@ -56,7 +57,7 @@ export function PaintingTableItem({
 }
 
 function showControls(userType, {
-  isSubmitted, isLive, isSold, currentPrice,
+  isSubmitted, isLive, isSold, currentPrice, id,
 }) {
   if (userType === 'artist') {
     if (isSold) return null;
@@ -67,9 +68,26 @@ function showControls(userType, {
         <Button icon>
           <Icon name="edit" />
         </Button>
-        <Button icon color="orange">
-          <Icon name="trash" />
-        </Button>
+        <Consumer>
+          {({ edit, showConfirm }) => (
+            <Button
+              icon
+              color="green"
+              onClick={() =>
+                showConfirm({
+                  title: 'Send Painting for Employee Review', // REQUIRED.  The title of the message requesting delete confirmation
+                  text: 'Please confirm; you cannot reverse this action.', // The inner content of text to be displayed
+                  confirmAction: () => edit.painting({ isSubmitted: true }, id), // Function called when action is confirmed
+                  confirmBtnColor: 'green', // String value.  Accepts color of confirmation button.
+                  icon: 'arrow circle right', // String value or null.  Icon next to the title
+                  btnIcon: 'send', // String value or null.  Icon inside the confirmation button
+                  btnText: 'Send it!',
+                })}
+            >
+              <Icon name="send" />
+            </Button>
+          )}
+        </Consumer>
       </div>
     );
   }
@@ -90,6 +108,26 @@ function showControls(userType, {
           <Button icon>
             <Icon name="edit" />
           </Button>
+          <Consumer>
+            {({ edit, showConfirm }) => (
+              <Button
+                icon
+                color="green"
+                onClick={() =>
+                  showConfirm({
+                    title: 'Show this painting to customers!', // REQUIRED.  The title of the message requesting delete confirmation
+                    text: '', // The inner content of text to be displayed
+                    confirmAction: () => edit.painting({ isLive: true }, id), // Function called when action is confirmed
+                    confirmBtnColor: 'green', // String value.  Accepts color of confirmation button.
+                    icon: 'bullhorn', // String value or null.  Icon next to the title
+                    btnIcon: 'fire', // String value or null.  Icon inside the confirmation button
+                    btnText: 'Go Live!',
+                  })}
+              >
+                <Icon name="send" />
+              </Button>
+            )}
+          </Consumer>
         </div>
       );
     }

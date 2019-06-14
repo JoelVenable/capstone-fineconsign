@@ -67,7 +67,9 @@ export function PaintingList() {
       menuItem: 'Add Painting',
       render: () => (
         <Tab.Pane>
-          <AddPainting setActiveTab={setActiveTab} />
+          <Consumer>
+            {context => <AddPainting setActiveTab={setActiveTab} {...context} />}
+          </Consumer>
         </Tab.Pane>
       ),
     },
@@ -80,7 +82,6 @@ export function PaintingList() {
 
   return (
     <Tab
-      defaultActiveIndex={0}
       activeIndex={activeTab}
       onTabChange={handleChange}
       panes={panes}
