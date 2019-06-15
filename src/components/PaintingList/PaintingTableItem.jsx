@@ -158,13 +158,13 @@ function showStatus(userType, {
 }
 
 PaintingTableItem.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   painting: PropTypes.shape({
     artist: PropTypes.shape({
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
-    }).isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
     }).isRequired,
     //   artistId: PropTypes.number.isRequired,
     // currentPrice: PropTypes.number.isRequired,
