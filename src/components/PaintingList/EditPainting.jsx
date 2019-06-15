@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Input, TextArea, Form, Button,
+  Input, TextArea, Form, Button, Message,
 } from 'semantic-ui-react';
 import './addPainting.css';
 import PropTypes from 'prop-types';
@@ -20,6 +20,12 @@ export function EditPainting({
   const [medium, setMedium] = useState(painting.medium);
   const [height, setHeight] = useState(painting.height);
   const [width, setWidth] = useState(painting.width);
+
+  const [error, setError] = useState({
+    isVisible: false,
+    header: '',
+    content: '',
+  });
 
 
   async function handleSubmit(e, firebaseStorage) {
@@ -52,7 +58,7 @@ export function EditPainting({
 
 
   return (
-    <Form loading={loading} onSubmit={e => handleSubmit(e, storageRef)}>
+    <Form error={error.isVisble} loading={loading} onSubmit={e => handleSubmit(e, storageRef)}>
       <Form.Field
         required
         value={name}
@@ -145,6 +151,11 @@ export function EditPainting({
 
 
       <Button type="submit" content="Save" color="purple" width="4" />
+      <Message
+        error
+        header={error.header}
+        content={error.content}
+      />
     </Form>
   );
 }
