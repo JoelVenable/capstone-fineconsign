@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Tab } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { PaintingTable } from './PaintingTable';
 import { AddPainting } from './AddPainting';
 
-export function PaintingList() {
+export function PaintingList({ history }) {
   const [activeTab, setActiveTab] = useState(0);
 
   const panes = [
@@ -88,3 +89,9 @@ export function PaintingList() {
     />
   );
 }
+
+PaintingList.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
