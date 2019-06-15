@@ -58,20 +58,23 @@ export const checkProtectedRoutes = user => [
     render: props => (
       <Consumer>
         {({
-          paintings, storageRef, artists,
+          paintings, storageRef, artists, edit, showError,
         }) => {
           const id = parseInt(props.match.params.paintingId, 10);
           const painting = paintings.find(item => item.id === id);
-          return (
+
+          return painting ? (
             <EditPainting
               painting={painting}
+              showError={showError}
+              edit={edit}
               id={id}
               user={user}
               storageRef={storageRef}
               history={props.history}
               artists={artists}
             />
-          );
+          ) : null;
         }}
       </Consumer>
     ),
