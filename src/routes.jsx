@@ -10,7 +10,11 @@ import { PaintingDetail } from './components/Paintings/PaintingDetail';
 import { PaintingList } from './components/PaintingList/PaintingList';
 import { Artists } from './components/Artists/Artists';
 import { Employees } from './components/Employees/Employees';
-import { checkEmployeeAccess, checkLoggedIn } from './modules/checkRoute';
+import { checkEmployeeAccess, checkLoggedIn, checkNotCustomer } from './modules/checkRoute';
+import { Account } from './components/Account/Account';
+import { Consumer } from './ContextProvider';
+import { ArtistProfile } from './components/Artists/ArtistProfile';
+import { EditPainting } from './components/PaintingList/EditPainting';
 
 
 export const checkProtectedRoutes = user => [
@@ -18,11 +22,6 @@ export const checkProtectedRoutes = user => [
     path: '/users',
     render: props => <Users {...props} />,
     isAuthorized: checkEmployeeAccess(user, 'canEditUsers'),
-    exact: true,
-  }, {
-    path: '/artists',
-    render: props => <Artists {...props} />,
-    isAuthorized: checkEmployeeAccess(user, 'canEditInventory'),
     exact: true,
   }, {
     path: '/employees',
@@ -49,10 +48,19 @@ export const checkProtectedRoutes = user => [
     render: props => <Stores {...props} />,
     isAuthorized: checkEmployeeAccess(user, 'canEditEmployees'),
     exact: true,
-
   }, {
     path: '/paintings',
     render: props => <PaintingList {...props} />,
+    isAuthorized: checkLoggedIn(user),
+    exact: true,
+  }, {
+    path: '/paintings/:paintingId(\\d+)/edit',
+    render: props => <Consumer>{context => <EditPainting id={parseInt(props.match.params.artistId, 10)} {...props} {...context} />}</Consumer>,
+    isAuthorized: checkNotCustomer(user),
+    exact: true,
+  }, {
+    path: '/account',
+    render: props => <Consumer>{context => <Account {...context} {...props} />}</Consumer>,
     isAuthorized: checkLoggedIn(user),
     exact: true,
   },
@@ -63,6 +71,15 @@ export const routes = [
   {
     path: '/',
     render: props => <Welcome {...props} />,
+    exact: true,
+  }, {
+    path: '/artists',
+    render: props => <Artists {...props} />,
+    exact: true,
+  },
+  {
+    path: '/artists/:artistId(\\d+)',
+    render: props => <ArtistProfile {...props} id={parseInt(props.match.params.artistId, 10)} />,
     exact: true,
   }, {
     path: '/gallery',
