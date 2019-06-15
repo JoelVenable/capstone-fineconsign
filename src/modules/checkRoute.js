@@ -7,3 +7,8 @@ export function checkEmployeeAccess(user, employeePropToCheck) {
 }
 
 export const checkLoggedIn = user => (!!user);
+
+export const checkNotCustomer = (user) => {
+  const loggedIn = checkLoggedIn(user);
+  return loggedIn && user.userType !== 'customer';
+};
