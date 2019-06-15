@@ -40,7 +40,7 @@ export function EditPainting({
   const [width, setWidth] = useState(painting.width);
 
 
-  async function handleSubmit(e, firebaseStorage) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
@@ -54,15 +54,16 @@ export function EditPainting({
       width,
       originalPrice: price,
     };
+
     const mainImg = await compressImage(photo, 'mainImg');
     const thumbImg = await compressImage(photo, 'thumbImg');
 
 
     edit.painting({
-      imgUrl: await firebaseStorage.child(`${Date.now()}-${name}-main`)
+      imgUrl: await storageRef.child(`${Date.now()}-${name}-main`)
         .put(mainImg)
         .then(response => response.ref.getDownloadURL()),
-      thumbUrl: await firebaseStorage.child(`${Date.now()}-${name}-thumb`)
+      thumbUrl: await storageRef.child(`${Date.now()}-${name}-thumb`)
         .put(thumbImg)
         .then(response => response.ref.getDownloadURL()),
     }, id).then(history.goBack);
@@ -71,7 +72,11 @@ export function EditPainting({
 
   return (
     <Container>
-      <Form error={error.isVisble} loading={loading} onSubmit={e => handleSubmit(e, storageRef)}>
+      <Form
+        error={error.isVisble}
+        loading={loading}
+        onSubmit={e => handleSubmit(e)}
+      >
         <Form.Field
           required
           value={name}
