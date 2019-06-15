@@ -9,15 +9,17 @@ import { compressImage } from '../utility/compressImage';
 export function EditPainting({
   user, id, storageRef, artists, edit, history, paintings,
 }) {
-  const [artistId, setArtistId] = useState((user.userType === 'artist') ? user.artist.id : null);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const painting = paintings.find(item => item.id === id);
+
+  const [artistId, setArtistId] = useState(painting.artistId);
+  const [name, setName] = useState(painting.name);
+  const [description, setDescription] = useState(painting.description);
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [price, setPrice] = useState(null);
-  const [medium, setMedium] = useState('');
-  const [height, setHeight] = useState(NaN);
-  const [width, setWidth] = useState(NaN);
+  const [price, setPrice] = useState(painting.originalPrice);
+  const [medium, setMedium] = useState(painting.medium);
+  const [height, setHeight] = useState(painting.height);
+  const [width, setWidth] = useState(painting.width);
 
 
   async function handleSubmit(e, firebaseStorage) {
@@ -37,7 +39,6 @@ export function EditPainting({
     const mainImg = await compressImage(photo, 'mainImg');
     const thumbImg = await compressImage(photo, 'thumbImg');
 
-    const painting = paintings.find(item => item.id === id);
 
     edit.painting({
       imgUrl: await firebaseStorage.child(`${Date.now()}-${name}-main`)
