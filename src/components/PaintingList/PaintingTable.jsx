@@ -4,24 +4,24 @@ import { Table } from 'semantic-ui-react';
 import { PaintingTableItem } from './PaintingTableItem';
 
 
-export function PaintingTable({ paintingList, user }) {
+export function PaintingTable({ paintingList, user, history }) {
   return (
     <Table unstackable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>
-  Painting
+            Painting
           </Table.HeaderCell>
           <Table.HeaderCell>
- Status
+            Status
           </Table.HeaderCell>
           <Table.HeaderCell>
-  Actions
+            Actions
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {renderTableItems(paintingList, user)}
+        {renderTableItems(paintingList, user, history)}
       </Table.Body>
     </Table>
   );
@@ -32,10 +32,13 @@ PaintingTable.propTypes = {
   user: PropTypes.shape({
     userType: PropTypes.string.isRequired,
   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 
-function renderTableItems(items, user) {
+function renderTableItems(items, user, history) {
   let newItems = (user.userType === 'artist')
     ? items.filter(item => item.artistId === user.artist.id)
     : null;
@@ -48,5 +51,12 @@ function renderTableItems(items, user) {
   }
 
 
-  return newItems.map(item => <PaintingTableItem painting={item} user={user} key={item.id} />);
+  return newItems.map(item => (
+    <PaintingTableItem
+      painting={item}
+      history={history}
+      user={user}
+      key={item.id}
+    />
+  ));
 }
