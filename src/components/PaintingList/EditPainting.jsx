@@ -9,25 +9,8 @@ import { compressImage } from '../utility/compressImage';
 export function EditPainting({
   user, id, storageRef, artists, edit, history, painting, showError,
 }) {
-  const [error, setError] = useState({
-    isVisible: true,
-    header: 'Painting not found!',
-    content: <Button>Go back...</Button>,
-  });
+  //  Conditions to check
 
-
-  //  Set Error condition if painting not found
-  // if (painting === undefined) {
-  //   painting = {
-  //     artistId: NaN,
-  //     name: '',
-  //     description: '',
-  //     originalPrice: NaN,
-  //     medium: '',
-  //     height: NaN,
-  //     width: NaN,
-  //   };
-  // }
 
   const [artistId, setArtistId] = useState(painting.artistId);
   const [name, setName] = useState(painting.name);
@@ -74,7 +57,6 @@ export function EditPainting({
     <Container>
       <Image src={painting.imgUrl} />
       <Form
-        error={error.isVisble}
         loading={loading}
         onSubmit={e => handleSubmit(e)}
       >
@@ -170,11 +152,7 @@ export function EditPainting({
 
 
         <Button type="submit" content="Save" color="purple" width="4" />
-        <Message
-          error
-          header={error.header}
-          content={error.content}
-        />
+
       </Form>
     </Container>
   );
