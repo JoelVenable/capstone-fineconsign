@@ -60,7 +60,8 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 ## Late additions to Roadmap (may require new database tables):
 * Give customers the ability to save a painting as a favorite
 * Give customers the ability to review artists' work.
-
+* Give customers the ability to follow artists.
+* Give artists the ability to send emails to customers following them.
 
 
 
