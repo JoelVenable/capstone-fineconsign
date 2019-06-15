@@ -5,9 +5,10 @@ import {
 import './addPainting.css';
 import PropTypes from 'prop-types';
 import { compressImage } from '../utility/compressImage';
+import { DeleteButton } from '../utility/DeleteButton';
 
 export function EditPainting({
-  user, id, storageRef, artists, edit, remove, history, painting, showError,
+  user, id, storageRef, artists, edit, remove, history, painting, showError, showConfirm,
 }) {
   //  Conditions to check
 
@@ -49,7 +50,8 @@ export function EditPainting({
     }
 
 
-    edit.painting(editedPainting, id).then(history.goBack);
+    edit.painting(editedPainting, id);
+    history.goBack();
   }
 
 
@@ -102,7 +104,7 @@ export function EditPainting({
             control="input"
             type="number"
             label="Price"
-            onChange={e => setPrice(e.target.value)}
+            onChange={e => setPrice(parseInt(e.target.value, 10))}
             placeholder="Suggest a price for us"
             width="6"
           />
@@ -116,7 +118,7 @@ export function EditPainting({
 
             type="number"
             label="Height in inches"
-            onChange={e => setHeight(e.target.value)}
+            onChange={e => setHeight(parseInt(e.target.value, 10))}
             placeholder="24"
           />
           <Form.Field
@@ -126,7 +128,7 @@ export function EditPainting({
             control="input"
             type="number"
             label="Width in inches"
-            onChange={e => setWidth(e.target.value)}
+            onChange={e => setWidth(parseInt(e.target.value, 10))}
             placeholder="36"
           />
           <Form.Field
@@ -150,8 +152,13 @@ export function EditPainting({
           placeholder="Painting description"
         />
 
+        <Form.Group>
+          {painting.isLive ? null : (
+            <DeleteButton id={id} type="painting" />
+          )}
 
-        <Button type="submit" content="Save" color="purple" width="4" />
+          <Button type="submit" content="Save" color="purple" width="4" />
+        </Form.Group>
 
       </Form>
     </Container>
