@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Input, TextArea, Form, Button, Message, Container,
+  Input, TextArea, Form, Button, Message, Container, Image,
 } from 'semantic-ui-react';
 import './addPainting.css';
 import PropTypes from 'prop-types';
@@ -72,6 +72,7 @@ export function EditPainting({
 
   return (
     <Container>
+      <Image src={painting.imgUrl} />
       <Form
         error={error.isVisble}
         loading={loading}
