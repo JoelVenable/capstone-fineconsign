@@ -149,7 +149,10 @@ export function EditPainting({
 
 
 EditPainting.propTypes = {
-  setActiveTab: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  paintings: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  })).isRequired,
   user: PropTypes.shape({
     userType: PropTypes.string.isRequired,
   }).isRequired,
