@@ -15,6 +15,9 @@ export function AddPainting({
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState(null);
+  const [medium, setMedium] = useState('');
+  const [height, setHeight] = useState(NaN);
+  const [width, setWidth] = useState(NaN);
 
 
   async function handleSubmit(e, firebaseStorage) {
@@ -27,7 +30,10 @@ export function AddPainting({
       name,
       artistId,
       submittedDescription: description,
-      liveDescription: null,
+      liveDescription: description,
+      medium,
+      height,
+      width,
       forSaleDate: null,
       imgUrl: await firebaseStorage.child(`${Date.now()}-${name}-main`)
         .put(mainImg)
@@ -56,44 +62,89 @@ export function AddPainting({
         placeholder="Painting name"
         id="name"
       />
-      <Form.Select
-        label="Artist Name"
-        required
-        disabled={user.userType === 'artist'}
-        options={artists.map(artist => ({
-          key: artist.id,
-          text: `${artist.firstName} ${artist.lastName}`,
-          value: artist.id,
-          image: { avatar: true, src: artist.artistImageUrl },
-        }))}
-        onChange={(_e, { value }) => setArtistId(value)}
-        value={artistId}
-        id="artistId"
-      />
 
-      <Form.Field
-        control="input"
-        type="file"
-        label="Photo"
-        onChange={e => setPhoto(e.target.files[0])}
-        placeholder="Upload an image"
-      />
+      <Form.Group widths={8}>
+        <Form.Select
+          width="6"
+          label="Artist Name"
+          required
+          disabled={user.userType === 'artist'}
+          options={artists.map(artist => ({
+            key: artist.id,
+            text: `${artist.firstName} ${artist.lastName}`,
+            value: artist.id,
+            image: { avatar: true, src: artist.artistImageUrl },
+          }))}
+          onChange={(_e, { value }) => setArtistId(value)}
+          value={artistId}
+          id="artistId"
+        />
+
+        <Form.Field
+          width="6"
+
+          required
+          value={medium}
+          onChange={(_e, { value }) => setMedium(value)}
+          control={Input}
+          label="Medium"
+          placeholder="Oil on Canvas"
+        />
+        <Form.Field
+          required
+          control="input"
+          type="number"
+          label="Price"
+          onChange={e => setPrice(e.target.value)}
+          placeholder="Suggest a price for us"
+          width="6"
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Field
+          control="input"
+          width="4"
+          required
+
+          type="number"
+          label="Height in inches"
+          onChange={e => setHeight(e.target.value)}
+          placeholder="24"
+        />
+        <Form.Field
+          width="4"
+          required
+
+          control="input"
+          type="number"
+          label="Width in inches"
+          onChange={e => setWidth(e.target.value)}
+          placeholder="36"
+        />
+        <Form.Field
+          width="8"
+          required
+
+          control="input"
+          type="file"
+          label="Photo"
+          onChange={e => setPhoto(e.target.files[0])}
+          placeholder="Upload an image"
+        />
+      </Form.Group>
 
       <TextArea
         value={description}
         onChange={(_e, { value }) => setDescription(value)}
+        required
+
         rows={7}
         placeholder="Painting description"
       />
-      <Form.Field
-        control="input"
-        type="number"
-        label="Price"
-        onChange={e => setPrice(e.target.value)}
-        placeholder="Upload an image"
-      />
 
-      <Button type="submit" content="Save" color="purple" />
+
+      <Button type="submit" content="Save" color="purple" width="4" />
     </Form>
   );
 }
