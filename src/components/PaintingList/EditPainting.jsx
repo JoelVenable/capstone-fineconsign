@@ -37,19 +37,19 @@ export function EditPainting({
       width,
       originalPrice: price,
     };
-
-    const mainImg = await compressImage(photo, 'mainImg');
-    const thumbImg = await compressImage(photo, 'thumbImg');
-
-
-    edit.painting({
-      imgUrl: await storageRef.child(`${Date.now()}-${name}-main`)
+    if (photo) {
+      const mainImg = await compressImage(photo, 'mainImg');
+      const thumbImg = await compressImage(photo, 'thumbImg');
+      editedPainting.imgUrl = await storageRef.child(`${Date.now()}-${name}-main`)
         .put(mainImg)
-        .then(response => response.ref.getDownloadURL()),
-      thumbUrl: await storageRef.child(`${Date.now()}-${name}-thumb`)
+        .then(response => response.ref.getDownloadURL());
+      editedPainting.thumbUrl = await storageRef.child(`${Date.now()}-${name}-thumb`)
         .put(thumbImg)
-        .then(response => response.ref.getDownloadURL()),
-    }, id).then(history.goBack);
+        .then(response => response.ref.getDownloadURL());
+    }
+
+
+    edit.painting(editedPainting, id).then(history.goBack);
   }
 
 
@@ -131,21 +131,21 @@ export function EditPainting({
           />
           <Form.Field
             width="8"
-            required
 
             control="input"
             type="file"
-            label="Photo"
+            label="Replace Existing Photo?"
             onChange={e => setPhoto(e.target.files[0])}
             placeholder="Upload an image"
           />
         </Form.Group>
 
-        <TextArea
+        <Form.Field
           value={description}
-          onChange={(_e, { value }) => setDescription(value)}
+          control="textarea"
+          onChange={e => setDescription(e.target.value)}
           required
-
+          label="Painting Description"
           rows={7}
           placeholder="Painting description"
         />
