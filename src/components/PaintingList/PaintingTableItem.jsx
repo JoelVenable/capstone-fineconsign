@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
 export function PaintingTableItem({
-  painting, user: { userType },
+  painting, user: { userType }, history,
 }) {
   return (
     <Table.Row>
@@ -163,7 +163,9 @@ PaintingTableItem.propTypes = {
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
     }).isRequired,
-
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
     //   artistId: PropTypes.number.isRequired,
     // currentPrice: PropTypes.number.isRequired,
     // forSaleDate: PropTypes.string.isRequired,
