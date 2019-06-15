@@ -7,11 +7,8 @@ import PropTypes from 'prop-types';
 import { compressImage } from '../utility/compressImage';
 
 export function EditPainting({
-  user, id, storageRef, artists, edit, history, paintings, showError,
+  user, id, storageRef, artists, edit, history, painting, showError,
 }) {
-  console.log('id', id);
-  console.log('paintings', paintings);
-
   const [error, setError] = useState({
     isVisible: true,
     header: 'Painting not found!',
@@ -19,19 +16,18 @@ export function EditPainting({
   });
 
 
-  let painting = paintings.find(item => item.id === id);
   //  Set Error condition if painting not found
-  if (painting === undefined) {
-    painting = {
-      artistId: NaN,
-      name: '',
-      description: '',
-      originalPrice: NaN,
-      medium: '',
-      height: NaN,
-      width: NaN,
-    };
-  }
+  // if (painting === undefined) {
+  //   painting = {
+  //     artistId: NaN,
+  //     name: '',
+  //     description: '',
+  //     originalPrice: NaN,
+  //     medium: '',
+  //     height: NaN,
+  //     width: NaN,
+  //   };
+  // }
 
   const [artistId, setArtistId] = useState(painting.artistId);
   const [name, setName] = useState(painting.name);
@@ -181,9 +177,9 @@ export function EditPainting({
 
 EditPainting.propTypes = {
   id: PropTypes.number.isRequired,
-  paintings: PropTypes.arrayOf(PropTypes.shape({
+  painting: PropTypes.shape({
     id: PropTypes.number.isRequired,
-  })).isRequired,
+  }).isRequired,
   user: PropTypes.shape({
     userType: PropTypes.string.isRequired,
   }).isRequired,
