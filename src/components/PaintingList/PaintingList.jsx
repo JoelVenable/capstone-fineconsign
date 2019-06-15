@@ -18,6 +18,7 @@ export function PaintingList({ history }) {
               <PaintingTable
                 user={user}
                 tableType="pending"
+                history={history}
                 paintingList={paintings.filter(
                   ({ isLive, isSold }) => !isLive && !isSold,
                 )}
@@ -36,7 +37,7 @@ export function PaintingList({ history }) {
               <PaintingTable
                 tableType="active"
                 user={user}
-
+                history={history}
                 paintingList={paintings.filter(
                   ({ isLive, isSold }) => isLive && !isSold,
                 )}
@@ -55,6 +56,8 @@ export function PaintingList({ history }) {
               <PaintingTable
                 tableType="sold"
                 user={user}
+                history={history}
+
                 paintingList={paintings.filter(
                   ({ isLive, isSold }) => !isLive && isSold,
                 )}
