@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  Input, TextArea, Form, Button, Message, Container, Image,
+  Input, Form, Button, Container, Image,
 } from 'semantic-ui-react';
 import './addPainting.css';
 import PropTypes from 'prop-types';
 import { compressImage } from '../utility/compressImage';
 
 export function EditPainting({
-  user, id, storageRef, artists, edit, history, painting, showError,
+  user, id, storageRef, artists, edit, remove, history, painting, showError,
 }) {
   //  Conditions to check
 
@@ -180,4 +180,7 @@ EditPainting.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   showError: PropTypes.func.isRequired,
+  remove: PropTypes.shape({
+    painting: PropTypes.func.isRequired,
+  }).isRequired,
 };
