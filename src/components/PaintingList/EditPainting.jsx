@@ -37,6 +37,7 @@ export function EditPainting({
     const mainImg = await compressImage(photo, 'mainImg');
     const thumbImg = await compressImage(photo, 'thumbImg');
 
+    const painting = paintings.find(item => item.id === id);
 
     edit.painting({
       imgUrl: await firebaseStorage.child(`${Date.now()}-${name}-main`)
