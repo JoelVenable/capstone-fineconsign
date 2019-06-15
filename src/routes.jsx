@@ -55,7 +55,26 @@ export const checkProtectedRoutes = user => [
     exact: true,
   }, {
     path: '/paintings/:paintingId(\\d+)/edit',
-    render: props => <Consumer>{context => <EditPainting id={parseInt(props.match.params.paintingId, 10)} {...props} {...context} />}</Consumer>,
+    render: props => (
+      <Consumer>
+        {({
+          paintings, storageRef, artists,
+        }) => {
+          const id = parseInt(props.match.params.paintingId, 10);
+          const painting = paintings.find(item => item.id === id);
+          return (
+            <EditPainting
+              painting={painting}
+              id={id}
+              user={user}
+              storageRef={storageRef}
+              history={props.history}
+              artists={artists}
+            />
+          );
+        }}
+      </Consumer>
+    ),
     isAuthorized: checkNotCustomer(user),
     exact: true,
   }, {
