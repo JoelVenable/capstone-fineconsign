@@ -55,13 +55,28 @@ export const checkProtectedRoutes = user => [
     exact: true,
   }, {
     path: '/paintings/:paintingId(\\d+)/edit',
-    render: props => (
+    render: ({ history, match }) => (
       <Consumer>
         {({
           paintings, storageRef, artists, edit, showError,
         }) => {
-          const id = parseInt(props.match.params.paintingId, 10);
-          const painting = paintings.find(item => item.id === id);
+          // conditions to check:
+          // isLoggedIn?  (already checked by 'checkNotCustomer')
+          // isArtist?  If so, is it your painting or someone else's?
+          // iSEmployee?  If so, do you have edit permissions?
+
+          const id = parseInt(match.params.paintingId, 10);
+          let painting = paintings.find(item => item.id === id);
+          if (user.userType === 'artist') {
+            if (user.artist.id !== painting.artistId) {
+              painting = null;
+              showError('This is not your painting!');
+            }
+          } else if (!user.employee.canEditInventory) {
+            showError('You do not have permission to edit paintings.'
+              + 'Please talk to your supervisor.');
+            painting = null;
+          }
 
           return painting ? (
             <EditPainting
@@ -71,7 +86,7 @@ export const checkProtectedRoutes = user => [
               id={id}
               user={user}
               storageRef={storageRef}
-              history={props.history}
+              history={history}
               artists={artists}
             />
           ) : null;
