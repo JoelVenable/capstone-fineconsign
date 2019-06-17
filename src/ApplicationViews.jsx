@@ -23,7 +23,7 @@ export class ApplicationViews extends PureComponent {
           <Consumer>
             {({ user }) => (
               <>
-                {this.makeClearRoutes(routes)}
+                {this.makeClearRoutes(routes(user))}
                 {this.makeProtectedRoutes(checkProtectedRoutes(user))}
               </>
             )}

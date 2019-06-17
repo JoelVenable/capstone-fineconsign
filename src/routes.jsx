@@ -4,6 +4,7 @@
 //  expects to be iterated over from ApplicationViews which provides the routing props.
 
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Users } from './components/Users/Users';
 import { Gallery } from './components/Gallery/Gallery';
 import { Customers } from './components/Customers/Customers';
@@ -14,11 +15,14 @@ import { PaintingDetail } from './components/Paintings/PaintingDetail';
 import { PaintingList } from './components/PaintingList/PaintingList';
 import { Artists } from './components/Artists/Artists';
 import { Employees } from './components/Employees/Employees';
-import { checkEmployeeAccess, checkLoggedIn, checkNotCustomer } from './modules/checkRoute';
+import {
+  checkEmployeeAccess, checkLoggedIn, checkNotCustomer, canEditArtistPermissions,
+} from './modules/checkRoute';
 import { Account } from './components/Account/Account';
 import { Consumer } from './ContextProvider';
 import { ArtistProfile } from './components/Artists/ArtistProfile';
 import { EditPainting } from './components/PaintingList/EditPainting';
+import { EditArtist } from './components/Artists/EditArtist';
 
 
 export const checkProtectedRoutes = user => [
@@ -55,7 +59,7 @@ export const checkProtectedRoutes = user => [
   }, {
     path: '/paintings',
     render: props => <PaintingList {...props} />,
-    isAuthorized: checkLoggedIn(user),
+    isAuthorized: checkNotCustomer(user),
     exact: true,
   }, {
     path: '/paintings/:paintingId(\\d+)/edit',
@@ -106,11 +110,55 @@ export const checkProtectedRoutes = user => [
     render: props => <Consumer>{context => <Account {...context} {...props} />}</Consumer>,
     isAuthorized: checkLoggedIn(user),
     exact: true,
+  }, {
+    path: '/artists/:artistId(\\d+)/edit',
+    render: ({ history, match }) => (
+      <Consumer>
+        {({
+          storageRef, artists, edit, showError,
+        }) => {
+          // conditions to check:
+          // isLoggedIn?  (already checked by 'checkNotCustomer')
+          // isArtist?  If so, is it your profile or someone else's?
+          // iSEmployee?  If so, do you have edit permissions?
+
+          const id = parseInt(match.params.artistId, 10);
+          let artist = artists.find(item => item.id === id);
+          if (artist) {
+            if (user.userType === 'artist') {
+              if (user.artist.id !== artist.id) {
+                artist = null;
+                showError('This is not your profile!');
+              }
+            } else if (!user.employee.canEditCustomers) {
+              showError('You do not have permission to edit artists.'
+                + 'Please talk to your supervisor.');
+              artist = null;
+            }
+
+            return artist ? (
+              <EditArtist
+                artist={artist}
+                showError={showError}
+                edit={edit}
+                id={id}
+                user={user}
+                storageRef={storageRef}
+                history={history}
+              />
+            ) : null;
+          } return null;
+        }}
+      </Consumer>
+    ),
+    //  Auth:  Either an employee with 'canEditCustomers' permissions or the Artist editing his/her own profile
+    isAuthorized: canEditArtistPermissions(user),
+    exact: true,
   },
 ];
 
 
-export const routes = [
+export const routes = user => [
   {
     path: '/artists',
     render: props => <Artists {...props} />,
@@ -128,7 +176,13 @@ export const routes = [
   },
   {
     path: '/gallery/:paintingId(\\d+)',
-    render: props => <PaintingDetail {...props} id={parseInt(props.match.params.paintingId, 10)} />,
+    render: (props) => {
+      const id = parseInt(props.match.params.paintingId, 10);
+      if (user) {
+        if (user.userType !== 'customer') return <Redirect to={`/paintings/${id}`} />;
+      }
+      return <PaintingDetail {...props} id={id} />;
+    },
     exact: true,
   },
 ];
