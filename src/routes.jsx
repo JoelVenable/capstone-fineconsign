@@ -13,7 +13,7 @@ import { Employees } from './components/Employees/Employees';
 import { checkEmployeeAccess, checkLoggedIn, checkNotCustomer } from './modules/checkRoute';
 import { Account } from './components/Account/Account';
 import { Consumer } from './ContextProvider';
-import { ArtistProfile } from './components/Artists/ArtistProfile';
+// import { ArtistProfile } from './components/Artists/ArtistProfile';
 import { EditPainting } from './components/PaintingList/EditPainting';
 
 
@@ -67,29 +67,31 @@ export const checkProtectedRoutes = user => [
 
           const id = parseInt(match.params.paintingId, 10);
           let painting = paintings.find(item => item.id === id);
-          if (user.userType === 'artist') {
-            if (user.artist.id !== painting.artistId) {
+          if (painting) {
+            if (user.userType === 'artist') {
+              if (user.artist.id !== painting.artistId) {
+                painting = null;
+                showError('This is not your painting!');
+              }
+            } else if (!user.employee.canEditInventory) {
+              showError('You do not have permission to edit paintings.'
+                + 'Please talk to your supervisor.');
               painting = null;
-              showError('This is not your painting!');
             }
-          } else if (!user.employee.canEditInventory) {
-            showError('You do not have permission to edit paintings.'
-              + 'Please talk to your supervisor.');
-            painting = null;
-          }
 
-          return painting ? (
-            <EditPainting
-              painting={painting}
-              showError={showError}
-              edit={edit}
-              id={id}
-              user={user}
-              storageRef={storageRef}
-              history={history}
-              artists={artists}
-            />
-          ) : null;
+            return painting ? (
+              <EditPainting
+                painting={painting}
+                showError={showError}
+                edit={edit}
+                id={id}
+                user={user}
+                storageRef={storageRef}
+                history={history}
+                artists={artists}
+              />
+            ) : null;
+          } return null;
         }}
       </Consumer>
     ),
@@ -106,19 +108,16 @@ export const checkProtectedRoutes = user => [
 
 export const routes = [
   {
-    path: '/',
-    render: props => <Welcome {...props} />,
-    exact: true,
-  }, {
     path: '/artists',
     render: props => <Artists {...props} />,
     exact: true,
   },
+  // {
+  //   path: '/artists/:artistId(\\d+)',
+  //   render: props => <ArtistProfile {...props} id={parseInt(props.match.params.artistId, 10)} />,
+  //   exact: true,
+  // },
   {
-    path: '/artists/:artistId(\\d+)',
-    render: props => <ArtistProfile {...props} id={parseInt(props.match.params.artistId, 10)} />,
-    exact: true,
-  }, {
     path: '/gallery',
     render: props => <Gallery {...props} />,
     exact: true,
