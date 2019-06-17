@@ -23,7 +23,7 @@ export function PaintingDetail({ id }) {
               return painting ? (
                 <>
                   <Grid.Column width="6">
-                    <Image src={painting.imgUrl} alt={painting.name} />
+                    <Image fluid src={painting.imgUrl} alt={painting.name} />
                   </Grid.Column>
                   <Grid.Column width="10">
                     <h3>{painting.name}</h3>
