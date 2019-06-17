@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Image, Header, Rail, Grid, Container,
+  Image, Header, Grid, Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
@@ -9,13 +9,30 @@ import { PaintingCard } from '../Paintings/PaintingCard';
 export function ArtistProfile({ id }) {
   return (
     <Consumer>
-      {({ artists }) => {
-        const artist = artists.find(artist => artist.id === id);
+      {({ artists, user, history }) => {
+        const artist = artists.find(item => item.id === id);
+        let controls = null;
+        if (user) {
+          if (user.userType === 'artist') {
+            if (user.artist.id === id) {
+              controls = (
+                <>
+                  <Button onClick={() => history.push(`/artists/${id}/edit`)}>
+                    Edit my Profile
+                  </Button>
+                </>
+              );
+            }
+          }
+        }
         return artist ? (
           <>
-            <Grid style={{ marginBottom: '4rem' }}>
+            <Grid stackable style={{ marginBottom: '4rem' }}>
               <Grid.Column width="6">
-                <Image floated="left" size="small" src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <Image fluid src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
+                  {controls}
+                </div>
               </Grid.Column>
               <Grid.Column width="10">
                 <Header as="h1">
@@ -23,7 +40,7 @@ export function ArtistProfile({ id }) {
                   <Header.Content>{`${artist.firstName} ${artist.lastName}`}</Header.Content>
                   <Header.Subheader>Hometown: someplace...</Header.Subheader>
                 </Header>
-                <section>
+                <section style={{ whiteSpace: 'pre-wrap' }}>
                   {artist.artistDescription}
                 </section>
               </Grid.Column>
