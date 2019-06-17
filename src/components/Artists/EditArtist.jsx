@@ -56,7 +56,8 @@ export function EditArtist({
 
       <Grid stackable>
         <Grid.Column tablet="6">
-          <Image src={artist.artistImageUrl} />
+          <Header>Existing Image</Header>
+          <Image fluid src={artist.artistImageUrl} />
         </Grid.Column>
         <Grid.Column tablet="10">
           <Form
@@ -143,7 +144,7 @@ export function EditArtist({
           </Form>
         </Grid.Column>
       </Grid>
-      );
+
     </>
   );
 }
