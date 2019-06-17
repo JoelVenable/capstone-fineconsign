@@ -1,3 +1,7 @@
+/* eslint react/prop-types: 0 */
+//  Eslint warns of prop-types for history and match, however this route file
+//  expects to be iterated over from ApplicationViews which provides the routing props.
+
 import React from 'react';
 import { Users } from './components/Users/Users';
 import { Gallery } from './components/Gallery/Gallery';
@@ -5,7 +9,6 @@ import { Customers } from './components/Customers/Customers';
 import { Orders } from './components/Orders/Orders';
 import { PriceAdjustments } from './components/PriceAdjustments/PriceAdjustments';
 import { Stores } from './components/Stores/Stores';
-import { Welcome } from './components/welcome/Welcome';
 import { PaintingDetail } from './components/Paintings/PaintingDetail';
 import { PaintingList } from './components/PaintingList/PaintingList';
 import { Artists } from './components/Artists/Artists';
