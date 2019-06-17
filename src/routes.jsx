@@ -128,11 +128,11 @@ export const checkProtectedRoutes = user => [
             if (user.userType === 'artist') {
               if (user.artist.id !== artist.id) {
                 artist = null;
-                showError('This is not your profile!');
+                showError('This is not your profile!', history.goBack);
               }
             } else if (!user.employee.canEditCustomers) {
               showError('You do not have permission to edit artists.'
-                + 'Please talk to your supervisor.');
+                + 'Please talk to your supervisor.', history.goBack);
               artist = null;
             }
 
