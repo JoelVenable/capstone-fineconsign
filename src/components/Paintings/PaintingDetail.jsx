@@ -3,6 +3,7 @@ import { Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // import { API } from '../../modules/api/API';
 import { Consumer } from '../../ContextProvider';
+import { ArtistNameLink } from '../Artists/ArtistNameLink';
 
 // const getPainting = async id => await API.paintings.getOne(id);
 
@@ -10,7 +11,6 @@ import { Consumer } from '../../ContextProvider';
 export function PaintingDetail({ id }) {
   // const [painting, setPainting] = React.useState([]);
   // setPainting(getPainting(id));
-
   return (
     <>
       <Container text>
@@ -21,14 +21,14 @@ export function PaintingDetail({ id }) {
               <>
                 <img src={painting.imgUrl} alt={painting.name} />
                 <h3>{painting.name}</h3>
-                <p>{`${painting.artist.firstName} ${painting.artist.lastName}`}</p>
+                <ArtistNameLink id={painting.artistId} />
                 <p style={{ whiteSpace: 'pre-wrap' }}>{painting.liveDescription}</p>
                 <p>
-Current Price: $
+                  Current Price: $
                   {painting.currentPrice}
                 </p>
                 <p style={{ textDecoration: 'line-through' }}>
-Original Price: $
+                  Original Price: $
                   {painting.originalPrice}
                 </p>
                 <Button primary>Buy now</Button>
