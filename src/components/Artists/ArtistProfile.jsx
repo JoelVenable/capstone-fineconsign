@@ -17,7 +17,7 @@ export function ArtistProfile({ id }) {
             if (user.artist.id === id) {
               controls = (
                 <>
-                  <Button onClick={() => history.push(`/artists/${id}/edit`)}>
+                  <Button style={{ marginBottom: '1rem' }} onClick={() => history.push(`/artists/${id}/edit`)}>
                     Edit my Profile
                   </Button>
                 </>
@@ -30,8 +30,8 @@ export function ArtistProfile({ id }) {
             <Grid stackable style={{ marginBottom: '4rem' }}>
               <Grid.Column width="6">
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <Image fluid src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
                   {controls}
+                  <Image fluid src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
                 </div>
               </Grid.Column>
               <Grid.Column width="10">
