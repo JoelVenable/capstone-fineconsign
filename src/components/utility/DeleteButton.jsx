@@ -23,6 +23,7 @@ export function DeleteButton({ id, type }) {
               btnText: 'Yes, delete', // string value.  Defaults to "yes"
             });
           }}
+          content="Delete draft"
         />
       )}
     </Consumer>
