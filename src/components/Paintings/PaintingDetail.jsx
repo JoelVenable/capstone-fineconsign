@@ -1,5 +1,7 @@
 import React from 'react';
-import { Container, Button, Grid } from 'semantic-ui-react';
+import {
+  Container, Button, Grid, Image,
+} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // import { API } from '../../modules/api/API';
 import { Consumer } from '../../ContextProvider';
@@ -21,7 +23,7 @@ export function PaintingDetail({ id }) {
               return painting ? (
                 <>
                   <Grid.Column width="6">
-                    <img src={painting.imgUrl} alt={painting.name} />
+                    <Image src={painting.imgUrl} alt={painting.name} />
                   </Grid.Column>
                   <Grid.Column width="10">
                     <h3>{painting.name}</h3>
