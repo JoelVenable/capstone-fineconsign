@@ -34,7 +34,7 @@ class Provider extends PureComponent {
     artists: [],
     paintings: [],
     storageRef: firebase.storage().ref(),
-    login: (username, pw) => this.setState(this.doLogin(username, pw)),
+    login: (username, pw) => this.doLogin(username, pw).then(user => this.setState({ user })),
     logout: () => {
       sessionStorage.clear();
       this.setState({ user: null });
