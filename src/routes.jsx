@@ -1,4 +1,5 @@
 /* eslint react/prop-types: 0 */
+/* eslint react/destructuring-assignment: 0 */
 //  Eslint warns of prop-types for history and match, however this route file
 //  expects to be iterated over from ApplicationViews which provides the routing props.
 
@@ -16,7 +17,7 @@ import { Employees } from './components/Employees/Employees';
 import { checkEmployeeAccess, checkLoggedIn, checkNotCustomer } from './modules/checkRoute';
 import { Account } from './components/Account/Account';
 import { Consumer } from './ContextProvider';
-// import { ArtistProfile } from './components/Artists/ArtistProfile';
+import { ArtistProfile } from './components/Artists/ArtistProfile';
 import { EditPainting } from './components/PaintingList/EditPainting';
 
 
@@ -115,11 +116,11 @@ export const routes = [
     render: props => <Artists {...props} />,
     exact: true,
   },
-  // {
-  //   path: '/artists/:artistId(\\d+)',
-  //   render: props => <ArtistProfile {...props} id={parseInt(props.match.params.artistId, 10)} />,
-  //   exact: true,
-  // },
+  {
+    path: '/artists/:artistId(\\d+)',
+    render: props => <ArtistProfile {...props} id={parseInt(props.match.params.artistId, 10)} />,
+    exact: true,
+  },
   {
     path: '/gallery',
     render: props => <Gallery {...props} />,
@@ -127,7 +128,6 @@ export const routes = [
   },
   {
     path: '/gallery/:paintingId(\\d+)',
-    /* eslint-disable-next-line */
     render: props => <PaintingDetail {...props} id={parseInt(props.match.params.paintingId, 10)} />,
     exact: true,
   },

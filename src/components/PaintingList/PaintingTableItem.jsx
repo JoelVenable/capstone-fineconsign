@@ -3,6 +3,7 @@ import {
   Image, Button, Icon, Table, Header,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Consumer } from '../../ContextProvider';
 
 export function PaintingTableItem({
@@ -12,23 +13,25 @@ export function PaintingTableItem({
     <Table.Row>
 
       <Table.Cell selectable>
-        <Header
-          as="h4"
-          image
-          style={{
-            minHeight: '58px', paddingLeft: '.5rem', display: 'flex', flexDirection: 'row', alignItems: 'center',
-          }}
-        >
-          <Image src={painting.thumbUrl} />
-          <Header.Content>
-            <strong>{painting.name}</strong>
-            {(userType === 'artist') ? (
-              <Header.Subheader>
-                {`${painting.artist.firstName} ${painting.artist.lastName}`}
-              </Header.Subheader>
-            ) : null}
-          </Header.Content>
-        </Header>
+        <Link to={`/gallery/${painting.id}`}>
+          <Header
+            as="h4"
+            image
+            style={{
+              minHeight: '58px', paddingLeft: '.5rem', display: 'flex', flexDirection: 'row', alignItems: 'center',
+            }}
+          >
+            <Image src={painting.thumbUrl} />
+            <Header.Content>
+              <strong>{painting.name}</strong>
+              {(userType === 'artist') ? null : (
+                <Header.Subheader>
+                  {`${painting.artist.firstName} ${painting.artist.lastName}`}
+                </Header.Subheader>
+              )}
+            </Header.Content>
+          </Header>
+        </Link>
       </Table.Cell>
       <Table.Cell>
         {showStatus(userType, painting)}

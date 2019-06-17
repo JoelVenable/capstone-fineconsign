@@ -12,26 +12,44 @@ export function ArtistProfile({ id }) {
       {({ artists }) => {
         const artist = artists.find(artist => artist.id === id);
         return artist ? (
-          <Grid>
-            <Grid.Column width={10}>
-              <Image floated="left" size="small" src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
-              <Header as="h1">
+          <>
+            <Grid style={{ marginBottom: '4rem' }}>
+              <Grid.Column width="6">
+                <Image floated="left" size="small" src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
+              </Grid.Column>
+              <Grid.Column width="10">
+                <Header as="h1">
 
-                <Header.Content>{`${artist.firstName} ${artist.lastName}`}</Header.Content>
-                <Header.Subheader>Hometown: someplace...</Header.Subheader>
-              </Header>
-              <section>
-                {artist.artistDescription}
-              </section>
-            </Grid.Column>
-            <Grid.Column width={6}>
-              <Header as="h4">
-                <Header.Content>Featured Paintings</Header.Content>
-              </Header>
-              {artist.paintings.map(painting => <PaintingCard {...painting} artist={artist} />)}
-            </Grid.Column>
-          </Grid>
-        ) : null;
+                  <Header.Content>{`${artist.firstName} ${artist.lastName}`}</Header.Content>
+                  <Header.Subheader>Hometown: someplace...</Header.Subheader>
+                </Header>
+                <section>
+                  {artist.artistDescription}
+                </section>
+              </Grid.Column>
+            </Grid>
+
+            <Header as="h4">
+              <Header.Content>Featured Paintings</Header.Content>
+            </Header>
+            <Grid container>
+              {artist.paintings.map(painting => (
+                <Grid.Column
+                  mobile={16}
+                  tablet={8}
+                  computer={5}
+                  key={painting.id}
+                >
+                  <PaintingCard {...painting} artist={artist} />
+                </Grid.Column>
+              ))}
+            </Grid>
+          </>
+        ) : (
+          <Header>
+              Artist not found!
+          </Header>
+        );
       }}
     </Consumer>
   );
