@@ -98,9 +98,8 @@ function showControls(userType, {
     if (isLive) {
       return (
         <div className="table-actionIconContainer">
-          <Button icon>
-            <Icon name="edit" />
-          </Button>
+          <EditButton id={id} history={history} />
+
         </div>
       );
     }
