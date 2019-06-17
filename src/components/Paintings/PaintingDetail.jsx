@@ -22,7 +22,7 @@ export function PaintingDetail({ id }) {
                 <img src={painting.imgUrl} alt={painting.name} />
                 <h3>{painting.name}</h3>
                 <p>{`${painting.artist.firstName} ${painting.artist.lastName}`}</p>
-                <p>{painting.liveDescription}</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{painting.liveDescription}</p>
                 <p>
 Current Price: $
                   {painting.currentPrice}
