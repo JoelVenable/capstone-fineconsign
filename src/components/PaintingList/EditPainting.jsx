@@ -10,9 +10,6 @@ import { DeleteButton } from '../utility/DeleteButton';
 export function EditPainting({
   user, id, storageRef, artists, edit, remove, history, painting, showError, showConfirm,
 }) {
-  //  Conditions to check
-
-
   const [artistId, setArtistId] = useState(painting.artistId);
   const [name, setName] = useState(painting.name);
   const [description, setDescription] = useState(painting.description);
