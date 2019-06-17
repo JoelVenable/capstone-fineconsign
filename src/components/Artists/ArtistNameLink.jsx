@@ -9,7 +9,7 @@ export function ArtistNameLink({ id }) {
     <Consumer>
       {({ artists }) => {
         const found = artists.find(artist => artist.id === id);
-        return (
+        return found ? (
           <Link to={`/artists/${id}`}>
             <Header as="h4" image>
               <Image circular src={found.avatarUrl} alt={`${found.firstName} ${found.lastName}`} />
@@ -21,7 +21,7 @@ export function ArtistNameLink({ id }) {
               </Header.Content>
             </Header>
           </Link>
-        );
+        ) : null;
       }}
     </Consumer>
   );
