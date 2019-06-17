@@ -44,12 +44,12 @@ export function ConfirmDialog({
 }
 
 ConfirmDialog.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   text: PropTypes.string,
   id: PropTypes.number,
   hide: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  confirmAction: PropTypes.func.isRequired,
+  confirmAction: PropTypes.func,
   confirmBtnColor: PropTypes.string,
   icon: PropTypes.string,
   btnIcon: PropTypes.string,
@@ -57,9 +57,11 @@ ConfirmDialog.propTypes = {
 };
 
 ConfirmDialog.defaultProps = {
+  title: '',
   text: null,
   id: NaN,
   icon: null,
+  confirmAction: null,
   confirmBtnColor: 'green',
   btnIcon: 'check',
   btnText: 'Yes',
