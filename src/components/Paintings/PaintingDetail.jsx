@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Button } from 'semantic-ui-react';
+import { Container, Button, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // import { API } from '../../modules/api/API';
 import { Consumer } from '../../ContextProvider';
@@ -13,29 +13,37 @@ export function PaintingDetail({ id }) {
   // setPainting(getPainting(id));
   return (
     <>
-      <Container text>
-        <Consumer>
-          {({ paintings }) => {
-            const painting = paintings.find(pntg => pntg.id === id);
-            return painting ? (
-              <>
-                <img src={painting.imgUrl} alt={painting.name} />
-                <h3>{painting.name}</h3>
-                <ArtistNameLink id={painting.artistId} />
-                <p style={{ whiteSpace: 'pre-wrap' }}>{painting.liveDescription}</p>
-                <p>
-                  Current Price: $
-                  {painting.currentPrice}
-                </p>
-                <p style={{ textDecoration: 'line-through' }}>
-                  Original Price: $
-                  {painting.originalPrice}
-                </p>
-                <Button primary>Buy now</Button>
-              </>
-            ) : <>No painting found!</>;
-          }}
-        </Consumer>
+      <Container>
+        <Grid stackable>
+          <Consumer>
+            {({ paintings }) => {
+              const painting = paintings.find(pntg => pntg.id === id);
+              return painting ? (
+                <>
+                  <Grid.Column width="6">
+                    <img src={painting.imgUrl} alt={painting.name} />
+                  </Grid.Column>
+                  <Grid.Column width="10">
+                    <h3>{painting.name}</h3>
+                    <ArtistNameLink id={painting.artistId} />
+                    <p style={{ whiteSpace: 'pre-wrap' }}>{painting.liveDescription}</p>
+                    <p>
+                      Current Price: $
+                      {painting.currentPrice}
+                    </p>
+                    <p style={{ textDecoration: 'line-through' }}>
+                      Original Price: $
+                      {painting.originalPrice}
+                    </p>
+                    <Button primary>Buy now</Button>
+                  </Grid.Column>
+                </>
+              ) : <>No painting found!</>;
+            }}
+          </Consumer>
+
+        </Grid>
+
       </Container>
     </>
   );
