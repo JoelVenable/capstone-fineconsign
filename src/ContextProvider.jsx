@@ -45,8 +45,11 @@ class Provider extends PureComponent {
     history: this.props.history,
     /* eslint-disable-next-line */
     register: () => { console.log('register!'); },
-    showError: errorMessage => this.setState({ errorMessage, isErrorDialogVisible: true }),
+    showError: (errorMessage, handleClose) => {
+      this.setState({ errorMessage, isErrorDialogVisible: true, handleErrorClose: handleClose });
+    },
     showConfirm: confirmObject => this.setState({ confirmObject, isConfirmDialogVisible: true }),
+    handleErrorClose: null,
     confirmObject: {},
     errorMessage: '',
     get: {
@@ -119,7 +122,11 @@ class Provider extends PureComponent {
     return null;
   }
 
-  hideError = () => this.setState({ isErrorDialogVisible: false, errorMessage: '' })
+  hideError = () => {
+    const { handleErrorClose } = this.state;
+    this.setState({ isErrorDialogVisible: false, errorMessage: '' });
+    if (handleErrorClose) handleErrorClose();
+  }
 
   hideConfirm = () => this.setState({ isConfirmDialogVisible: false, confirmObject: {} })
 
