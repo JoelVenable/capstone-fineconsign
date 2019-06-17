@@ -1,10 +1,12 @@
 import React from 'react';
 import {
-  Image, Header, Grid, Button,
+  Image, Header, Grid,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { PaintingCard } from '../Paintings/PaintingCard';
+import { EditArtistButton } from './EditArtistButton';
+
 
 export function ArtistProfile({ id }) {
   return (
@@ -16,11 +18,13 @@ export function ArtistProfile({ id }) {
           if (user.userType === 'artist') {
             if (user.artist.id === id) {
               controls = (
-                <>
-                  <Button style={{ marginBottom: '1rem' }} onClick={() => history.push(`/artists/${id}/edit`)}>
-                    Edit my Profile
-                  </Button>
-                </>
+                <EditArtistButton id={id} push={history.push} text="Edit my Profile" />
+              );
+            }
+          } else if (user.userType === 'employee') {
+            if (user.employee.canEditCustomers) {
+              controls = (
+                <EditArtistButton id={id} push={history.push} text="Edit Artist's Profile" />
               );
             }
           }
