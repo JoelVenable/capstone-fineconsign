@@ -95,7 +95,7 @@ export function AddPainting({
           control="input"
           type="number"
           label="Price"
-          onChange={e => setPrice(e.target.value)}
+          onChange={e => setPrice(parseInt(e.target.value, 10))}
           placeholder="Suggest a price for us"
           width="6"
         />
@@ -109,7 +109,7 @@ export function AddPainting({
 
           type="number"
           label="Height in inches"
-          onChange={e => setHeight(e.target.value)}
+          onChange={e => setHeight(parseInt(e.target.value, 10))}
           placeholder="24"
         />
         <Form.Field
@@ -119,7 +119,7 @@ export function AddPainting({
           control="input"
           type="number"
           label="Width in inches"
-          onChange={e => setWidth(e.target.value)}
+          onChange={e => setWidth(parseInt(e.target.value, 10))}
           placeholder="36"
         />
         <Form.Field

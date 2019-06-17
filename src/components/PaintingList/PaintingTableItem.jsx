@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
 export function PaintingTableItem({
-  painting, user: { userType },
+  painting, user: { userType }, history,
 }) {
   return (
     <Table.Row>
@@ -34,7 +34,7 @@ export function PaintingTableItem({
         {showStatus(userType, painting)}
       </Table.Cell>
       <Table.Cell>
-        {showControls(userType, painting)}
+        {showControls(userType, painting, history)}
 
       </Table.Cell>
       {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
@@ -58,16 +58,15 @@ export function PaintingTableItem({
 
 function showControls(userType, {
   isSubmitted, isLive, isSold, id,
-}) {
+}, history) {
   if (userType === 'artist') {
     if (isSold) return null;
     if (isLive) return null;
     if (isSubmitted) return null;
     return (
       <div className="table-actionIconContainer">
-        <Button icon>
-          <Icon name="edit" />
-        </Button>
+        <EditButton id={id} history={history} />
+
         <Consumer>
           {({ edit, showConfirm }) => (
             <Button
@@ -105,9 +104,7 @@ function showControls(userType, {
     if (isSubmitted) {
       return (
         <div className="table-actionIconContainer">
-          <Button icon>
-            <Icon name="edit" />
-          </Button>
+          <EditButton id={id} history={history} />
           <Consumer>
             {({ edit, showConfirm }) => (
               <Button
@@ -158,12 +155,14 @@ function showStatus(userType, {
 }
 
 PaintingTableItem.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   painting: PropTypes.shape({
     artist: PropTypes.shape({
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
     }).isRequired,
-
     //   artistId: PropTypes.number.isRequired,
     // currentPrice: PropTypes.number.isRequired,
     // forSaleDate: PropTypes.string.isRequired,
@@ -178,5 +177,22 @@ PaintingTableItem.propTypes = {
   }).isRequired,
   user: PropTypes.shape({
     userType: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+
+function EditButton({ id, history }) {
+  return (
+    <Button icon>
+      <Icon name="edit" onClick={() => history.push(`/paintings/${id}/edit`)} />
+    </Button>
+  );
+}
+
+
+EditButton.propTypes = {
+  id: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };

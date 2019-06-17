@@ -19,8 +19,8 @@ try {
 } catch (e) {
   /* eslint-disable-next-line */
   console.log("You'll need to create a firebase account and provide "
-  + 'credentials inside /src/env/firebaseCredentials.js to use this app.'
-  + '\n\nError message follows...\n\n', e);
+    + 'credentials inside /src/env/firebaseCredentials.js to use this app.'
+    + '\n\nError message follows...\n\n', e);
 }
 
 
@@ -67,7 +67,7 @@ class Provider extends PureComponent {
       customer: (newCustomer, id) => this.update(newCustomer, 'customers', id),
       employee: (newEmployee, id) => this.update(newEmployee, 'employees', id),
     },
-    delete: {
+    remove: {
       artist: id => this.delete(id, 'artists'),
       painting: id => this.delete(id, 'paintings'),
       customer: id => this.delete(id, 'customers'),
