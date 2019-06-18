@@ -86,7 +86,7 @@ export function PaintingList({ history }) {
 
   return (
     <Tab
-      activeIndex={activeTab}
+      // activeIndex={activeTab}
       onTabChange={handleChange}
       panes={panes}
     />
