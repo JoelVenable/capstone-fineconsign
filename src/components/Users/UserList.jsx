@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { UserTable } from './UserTable';
 import { ArtistTableItem } from './ArtistTableItem';
 import { EmployeeTableItem } from './EmployeeTableItem';
+import { CustomerTableItem } from './CustomerTableItem';
+import { UserConsumer } from '../../AllUsersContext';
+import { UserTableItem } from './UserTableItem';
+
 
 /*
 
@@ -15,10 +19,9 @@ The only auth check needed here is the user.employee.canEditEmployees (superuser
 
 
 export function UserList({
-  artists, user, employees, edit,
+  artists, customers, user, employees, edit,
 }) {
   // const [activeTab, setActiveTab] = useState(0);
-
 
   const panes = [
     {
@@ -28,17 +31,6 @@ export function UserList({
           <UserTable>
             { artists.map(artist => <ArtistTableItem key={artist.id} artist={artist} user={user} />)}
           </UserTable>
-          {/* <Consumer>
-            {({ artists, user }) => (
-              // <UserTable
-              //   user={user}
-              //   tableType="artists"
-              //   history={history}
-              //   artistList={
-              //   )}
-              // />
-            )}
-          </Consumer> */}
         </Tab.Pane>
       ),
     },
@@ -47,20 +39,8 @@ export function UserList({
       render: () => (
         <Tab.Pane>
           <UserTable>
-            Customers
+            {customers.map(customer => <CustomerTableItem key={customer.id} customer={customer} />)}
           </UserTable>
-          {/* <Consumer>
-            {({ paintings, user }) => (
-              <PaintingTable
-                tableType="active"
-                user={user}
-                history={history}
-                paintingList={paintings.filter(
-                  ({ isLive, isSold }) => isLive && !isSold,
-                )}
-              />
-            )}
-          </Consumer> */}
         </Tab.Pane>
       ),
     },
@@ -104,7 +84,13 @@ export function UserList({
       render: () => (
         <Tab.Pane>
           <UserTable>
-            All Users
+            <UserConsumer>
+              {context => (
+                <>
+                  {context.users.map(user => <UserTableItem key={user.id} user={user} {...context} />)}
+                </>
+              )}
+            </UserConsumer>
           </UserTable>
           {/* <Consumer>
             {context => <AddPainting setActiveTab={setActiveTab} {...context} />}
@@ -141,6 +127,10 @@ UserList.propTypes = {
   }).isRequired,
   artists: PropTypes.arrayOf(PropTypes.shape({
     firstName: PropTypes.string.isRequired,
+  })).isRequired,
+  customers: PropTypes.arrayOf(PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
   employees: PropTypes.arrayOf(PropTypes.shape({
     canEditEmployees: PropTypes.bool.isRequired,

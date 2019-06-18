@@ -16,17 +16,21 @@ export function CustomerTableItem({
   return (
     <Table.Row>
 
-      <Table.Cell selectable>
+      <Table.Cell>
         <Header as="h4" image>
-          <Image
-            circular
-            src={null}
-            alt={`${customer.firstName} ${customer.lastName}`}
-          />
+          {customer.imageUrl ? (
+            <Image
+              circular
+              src={customer.imageUrl}
+              alt={`${customer.firstName} ${customer.lastName}`}
+            />
+          ) : (
+            <Icon name="user" />
+          )}
           <Header.Content>
             {`${customer.firstName} ${customer.lastName}`}
             <Header.Subheader>
-              {customer.hometown}
+              {`${customer.city}, ${customer.state}`}
             </Header.Subheader>
           </Header.Content>
         </Header>
@@ -112,9 +116,9 @@ CustomerTableItem.propTypes = {
   //   submittedDescription: PropTypes.string.isRequired,
   //   thumbUrl: PropTypes.string.isRequired,
   // }).isRequired,
-  user: PropTypes.shape({
-    userType: PropTypes.string.isRequired,
-  }).isRequired,
+  // user: PropTypes.shape({
+  //   userType: PropTypes.string.isRequired,
+  // }).isRequired,
 };
 
 
