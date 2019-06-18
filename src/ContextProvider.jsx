@@ -85,6 +85,8 @@ class Provider extends PureComponent {
     const { get } = this.state;
     get.artists();
     get.paintings();
+    get.employees();
+    get.customers();
   }
 
   getAll = async (endpoint) => {
