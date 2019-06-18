@@ -42,7 +42,10 @@ export function ArtistProfile({ id }) {
                 <Header as="h1">
 
                   <Header.Content>{`${artist.firstName} ${artist.lastName}`}</Header.Content>
-                  <Header.Subheader>Hometown: someplace...</Header.Subheader>
+                  <Header.Subheader>
+Hometown:
+                    {artist.hometown}
+                  </Header.Subheader>
                 </Header>
                 <section style={{ whiteSpace: 'pre-wrap' }}>
                   {artist.artistDescription}
