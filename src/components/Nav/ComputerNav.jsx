@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
 export function ComputerMenu({ user, history }) {
-  const [activeLink, setactiveLink] = useState(null);
+  // const [activeLink, setactiveLink] = useState(null);
   function handleClick(_e, { value }) {
-    setactiveLink(value);
+    // setactiveLink(value);
     history.push(value);
   }
   if (user) {
@@ -126,7 +126,7 @@ export function ComputerMenu({ user, history }) {
             <SignOutButton />
           </Menu.Menu>
         );
-      case 'artist':
+      default: // 'artist' case
         return (
           <Menu.Menu position="right">
             <Menu.Item

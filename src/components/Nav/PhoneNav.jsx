@@ -108,11 +108,18 @@ export function PhoneMenu({ user }) {
           <Dropdown item icon="bars">
             <Dropdown.Menu>
               <Dropdown.Item
+                key="favorites"
+                icon="paint brush"
+                text="Favorite Artists"
+                value="favorites"
+              />
+              <Dropdown.Item
                 key="orders"
                 icon="box"
                 text="My Orders"
                 value="orders"
               />
+
               <Dropdown.Item
                 key="account"
                 icon="edit"
@@ -141,12 +148,14 @@ export function PhoneMenu({ user }) {
               text="My Paintings"
               value="paintings"
             />
-            <Dropdown.Item
-              key="favorites"
-              icon="paint brush"
-              text="Favorite Artists"
-              value="favorites"
-            />
+            <Link to={`/artists/${user.artist.id}`}>
+              <Dropdown.Item
+                key="profile"
+                icon="address card"
+                text="My Profile"
+                value="paintings"
+              />
+            </Link>
             <Dropdown.Item
               key="account"
               icon="edit"
@@ -183,7 +192,7 @@ function SignOutButton() {
           onClick={logout}
         />
       )
-    }
+      }
     </Consumer>
   );
 }

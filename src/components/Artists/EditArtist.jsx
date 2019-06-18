@@ -7,7 +7,12 @@ import { compressImage } from '../utility/compressImage';
 // import { DeleteButton } from '../utility/DeleteButton';
 
 export function EditArtist({
-  user, id, storageRef, artist, edit, history,
+  // user,
+  id,
+  storageRef,
+  artist,
+  edit,
+  history,
 }) {
   const [firstName, setFirstName] = useState(artist.firstName);
   const [lastName, setLastName] = useState(artist.lastName);
@@ -45,7 +50,6 @@ export function EditArtist({
         .then(response => response.ref.getDownloadURL());
     }
 
-    console.log('edit', edit);
     edit.artist(editedArtist, id).then(() =>
       history.goBack());
   }

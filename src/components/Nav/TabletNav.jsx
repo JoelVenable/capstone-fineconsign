@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
-export function TabletMenu({ user, history, location }) {
-  console.log(location);
-  const [activeLink, setactiveLink] = useState(null);
+export function TabletMenu({
+  user,
+  history,
+  //  location,
+}) {
+  // const [activeLink, setactiveLink] = useState(null);
   function handleClick(_e, { value }) {
-    setactiveLink(value);
+    // setactiveLink(value);
     history.push(value);
   }
   if (user) {
@@ -15,7 +18,7 @@ export function TabletMenu({ user, history, location }) {
     switch (user.userType) {
       case 'employee':
         return (
-          <Menu.Menu position="right" activeIndex={activeLink}>
+          <Menu.Menu position="right">
 
             <Dropdown item floating button text="User Types">
               <Dropdown.Menu>
@@ -127,7 +130,7 @@ export function TabletMenu({ user, history, location }) {
             <SignOutButton />
           </Menu.Menu>
         );
-      case 'artist':
+      default: // artist
         return (
           <Menu.Menu position="right">
             <Menu.Item
@@ -172,7 +175,7 @@ function SignOutButton() {
           onClick={logout}
         />
       )
-    }
+      }
     </Consumer>
   );
 }

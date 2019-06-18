@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
@@ -6,7 +6,7 @@ import { PaintingTable } from './PaintingTable';
 import { AddPainting } from './AddPainting';
 
 export function PaintingList({ history }) {
-  const [activeTab, setActiveTab] = useState(0);
+  // const [activeTab, setActiveTab] = useState(0);
 
   const panes = [
     {
@@ -72,22 +72,27 @@ export function PaintingList({ history }) {
       render: () => (
         <Tab.Pane>
           <Consumer>
-            {context => <AddPainting setActiveTab={setActiveTab} {...context} />}
+            {context => (
+              <AddPainting
+            // setActiveTab={setActiveTab}
+                {...context}
+              />
+            )}
           </Consumer>
         </Tab.Pane>
       ),
     },
   ];
 
-  function handleChange(e, { activeIndex }) {
-    setActiveTab(activeIndex);
-  }
+  // function handleChange(e, { activeIndex }) {
+  //   setActiveTab(activeIndex);
+  // }
 
 
   return (
     <Tab
       // activeIndex={activeTab}
-      onTabChange={handleChange}
+      // onTabChange={handleChange}
       panes={panes}
     />
   );

@@ -7,14 +7,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Users } from './components/Users/Users';
 import { Gallery } from './components/Gallery/Gallery';
-import { Customers } from './components/Customers/Customers';
 import { Orders } from './components/Orders/Orders';
 import { PriceAdjustments } from './components/PriceAdjustments/PriceAdjustments';
 import { Stores } from './components/Stores/Stores';
 import { PaintingDetail } from './components/Paintings/PaintingDetail';
 import { PaintingList } from './components/PaintingList/PaintingList';
 import { Artists } from './components/Artists/Artists';
-import { Employees } from './components/Employees/Employees';
 import {
   checkEmployeeAccess, checkLoggedIn, checkNotCustomer, canEditArtistPermissions,
 } from './modules/checkRoute';

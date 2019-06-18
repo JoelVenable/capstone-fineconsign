@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tab, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { UserTable } from './UserTable';
@@ -114,15 +114,15 @@ export function UserList({
     });
   }
 
-  function handleChange(e, { activeIndex }) {
-    // setActiveTab(activeIndex);
-  }
+  // function handleChange(e, { activeIndex }) {
+  //   // setActiveTab(activeIndex);
+  // }
 
 
   return (
     <Tab
       // activeIndex={activeTab}
-      onTabChange={handleChange}
+      // onTabChange={handleChange}
       panes={panes}
     >
       <Tab.Pane>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Input, Form, Button, Container, Image, Grid,
+  Input, Form, Button, Image, Grid,
 } from 'semantic-ui-react';
 import './addPainting.css';
 import PropTypes from 'prop-types';
@@ -10,7 +10,6 @@ import { DeleteButton } from '../utility/DeleteButton';
 export function EditPainting({
   user, id, storageRef, artists, edit, history, painting,
 }) {
-  console.log(painting);
   const [artistId, setArtistId] = useState(painting.artistId);
   const [name, setName] = useState(painting.name);
   const [description, setDescription] = useState(painting.submittedDescription);

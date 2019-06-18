@@ -1,14 +1,12 @@
 import React from 'react';
 import {
-  Image, Button, Icon, Table, Header, Label,
+  Button, Icon, Table, Label,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Consumer } from '../../ContextProvider';
 import { ArtistNameLink } from '../Artists/ArtistNameLink';
 
 export function ArtistTableItem({
-  artist, user,
+  artist,
 }) {
   return (
     <Table.Row>
@@ -20,7 +18,7 @@ export function ArtistTableItem({
         {showStatus(artist)}
       </Table.Cell>
       <Table.Cell>
-        {showControls(artist)}
+        {/* {showControls(artist)} */}
 
       </Table.Cell>
       {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
@@ -42,13 +40,13 @@ export function ArtistTableItem({
   );
 }
 
-function showControls(artist) {
-  //  Under normal circumstances, this final return
-  //  statement should never be reached...
+// function showControls(artist) {
+//   //  Under normal circumstances, this final return
+//   //  statement should never be reached...
 
 
-  return null;
-}
+//   return null;
+// }
 
 function showStatus({ paintings }) {
   const pending = paintings.filter(painting => painting.isSubmitted && !painting.isLive && !painting.isSold).length;
@@ -73,10 +71,18 @@ function showStatus({ paintings }) {
   );
 }
 
+showStatus.propTypes = {
+  paintings: PropTypes.shape({
+    isSubmitted: PropTypes.bool.isRequired,
+    isLive: PropTypes.bool.isRequired,
+    isSold: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
 ArtistTableItem.propTypes = {
   artist: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
   // history: PropTypes.shape({
   //   push: PropTypes.func.isRequired,
   // }).isRequired,

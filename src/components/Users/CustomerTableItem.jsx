@@ -1,27 +1,41 @@
 import React from 'react';
 import {
-  Image, Button, Icon, Table, Header, Label,
+  Image,
+  Button,
+  Icon,
+  Table,
+  Header,
+  // Label,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Consumer } from '../../ContextProvider';
-import { ArtistNameLink } from '../Artists/ArtistNameLink';
 
 export function CustomerTableItem({
-  customer, user,
+  customer,
+  //  user,
 }) {
-  console.log(customer);
   return (
     <Table.Row>
 
       <Table.Cell selectable>
-        <ArtistNameLink id={artist.id} />
+        <Header as="h4" image>
+          <Image
+            circular
+            src={null}
+            alt={`${customer.firstName} ${customer.lastName}`}
+          />
+          <Header.Content>
+            {`${customer.firstName} ${customer.lastName}`}
+            <Header.Subheader>
+              {customer.hometown}
+            </Header.Subheader>
+          </Header.Content>
+        </Header>
       </Table.Cell>
       <Table.Cell>
-        {showStatus(artist)}
+        {/* {showStatus(artist)} */}
       </Table.Cell>
       <Table.Cell>
-        {showControls(artist)}
+        {/* {showControls(artist)} */}
 
       </Table.Cell>
       {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
@@ -43,41 +57,41 @@ export function CustomerTableItem({
   );
 }
 
-function showControls(artist) {
-  //  Under normal circumstances, this final return
-  //  statement should never be reached...
+// function showControls(artist) {
+//   //  Under normal circumstances, this final return
+//   //  statement should never be reached...
 
 
-  return null;
-}
+//   return null;
+// }
 
-function showStatus({ paintings }) {
-  const pending = paintings.filter(painting => painting.isSubmitted && !painting.isLive && !painting.isSold).length;
-  const active = paintings.filter(painting => painting.isLive && !painting.isSold).length;
-  const sold = paintings.filter(painting => painting.isSold).length;
+// function showStatus({ paintings }) {
+//   const pending = paintings.filter(painting => painting.isSubmitted && !painting.isLive && !painting.isSold).length;
+//   const active = paintings.filter(painting => painting.isLive && !painting.isSold).length;
+//   const sold = paintings.filter(painting => painting.isSold).length;
 
-  return (
-    <>
-      <Label color="orange">
-        <Icon name="pause" />
-        {pending}
-      </Label>
-      <Label color="blue">
-        <Icon name="bolt" />
-        {active}
-      </Label>
-      <Label color="green">
-        <Icon name="dollar sign" />
-        {sold}
-      </Label>
-    </>
-  );
-}
+//   return (
+//     <>
+//       <Label color="orange">
+//         <Icon name="pause" />
+//         {pending}
+//       </Label>
+//       <Label color="blue">
+//         <Icon name="bolt" />
+//         {active}
+//       </Label>
+//       <Label color="green">
+//         <Icon name="dollar sign" />
+//         {sold}
+//       </Label>
+//     </>
+//   );
+// }
 
 CustomerTableItem.propTypes = {
   customer: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
   // history: PropTypes.shape({
   //   push: PropTypes.func.isRequired,
   // }).isRequired,
