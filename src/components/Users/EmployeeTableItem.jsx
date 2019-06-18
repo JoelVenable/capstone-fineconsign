@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Image, Button, Icon, Table, Header, Label, Checkbox,
+  Button, Icon, Table, Header, Checkbox,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Consumer } from '../../ContextProvider';
-import { ArtistNameLink } from '../Artists/ArtistNameLink';
 
 export function EmployeeTableItem({
-  employee, user, edit,
+  employee, edit,
 }) {
-  console.log(employee);
   const [priceAdjustments, setPriceAdjustments] = useState(employee.canDefinePriceAdjustments);
   const [editEmployees, setEditEmployees] = useState(employee.canEditEmployees);
   const [editInventory, setEditInventory] = useState(employee.canEditInventory);
@@ -18,7 +14,6 @@ export function EmployeeTableItem({
   const [editOrders, setEditOrders] = useState(employee.canProcessOrders);
 
 
-  console.log(employee);
   return (
     <Table.Row>
 
@@ -99,82 +94,11 @@ export function EmployeeTableItem({
   );
 }
 
-function showControls(artist) {
-  //  Under normal circumstances, this final return
-  //  statement should never be reached...
-
-
-  return null;
-}
-
-function showStatus({ paintings }) {
-  const pending = paintings.filter(painting => painting.isSubmitted && !painting.isLive && !painting.isSold).length;
-  const active = paintings.filter(painting => painting.isLive && !painting.isSold).length;
-  const sold = paintings.filter(painting => painting.isSold).length;
-
-  return (
-    <>
-      <Label color="orange">
-        <Icon name="pause" />
-        {pending}
-      </Label>
-      <Label color="blue">
-        <Icon name="bolt" />
-        {active}
-      </Label>
-      <Label color="green">
-        <Icon name="dollar sign" />
-        {sold}
-      </Label>
-    </>
-  );
-}
-
 EmployeeTableItem.propTypes = {
   employee: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-  }),
-  // history: PropTypes.shape({
-  //   push: PropTypes.func.isRequired,
-  // }).isRequired,
-  // painting: PropTypes.shape({
-  //   artist: PropTypes.shape({
-  //     firstName: PropTypes.string.isRequired,
-  //     lastName: PropTypes.string.isRequired,
-  //   }).isRequired,
-  //   //   artistId: PropTypes.number.isRequired,
-  //   // currentPrice: PropTypes.number.isRequired,
-  //   // forSaleDate: PropTypes.string.isRequired,
-  //   id: PropTypes.number.isRequired,
-  //   // imgUrl: PropTypes.string.isRequired,
-  //   // liveDescription: PropTypes.string.isRequired,
-  //   name: PropTypes.string.isRequired,
-  //   originalPrice: PropTypes.number.isRequired,
-  //   priceAdjustmentId: PropTypes.number.isRequired,
-  //   submittedDescription: PropTypes.string.isRequired,
-  //   thumbUrl: PropTypes.string.isRequired,
-  // }).isRequired,
-  user: PropTypes.shape({
-    userType: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+  edit: PropTypes.shape({
+    employee: PropTypes.func.isRequired,
   }).isRequired,
 };
-
-
-// function EditButton({ id }) {
-//   return (
-//     <Button icon>
-//       <Icon name="edit" onClick={() => history.push(`/paintings/${id}/edit`)} />
-//     </Button>
-//   );
-// }
-
-
-// EditButton.propTypes = {
-//   id: PropTypes.number.isRequired,
-//   history: PropTypes.shape({
-//     push: PropTypes.func.isRequired,
-//   }).isRequired,
-//   update: PropTypes.shape({
-//     employee: PropTypes.func.isRequired,
-//   }).isRequired,
-// };
