@@ -13,13 +13,13 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 
 ### Artists:
 - [ ]	Ability to register an account as a "customer" and request store admins to update to an artist account.
-- [ ] Once approved, artists should be able to create a profile, save the draft, and submit for admin review.
+- [x] Once approved, artists should be able to create and edit a profile for viewing by the public.
 - [x] Artists can also create a page about paintings they are consigning with the store, save drafts, and submit for review.
 - [ ] Ability to review current account balance from paintings sold.
 
 ### Employees (depending on permissions):
-- [ ] The site administrator should have controls enabling employees varying levels of permissions.
-- [ ]	Ability to assign prices and approve artist-submitted paintings for live viewing on the customer-facing site.
+- [x] The site administrator should have controls enabling employees varying levels of permissions.
+- [x]	Ability to assign prices and approve artist-submitted paintings for live viewing on the customer-facing site.
 - [ ]	Ability to process customer orders in-store/online and credit the artist's account appropriately.
 - [ ]	Ability to define automatic price reduction logic for aged inventory and create lists for marking down prices on the physical items in-store.
 
@@ -41,20 +41,21 @@ While most eCommerce platforms are designed for direct sales and repeatable item
 *	ReactJS
 *	JavaScript
 *	Semantic UI for ReactJS
+* React Context API
 *	Firebase image hosting
 *	JSON server
 
-### APIs used: None
+### External APIs used: None
 
 ## MVP:
 - [x]	Artists can submit items for potential consignment, and view items currently available for sale.
-- [ ]	Employees can review submitted items, assign a price, and approve submissions which will cause the submission to be listed as available for sale.  Employees can also CRUD items available for sale.
+- [x]	Employees can review submitted items, assign a price, and approve submissions which will cause the submission to be listed as available for sale.  Employees can also CRUD items available for sale.
 - [ ]	Administrators can CRUD all endpoints.
 - [x]	Firebase image hosting for artist/employee upload capability.
 
 ## Stretch goals:
 - [ ]	Mock Order checkout functionality and customer account management.
-- [ ]	Varying employee access rights.
+- [x]	Varying employee access rights.
 - [ ]	Authentication with Firebase.
 
 ## Late additions to Roadmap (may require new database tables):
