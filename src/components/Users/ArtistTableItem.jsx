@@ -10,7 +10,6 @@ import { ArtistNameLink } from '../Artists/ArtistNameLink';
 export function ArtistTableItem({
   artist, user,
 }) {
-  console.log(artist);
   return (
     <Table.Row>
 
