@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { UserTable } from './UserTable';
 import { ArtistTableItem } from './ArtistTableItem';
+import { EmployeeTableItem } from './EmployeeTableItem';
 
 /*
 
@@ -14,8 +15,11 @@ The only auth check needed here is the user.employee.canEditEmployees (superuser
 */
 
 
-export function UserList({ history, artists, user }) {
+export function UserList({
+  history, artists, user, employees, edit,
+}) {
   const [activeTab, setActiveTab] = useState(0);
+
 
   const panes = [
     {
@@ -70,7 +74,15 @@ export function UserList({ history, artists, user }) {
       render: () => (
         <Tab.Pane>
           <UserTable>
-          Employees
+            { employees.map(employee => (
+              <EmployeeTableItem
+                key={employee.id}
+                employee={employee}
+                user={user}
+                edit={edit}
+              />
+            ))}
+
           </UserTable>
           {/* <Consumer>
             {({ paintings, user }) => (
@@ -127,5 +139,8 @@ export function UserList({ history, artists, user }) {
 UserList.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+  }).isRequired,
+  edit: PropTypes.shape({
+    employee: PropTypes.func.isRequired,
   }).isRequired,
 };
