@@ -93,17 +93,30 @@ export class SignUp extends Component {
        accountBalance,
      } = this.state;
 
+     const userObj = {
+       firstName,
+       lastName,
+       address,
+       city,
+       state,
+       zipcode,
+       accountBalance,
+     };
+     if (userType === 'artist') {
+       userObj.description = null;
+       userObj.imageUrl = null;
+       userObj.avatarUrl = null;
+       userObj.hometown = null;
+       userObj.profitRatio = 0.6;
+       userObj.phoneNumber = null;
+       userObj.isActive = false;
+       userObj.activeDate = null;
+     }
+
+
      return this.createUser().then(({ id }) => {
-       API[`${userType}s`].create({
-         userId: id,
-         firstName,
-         lastName,
-         address,
-         city,
-         state,
-         zipcode,
-         accountBalance,
-       });
+       userObj.userId = id;
+       API[`${userType}s`].create(userObj);
      });
    }
 
