@@ -1,4 +1,6 @@
 /* eslint react/no-unused-state: 0 */
+/* eslint react/no-direct-mutation-state: 0 */
+/* eslint react/destructuring-assignment: 0 */
 
 
 import React, { PureComponent } from 'react';
@@ -27,66 +29,61 @@ try {
 export const { Consumer } = Context;
 
 class Provider extends PureComponent {
-  state = {
-    user: JSON.parse(sessionStorage.getItem('userdata')),
-    employees: [],
-    customers: [],
-    artists: [],
-    paintings: [],
-    storageRef: firebase.storage().ref(),
-    login: (username, pw) => this.doLogin(username, pw),
-    logout: () => {
-      sessionStorage.clear();
-      this.setState({ user: null });
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: JSON.parse(sessionStorage.getItem('userdata')),
+      storageRef: firebase.storage().ref(),
+      login: (username, pw) => this.doLogin(username, pw),
+      logout: () => {
+        sessionStorage.clear();
+        this.setState({ user: null });
+        /* eslint-disable-next-line */
+        this.props.history.push("/");
+      },
       /* eslint-disable-next-line */
-      this.props.history.push("/");
-    },
-    /* eslint-disable-next-line */
-    history: this.props.history,
-    /* eslint-disable-next-line */
+      history: this.props.history,
+      /* eslint-disable-next-line */
+      showError: (errorMessage, optionalCallbackFunction) => {
+        this.setState({ errorMessage, isErrorDialogVisible: true, handleErrorClose: optionalCallbackFunction });
+      },
+      showConfirm: confirmObject => this.setState({ confirmObject, isConfirmDialogVisible: true }),
+      handleErrorClose: null,
+      confirmObject: {},
+      errorMessage: '',
+      redirect: () => {
+        const { location, history } = this.props;
+        const { user } = this.state;
+        if (location.pathname === '/') {
+          if (user.userType === 'employee') history.push('/paintings');
+          if (user.userType === 'artist') history.push('/paintings');
+          if (user.userType === 'customer') history.push('/gallery');
+        }
+      },
+      get: {},
+      add: {},
+      edit: {},
+      remove: {},
+      isErrorDialogVisible: false,
+      isConfirmDialogVisible: false,
+    };
 
-    showError: (errorMessage, optionalCallbackFunction) => {
-      this.setState({ errorMessage, isErrorDialogVisible: true, handleErrorClose: optionalCallbackFunction });
-    },
-    showConfirm: confirmObject => this.setState({ confirmObject, isConfirmDialogVisible: true }),
-    handleErrorClose: null,
-    confirmObject: {},
-    errorMessage: '',
-    redirect: () => {
-      const { location, history } = this.props;
-      const { user } = this.state;
-      if (location.pathname === '/') {
-        if (user.userType === 'employee') history.push('/paintings');
-        if (user.userType === 'artist') history.push('/paintings');
-        if (user.userType === 'customer') history.push('/gallery');
-      }
-    },
-    get: {
-      artists: () => this.getAll('artists'),
-      paintings: () => this.getAll('paintings'),
-      employees: () => this.getAll('employees'),
-      customers: () => this.getAll('customers'),
-    },
-    add: {
-      artist: newArtist => this.add(newArtist, 'artists'),
-      painting: newPainting => this.add(newPainting, 'paintings'),
-      employee: newEmployee => this.add(newEmployee, 'employees'),
-      customer: newCustomer => this.add(newCustomer, 'customers'),
-    },
-    edit: {
-      artist: (newArtist, id) => this.update(newArtist, 'artists', id),
-      painting: (newPainting, id) => this.update(newPainting, 'paintings', id),
-      customer: (newCustomer, id) => this.update(newCustomer, 'customers', id),
-      employee: (newEmployee, id) => this.update(newEmployee, 'employees', id),
-    },
-    remove: {
-      artist: id => this.delete(id, 'artists'),
-      painting: id => this.delete(id, 'paintings'),
-      customer: id => this.delete(id, 'customers'),
-      employee: id => this.delete(id, 'employees'),
-    },
-    isErrorDialogVisible: false,
-    isConfirmDialogVisible: false,
+    const endpoints = [
+      'employees',
+      'artists',
+      'customers',
+      'paintings',
+      'orders',
+      'orderItems',
+      'priceAdjustments',
+    ];
+    endpoints.forEach((endpoint) => {
+      this.state[endpoint] = [];
+      this.state.get[endpoint] = async () => this.setState({ [endpoint]: await API[endpoint].getAll() });
+      this.state.add[endpoint] = async obj => API[endpoint].create(obj).then(this.state.get[endpoint]);
+      this.state.edit[endpoint] = (obj, id) => API[endpoint].edit(id, obj).then(this.state.get[endpoint]);
+      this.state.remove[endpoint] = async id => API[endpoint].delete(id).then(this.state.get[endpoint]);
+    });
   }
 
 
@@ -98,18 +95,9 @@ class Provider extends PureComponent {
     get.customers();
   }
 
-  getAll = async endpoint => this.setState({ [endpoint]: await API[endpoint].getAll() })
-
-  add = async (obj, endpoint) => API[endpoint].create(obj).then(() => this.getAll(endpoint))
-
-  update = (obj, endpoint, id) => API[endpoint].edit(id, obj).then(() => this.getAll(endpoint))
-
-  delete = async (id, endpoint) => API[endpoint].delete(id).then(() => this.getAll(endpoint))
-
 
   doLogin = async (username, password) => {
     const { showError } = this.state;
-    const { history } = this.props;
     sessionStorage.clear();
     const user = await API.users.login(username, password).catch(this.handleInvalidLogin);
 
