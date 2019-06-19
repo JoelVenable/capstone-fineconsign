@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { SignUp } from './auth/SignUp';
 import { Login } from './auth/Login';
+import { Consumer } from '../../ContextProvider';
 
 export function SelectLoginRegister() {
   const [tabPosition, setTabPosition] = useState('menuItem--0');
@@ -34,7 +35,9 @@ export function SelectLoginRegister() {
           REGISTER
         </Menu.Item>
       </Menu>
-      {(tabPosition === 'menuItem--1') ? <SignUp /> : <Login />}
+      <Consumer>
+        {context => ((tabPosition === 'menuItem--1') ? <SignUp {...context} /> : <Login />)}
+      </Consumer>
     </div>
   );
 }

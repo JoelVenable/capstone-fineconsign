@@ -1,145 +1,85 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 
 import {
-  Form, Input, Button, Checkbox, Message, Step, Icon,
+  Step, Icon,
 } from 'semantic-ui-react';
-import { Consumer } from '../../../ContextProvider';
-import { SelectUserType } from '../../utility/SelectUserType';
+import { StepOne } from './StepOne';
+import { API } from '../../../modules/api/API';
 
-export function SignUp() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [userType, setUserType] = useState('customer');
-  const [terms, setTerms] = useState(false);
-  const [warning, setWarning] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1);
 
+export class SignUp extends Component {
+  state = {
+    email: null,
+    password: null,
+    username: null,
+    userType: 'customer',
+    terms: false,
+    /* eslint-disable-next-line */
+    warning: false,
+    /* eslint-disable-next-line */
+    loading: false,
+    step: 1,
+  }
 
   // Update state whenever an input field is edited
-  const handleFieldChange = (evt) => {
-    if (evt.target.id === 'email') {
-      setEmail(evt.target.value);
-    } else if (evt.target.id === 'password') {
-      setPassword(evt.target.value);
-    } else if (evt.target.id === 'username') {
-      setUsername(evt.target.value);
-    }
-  };
+   handleFieldChange = (evt) => {
+     this.setState({ [evt.target.id]: evt.target.value });
+   };
 
-  const toggleCheck = () => setTerms(!terms);
+   toggleCheck = () => this.setState(oldState => ({ terms: !oldState.terms }))
 
-  const handleUserTypeChange = (newUserType) => {
-    if (newUserType === 'employee') setWarning(true);
-    else setWarning(false);
-    setUserType(newUserType);
-  };
+   handleUserTypeChange = (userType) => {
+     if (userType === 'employee') this.setState({ warning: true, userType });
+     else this.setState({ warning: false, userType });
+   };
 
+   handleStepOneSubmit = () => {
+     const { username } = this.state;
+     return API.users.checkExisting({ username });
+   }
 
-  return (
-    <>
-      <Step.Group widths={2} size="mini">
-        <Step active={step === 1}>
-          <Icon size="mini" name="lock" />
-          <Step.Content>
-            <Step.Title>User Account</Step.Title>
-            <Step.Description>Your login credentials</Step.Description>
-          </Step.Content>
-        </Step>
-
-        <Step active={step === 2}>
-          <Icon size="mini" name="info circle" />
-          <Step.Content>
-            <Step.Title>Details</Step.Title>
-            <Step.Description>Your Profile</Step.Description>
-          </Step.Content>
-        </Step>
-      </Step.Group>
+  showStepTwo = () => {
+    this.setState({ step: 2 });
+  }
 
 
-      {(step === 1) ? (
-        <Form warning={warning} size="tiny" loading={loading}>
-          <Form.Field>
-            <Input
-              placeholder="Username"
-              id="username"
-              icon="users"
-              iconPosition="left"
-              onChange={handleFieldChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Input
-              placeholder="email"
-              id="email"
-              icon="mail"
-              type="email"
-              iconPosition="left"
-              onChange={handleFieldChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Input
-              placeholder="password"
-              id="password"
-              icon="lock"
-              type="password"
-              iconPosition="left"
-              onChange={handleFieldChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <SelectUserType userType={userType} setUserType={handleUserTypeChange} />
-          </Form.Field>
-          <Message
-            size="mini"
-            warning
-            header="Employee accounts require administrator approval!"
-            icon="alarm"
+  render() {
+    const {
+      warning, loading, step,
+    } = this.state;
+    return (
+      <>
+        <Step.Group widths={2} size="mini">
+          <Step active={step === 1}>
+            <Icon size="mini" name="lock" />
+            <Step.Content>
+              <Step.Title>User Account</Step.Title>
+              <Step.Description>Your login credentials</Step.Description>
+            </Step.Content>
+          </Step>
+
+          <Step active={step === 2}>
+            <Icon size="mini" name="info circle" />
+            <Step.Content>
+              <Step.Title>Details</Step.Title>
+              <Step.Description>Your Profile</Step.Description>
+            </Step.Content>
+          </Step>
+        </Step.Group>
+
+
+        {(step === 1) ? (
+          <StepOne
+            {...this.state}
+            handleFieldChange={this.handleFieldChange}
+            handleUserTypeChange={this.handleUserTypeChange}
+            handleStepOneSubmit={this.handleStepOneSubmit}
+            showStepTwo={this.showStepTwo}
           />
-          <Checkbox
-            label="I accept the terms and conditions"
-            checked={terms}
-            onChange={toggleCheck}
-          />
-
-          <Consumer>
-            {({ register, showError }) => (
-              <Button
-                type="submit"
-                variant="contained"
-                color="blue"
-                style={{ float: 'right' }}
-
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (terms) {
-                    setLoading(true);
-
-                    register({
-                      username,
-                      email,
-                      password,
-                      userType,
-                      isActive: !warning,
-                    }).then(() => {
-                      setLoading(false);
-                      setStep(2);
-                    });
-                  } else {
-                    showError('Please accept the terms and conditions');
-                  }
-                }}
-              >
-                Register New User
-              </Button>
-            )}
-          </Consumer>
-        </Form>
-      ) : null }
-    </>
-  );
+        ) : null }
+      </>
+    );
+  }
 }
 
 
