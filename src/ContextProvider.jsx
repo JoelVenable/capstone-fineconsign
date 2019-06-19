@@ -54,6 +54,7 @@ class Provider extends PureComponent {
       redirect: () => {
         const { location, history } = this.props;
         const { user } = this.state;
+        if (!user) return null;
         if (location.pathname === '/') {
           if (user.userType === 'employee') history.push('/paintings');
           if (user.userType === 'artist') history.push('/paintings');
@@ -64,6 +65,36 @@ class Provider extends PureComponent {
       add: {},
       edit: {},
       remove: {},
+      myCart: {
+        orderItems: [],
+      },
+      getOpenCart: userId => API.orders.getMyOpenCart(userId).then(([myCart]) => (
+        myCart ? this.setState({ myCart }) : this.state.createCart()
+      )),
+      createCart: () => {
+        const { user, showError } = this.state;
+        // This function assumes a customer is logged in!
+        if (!user) {
+          showError('Only customers can make purchases!');
+          return null;
+        }
+        if (user.userType !== 'customer') {
+          showError('Only customers can make purchases!');
+          return null;
+        }
+        const newCart = {
+          customerId: user.customer.id,
+          isCompleted: false,
+          isSubmitted: false,
+        };
+        return API.orders.create(newCart).then(result => console.log(result));
+      },
+      addToCart: item => this.state.myCart.items.push(item),
+      removeFromCart: (item) => {
+        const { myCart } = this.state;
+        const index = myCart.items.findIndex(cartItem => cartItem.id === item.id);
+      },
+      submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,
     };
@@ -96,6 +127,7 @@ class Provider extends PureComponent {
     get.paintings();
     get.employees();
     get.customers();
+    // orders, orderItems, priceAdjustments
   }
 
 
