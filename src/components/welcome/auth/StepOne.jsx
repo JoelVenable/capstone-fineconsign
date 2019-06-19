@@ -13,6 +13,7 @@ export function StepOne({
   handleFieldChange,
   handleUserTypeChange,
   handleStepOneSubmit,
+  handleEmployeeSubmit,
   userType,
   username,
   email,
@@ -20,17 +21,18 @@ export function StepOne({
   showStepTwo,
 }) {
   const [terms, setTerms] = useState(false);
-  const [loading, setLoading] = useState(false);
-  // const [warning, setWarning] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
 
   const toggleTerms = () => setTerms(!terms);
 
   const myFieldChange = (e) => {
+    // clears error state, then passes the event through...
     setError(false);
+    handleFieldChange(e);
   };
 
 
@@ -41,15 +43,16 @@ export function StepOne({
       error={error}
       size="tiny"
       loading={loading}
-      disabled={disabled}
     >
       <Form.Input
         placeholder="Username"
         value={username}
         id="username"
         icon="users"
+        disabled={disabled}
+
         iconPosition="left"
-        onChange={handleFieldChange}
+        onChange={myFieldChange}
       />
       <Message
         size="mini"
@@ -66,23 +69,25 @@ export function StepOne({
       <Form.Input
         placeholder="email"
         id="email"
+        disabled={disabled}
         value={email}
         icon="mail"
         type="email"
         iconPosition="left"
-        onChange={handleFieldChange}
+        onChange={myFieldChange}
       />
       <Form.Input
         placeholder="password"
         value={password}
         id="password"
+        disabled={disabled}
         icon="lock"
         type="password"
         iconPosition="left"
-        onChange={handleFieldChange}
+        onChange={myFieldChange}
       />
       <Form.Field>
-        <SelectUserType userType={userType} setUserType={handleUserTypeChange} />
+        <SelectUserType userType={userType} disabled={disabled} setUserType={handleUserTypeChange} />
       </Form.Field>
       <Message
         size="mini"
@@ -97,9 +102,10 @@ export function StepOne({
       />
 
       <Consumer>
-        {({ showError }) => (
+        {({ showError, showConfirm }) => (
           <Button
             type="submit"
+            disabled={disabled}
             variant="contained"
             color="blue"
             style={{ float: 'right' }}
@@ -109,15 +115,31 @@ export function StepOne({
               e.preventDefault();
               if (terms) {
                 setLoading(true);
-                handleStepOneSubmit()
-                  .then(() => {
-                    setSuccess(true);
-                    setTimeout(showStepTwo, 1500);
-                  })
-                  .catch(() => {
-                    setError(true);
-                    setLoading(false);
+                if (userType !== 'employee') {
+                  handleStepOneSubmit()
+                    .then(() => {
+                      setSuccess(true);
+                      setTimeout(showStepTwo, 1000);
+                    })
+                    .catch((errorMsg) => {
+                      setError(true);
+                      setLoading(false);
+                    });
+                } else {
+                  showConfirm({
+                    title: 'New Employee accounts require manual administrator approval', // REQUIRED.  The title of the message requesting delete confirmation
+                    text: 'Are you sure you need an employee account?', // The inner content of text to be displayed
+                    confirmAction: () => {
+                      setLoading(false);
+                      setDisabled(true);
+                      handleEmployeeSubmit();
+                    }, // Function called when action is confirmed
+                    confirmBtnColor: 'blue', // String value.  Accepts color of confirmation button.
+                    icon: 'id card', // String value or null.  Icon next to the title
+                    btnIcon: 'send', // String value or null.  Icon inside the confirmation button
+                    btnText: 'Send it!', // string value.  Defaults to "yes"
                   });
+                }
               } else {
                 showError('Please accept the terms and conditions');
               }

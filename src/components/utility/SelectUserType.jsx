@@ -27,10 +27,12 @@ const options = [
 export function SelectUserType({
   userType,
   setUserType,
+  disabled,
 }) {
   return (
     <Dropdown
       selection
+      disabled={disabled}
       placeholder="Select user type"
       value={userType}
       onChange={(_e, { value }) => {
@@ -45,4 +47,9 @@ export function SelectUserType({
 SelectUserType.propTypes = {
   userType: PropTypes.oneOf(['customer', 'employee', 'artist']).isRequired,
   setUserType: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+SelectUserType.defaultProps = {
+  disabled: false,
 };
