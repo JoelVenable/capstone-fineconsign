@@ -13,6 +13,8 @@ export function StepTwo({
   city,
   state,
   zipcode,
+  username,
+  password,
   handleFieldChange,
   handleStepTwoSubmit,
 }) {
@@ -88,7 +90,7 @@ export function StepTwo({
         />
 
         <Consumer>
-          {({ history }) => (
+          {({ history, login, redirect }) => (
             <Button
               type="submit"
               variant="contained"
@@ -101,8 +103,11 @@ export function StepTwo({
                 setLoading(true);
                 handleStepTwoSubmit()
                   .then(() => {
+                    console.log('username', username);
+                    console.log('password', password);
+                    login(username, password);
                     setSuccess(true);
-                    setTimeout(() => history.push('/gallery'), 1200);
+                    setTimeout(redirect, 600);
                   });
               }}
             >
@@ -121,6 +126,8 @@ StepTwo.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
   zipcode: PropTypes.string.isRequired,
