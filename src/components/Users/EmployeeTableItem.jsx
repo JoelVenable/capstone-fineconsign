@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Button, Icon, Table, Header, Checkbox,
+  Button, Icon, Table, Header, Form,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -30,28 +30,28 @@ export function EmployeeTableItem({
 
         }}
         >
-          <Checkbox
+          <Form.Checkbox
+            label="Administrator"
+            checked={editEmployees}
+            onChange={() => setEditEmployees(!editEmployees)}
+          />
+          <Form.Checkbox
             label="Edit Price Adjustments"
             checked={priceAdjustments}
             onChange={() => setPriceAdjustments(!priceAdjustments)}
           />
-          <Checkbox
-            label="Edit Employees"
-            color="red"
-            checked={editEmployees}
-            onChange={() => setEditEmployees(!editEmployees)}
-          />
-          <Checkbox
+
+          <Form.Checkbox
             label="Edit Inventory"
             checked={editInventory}
             onChange={() => setEditInventory(!editInventory)}
           />
-          <Checkbox
+          <Form.Checkbox
             label="Edit Users"
             checked={editUsers}
             onChange={() => setEditUsers(!editUsers)}
           />
-          <Checkbox
+          <Form.Checkbox
             label="Edit Orders"
             checked={editOrders}
             onChange={() => setEditOrders(!editOrders)}
@@ -73,6 +73,7 @@ export function EmployeeTableItem({
           }}
         >
           <Icon name="edit" />
+Submit Changes
         </Button>
       </Table.Cell>
       {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />

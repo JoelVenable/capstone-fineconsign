@@ -4,7 +4,6 @@ import {
   Step, Icon,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { throwStatement } from '@babel/types';
 import { StepOne } from './StepOne';
 import { API } from '../../../modules/api/API';
 import { StepTwo } from './StepTwo';
@@ -14,12 +13,12 @@ export class SignUp extends Component {
     email: '',
     password: '',
     username: '',
+    /* eslint-disable-next-line */
     userType: 'customer',
     terms: false,
     /* eslint-disable-next-line */
     warning: false,
     /* eslint-disable-next-line */
-    loading: false,
     step: 1,
     firstName: '',
     lastName: '',
@@ -43,15 +42,12 @@ export class SignUp extends Component {
    };
 
    handleStepOneSubmit = () => {
-     const { username, userType } = this.state;
+     const { username } = this.state;
      const { showError } = this.props;
 
-     //  if (userType === 'employee') {
-     //    API.users.checkExisting({ username });
-     //    throw new Error('Employees require administrator review');
-     //  }
 
-     return API.users.checkExisting({ username });
+     return API.users.checkExisting({ username })
+       .catch(error => showError(error));
    }
 
    createUser = () => {
@@ -118,7 +114,7 @@ export class SignUp extends Component {
 
   render() {
     const {
-      warning, loading, step,
+      step,
     } = this.state;
     return (
       <>

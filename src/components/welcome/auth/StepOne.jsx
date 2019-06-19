@@ -121,7 +121,7 @@ export function StepOne({
                       setSuccess(true);
                       setTimeout(showStepTwo, 1000);
                     })
-                    .catch((errorMsg) => {
+                    .catch(() => {
                       setError(true);
                       setLoading(false);
                     });
@@ -160,6 +160,7 @@ StepOne.propTypes = {
   handleFieldChange: PropTypes.func.isRequired,
   handleUserTypeChange: PropTypes.func.isRequired,
   handleStepOneSubmit: PropTypes.func.isRequired,
+  handleEmployeeSubmit: PropTypes.func.isRequired,
   userType: PropTypes.oneOf(['employee', 'customer', 'artist']).isRequired,
   username: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,

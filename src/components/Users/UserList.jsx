@@ -87,7 +87,7 @@ export function UserList({
             <UserConsumer>
               {context => (
                 <>
-                  {context.users.map(user => <UserTableItem key={user.id} user={user} {...context} />)}
+                  {context.users.map(item => <UserTableItem key={item.id} user={item} {...context} />)}
                 </>
               )}
             </UserConsumer>

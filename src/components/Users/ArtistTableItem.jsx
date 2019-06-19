@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Icon, Table, Label,
+  Button, Icon, Table, Label, Popup,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { ArtistNameLink } from '../Artists/ArtistNameLink';
@@ -55,18 +55,35 @@ function showStatus({ paintings }) {
 
   return (
     <>
-      <Label color="orange">
-        <Icon name="pause" />
-        {pending}
-      </Label>
-      <Label color="blue">
-        <Icon name="bolt" />
-        {active}
-      </Label>
-      <Label color="green">
-        <Icon name="dollar sign" />
-        {sold}
-      </Label>
+      <Popup
+        content={`This artist has ${pending} paintings pending approval`}
+        trigger={(
+          <Label color="orange">
+            <Icon name="pause" />
+            {pending}
+          </Label>
+)}
+      />
+      <Popup
+        content={`This artist has ${active} paintings available for sale`}
+        trigger={(
+          <Label color="blue">
+            <Icon name="bolt" />
+            {active}
+          </Label>
+)}
+      />
+
+      <Popup
+        content={`This artist has ${sold} sold paintings`}
+        trigger={(
+          <Label color="green">
+            <Icon name="box" />
+            {sold}
+          </Label>
+)}
+      />
+
     </>
   );
 }

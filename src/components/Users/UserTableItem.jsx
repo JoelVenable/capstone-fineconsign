@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Image,
-  Button,
+  // Image,
+  // Button,
   Icon,
   Table,
   Header,
@@ -9,6 +9,7 @@ import {
   // Label,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Consumer } from '../../ContextProvider';
 
 export function UserTableItem({
   user: {
@@ -16,16 +17,21 @@ export function UserTableItem({
     email,
     userType,
     isActive,
-
+    id,
   },
+  edit,
   //  user,
 }) {
   const [active, setActive] = useState(isActive);
+  const loggedInUser = JSON.parse(sessionStorage.getItem('userdata'));
   const image = (() => {
     if (userType === 'customer') return 'user';
     if (userType === 'employee') return 'id card';
-    if (userType === 'artist') return 'paint brush';
+
+    return 'paint brush'; // userType === 'artist'
   })();
+
+  const toggleActive = () => edit.user({ isActive: !active }, id).then(() => setActive(!active));
 
   return (
     <Table.Row>
@@ -42,7 +48,36 @@ export function UserTableItem({
         </Header>
       </Table.Cell>
       <Table.Cell>
-        <Checkbox toggle label="Enabled" />
+        <Consumer>
+          {({
+            showConfirm,
+
+
+          }) => (
+            <Checkbox
+              toggle
+              label={active ? 'Active User' : 'Disabled User'}
+              disabled={loggedInUser.id === id}
+              checked={active}
+              onChange={() => {
+                if (active) {
+                  showConfirm({
+                    title: 'Are you sure you want to deactivate this user?', // REQUIRED.  The title of the message requesting delete confirmation
+                    text: 'They will no longer be able to log in at all!', // The inner content of text to be displayed
+                    id, // The id to be passed to the delete function when confirmed (optional)
+                    confirmAction: toggleActive, // Function called when action is confirmed
+                    confirmBtnColor: 'orange', // String value.  Accepts color of confirmation button.
+                    icon: 'exclamation', // String value or null.  Icon next to the title
+                    btnIcon: 'cancel', // String value or null.  Icon inside the confirmation button
+                    btnText: 'Deactivate user', // string value.  Defaults to "yes"
+                  });
+                } else toggleActive();
+              }}
+            />
+          )}
+
+        </Consumer>
+
       </Table.Cell>
       <Table.Cell>
 
@@ -58,6 +93,9 @@ UserTableItem.propTypes = {
     email: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     userType: PropTypes.string.isRequired,
-
+    isActive: PropTypes.bool,
+  }).isRequired,
+  edit: PropTypes.shape({
+    user: PropTypes.func.isRequired,
   }).isRequired,
 };
