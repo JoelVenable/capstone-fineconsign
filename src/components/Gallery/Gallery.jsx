@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import { Consumer } from '../../ContextProvider';
 import { PaintingCard } from '../Paintings/PaintingCard';
 import { FilterArtists } from '../utility/FilterArtists';
@@ -7,13 +7,17 @@ import { FilterArtists } from '../utility/FilterArtists';
 
 export function Gallery() {
   const [artistId, setArtistId] = useState(null);
+  const [sold, setSold] = useState(false);
 
   return (
     <>
-      <span className="filterArtists">
-        {'Show only paintings by '}
-        <FilterArtists setArtist={setArtistId} showOnlyActive />
-      </span>
+      <Header as="h4">
+        <Icon name="paint brush" />
+        <Header.Content>
+          {'Filter by Artist: '}
+          <FilterArtists setArtist={setArtistId} showOnlyActive={!sold} />
+        </Header.Content>
+      </Header>
       <Grid container>
         {artistId ? filterPaintings(artistId) : showAllPaintings()}
 
@@ -27,7 +31,7 @@ function filterPaintings(artistId) {
   return (
     <Consumer>
       {({ paintings }) => paintings
-        .filter(painting => painting.artistId === artistId)
+        .filter(painting => painting.artistId === artistId && painting.isLive)
         .map(showPainting)}
     </Consumer>
   );
