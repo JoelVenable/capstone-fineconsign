@@ -136,7 +136,7 @@ function SignOutButton() {
           onClick={logout}
         />
       )
-    }
+      }
     </Consumer>
   );
 }
@@ -161,55 +161,3 @@ ComputerMenu.propTypes = {
 ComputerMenu.defaultProps = {
   user: null,
 };
-/*
-
-
-Icons:
-
-"file image"  -- Paintings
-"paint brush"   -- Artists
-"id card" --     Employees
-"box"  --  Orders
-"users" -- Customers
-"wrench"  -- Users
-"dollar sign" -- Price Adjustments
- "sign-out"  -- Sign Out
-
-"edit" -- My account
-
-
-"shopping cart" -- Shopping Cart
-
-
-Employee options:
-
-Artists
-Paintings
-Employees
-Orders
-Customers
-Users
-Price Adjustments
-
-Sign Out
-
-
-Artist Options:
-
-My Paintings
-My Profile
-My Account
-
-Sign Out
-
-Customer Options:
-My Cart
----
-My Orders
-My Account
-Favorite Artists
-
-Sign out
-
-
-*/

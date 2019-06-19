@@ -21,15 +21,19 @@ The only auth check needed here is the user.employee.canEditEmployees (superuser
 export function UserList({
   artists, customers, user, employees, edit,
 }) {
-  // const [activeTab, setActiveTab] = useState(0);
-
   const panes = [
     {
       menuItem: 'Artists',
       render: () => (
         <Tab.Pane>
           <UserTable>
-            { artists.map(artist => <ArtistTableItem key={artist.id} artist={artist} user={user} />)}
+            {artists.map(artist => (
+              <ArtistTableItem
+                key={artist.id}
+                artist={artist}
+                user={user}
+              />
+            ))}
           </UserTable>
         </Tab.Pane>
       ),
@@ -53,7 +57,7 @@ export function UserList({
       render: () => (
         <Tab.Pane>
           <UserTable>
-            { employees.map(employee => (
+            {employees.map(employee => (
               <EmployeeTableItem
                 key={employee.id}
                 employee={employee}
@@ -63,19 +67,7 @@ export function UserList({
             ))}
 
           </UserTable>
-          {/* <Consumer>
-            {({ paintings, user }) => (
-              <PaintingTable
-                tableType="sold"
-                user={user}
-                history={history}
 
-                paintingList={paintings.filter(
-                  ({ isLive, isSold }) => !isLive && isSold,
-                )}
-              />
-            )}
-          </Consumer> */}
         </Tab.Pane>
       ),
     },
@@ -92,29 +84,22 @@ export function UserList({
               )}
             </UserConsumer>
           </UserTable>
-          {/* <Consumer>
-            {context => <AddPainting setActiveTab={setActiveTab} {...context} />}
-          </Consumer> */}
+
         </Tab.Pane>
       ),
     });
   }
 
-  // function handleChange(e, { activeIndex }) {
-  //   // setActiveTab(activeIndex);
-  // }
-
 
   return (
     <Tab
-      // activeIndex={activeTab}
-      // onTabChange={handleChange}
+
       panes={panes}
     >
       <Tab.Pane>
         <Menu.Item>Helllo</Menu.Item>
         <UserTable>
-        Im a table
+          Im a table
         </UserTable>
       </Tab.Pane>
     </Tab>
