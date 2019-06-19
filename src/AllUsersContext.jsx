@@ -21,7 +21,7 @@ export class UserProvider extends PureComponent {
     },
     edit: {
       /* eslint-disable-next-line */
-      user: (newUser, id) => API.users.edit(newUser, id).then(this.state.get.users),
+      user: (newUser, id) => API.users.edit(id, newUser).then(this.state.get.users),
     },
   }
 
