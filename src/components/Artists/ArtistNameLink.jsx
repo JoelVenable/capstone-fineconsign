@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Image } from 'semantic-ui-react';
+import { Header, Image, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Consumer } from '../../ContextProvider';
 
@@ -12,7 +12,11 @@ export function ArtistNameLink({ id }) {
         return found ? (
           <Link to={`/artists/${id}`}>
             <Header as="h4" image>
-              <Image circular src={found.avatarUrl} alt={`${found.firstName} ${found.lastName}`} />
+              {found.avatarUrl ? (
+                <Image circular src={found.avatarUrl} alt={`${found.firstName} ${found.lastName}`} />
+              ) : (
+                <Icon name="paint brush" circular />
+              )}
               <Header.Content>
                 {`${found.firstName} ${found.lastName}`}
                 <Header.Subheader>
