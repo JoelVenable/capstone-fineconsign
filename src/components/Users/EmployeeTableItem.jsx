@@ -91,21 +91,7 @@ export function EmployeeTableItem({
         />
 
       </Table.Cell>
-      {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
-      <Card.Header className="painting--card-header">{name}</Card.Header>
-      <Card.Meta className="painting--card-meta">
-        {'By: '}
-        {`${artist.firstName} ${artist.lastName}`}
-      </Card.Meta>
-      <Card.Description className="painting--card-description">
-        {`Price: $${currentPrice}`}
-        <Link to={`/paintings/${id}`}>
-          <Button icon labelPosition="right" className="ui button">
-          Details
-            <Icon name="search" />
-          </Button>
-        </Link>
-      </Card.Description> */}
+
     </Table.Row>
   );
 }
