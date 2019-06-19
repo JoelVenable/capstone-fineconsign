@@ -4,7 +4,11 @@ const endpoint = new Endpoint(`${baseURL}/users`);
 
 
 export const users = {
-  create: obj => endpoint.create(obj),
+  checkExisting: obj => endpoint.getAll(`?username=${obj.username}`).then((foundUsers) => {
+    if (foundUsers.length !== 0) throw new Error('Username already exists!');
+    else return null;
+  }),
+  register: obj => endpoint.create(obj),
   getAll: () => endpoint.getAll(),
   edit: (id, newParams) => endpoint.update(id, newParams),
   delete: id => endpoint.delete(id),
