@@ -34,7 +34,7 @@ class Provider extends PureComponent {
     artists: [],
     paintings: [],
     storageRef: firebase.storage().ref(),
-    login: (username, pw) => this.doLogin(username, pw).then(user => this.setState({ user })),
+    login: (username, pw) => this.doLogin(username, pw),
     logout: () => {
       sessionStorage.clear();
       this.setState({ user: null });
@@ -44,7 +44,7 @@ class Provider extends PureComponent {
     /* eslint-disable-next-line */
     history: this.props.history,
     /* eslint-disable-next-line */
-    register: (newUser) => API.users.register(newUser).catch(error => showError(error)),        
+
     showError: (errorMessage, optionalCallbackFunction) => {
       this.setState({ errorMessage, isErrorDialogVisible: true, handleErrorClose: optionalCallbackFunction });
     },
@@ -52,6 +52,15 @@ class Provider extends PureComponent {
     handleErrorClose: null,
     confirmObject: {},
     errorMessage: '',
+    redirect: () => {
+      const { location, history } = this.props;
+      const { user } = this.state;
+      if (location.pathname === '/') {
+        if (user.userType === 'employee') history.push('/paintings');
+        if (user.userType === 'artist') history.push('/paintings');
+        if (user.userType === 'customer') history.push('/gallery');
+      }
+    },
     get: {
       artists: () => this.getAll('artists'),
       paintings: () => this.getAll('paintings'),
@@ -100,6 +109,7 @@ class Provider extends PureComponent {
 
   doLogin = async (username, password) => {
     const { showError } = this.state;
+    const { history } = this.props;
     sessionStorage.clear();
     const user = await API.users.login(username, password).catch(this.handleInvalidLogin);
 
@@ -110,12 +120,14 @@ class Provider extends PureComponent {
       }
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
-      const { history } = this.props;
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
-      if (userType === 'customer') history.push('/gallery');
-      if (userType === 'artist' || userType === 'employee') history.push('/paintings');
-      return user;
+      // if (userType === 'customer') history.push('/gallery');
+      // if (userType === 'artist' || userType === 'employee') {
+      //   console.log('test passed');
+      //   history.push('/paintings');
+      // }
+      this.setState({ user });
     }
     return null;
   }
@@ -154,6 +166,9 @@ Provider.propTypes = {
   children: PropTypes.node.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
