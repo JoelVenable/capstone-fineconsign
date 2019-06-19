@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Button, Icon, Table, Header, Form,
+  Table, Header, Form,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { SubmitButton } from '../utility/SubmitButton';
 
 export function EmployeeTableItem({
   employee, edit,
@@ -12,6 +13,7 @@ export function EmployeeTableItem({
   const [editInventory, setEditInventory] = useState(employee.canEditInventory);
   const [editUsers, setEditUsers] = useState(employee.canEditUsers);
   const [editOrders, setEditOrders] = useState(employee.canProcessOrders);
+  const [disabled, setDisabled] = useState(true);
 
 
   return (
@@ -33,48 +35,61 @@ export function EmployeeTableItem({
           <Form.Checkbox
             label="Administrator"
             checked={editEmployees}
-            onChange={() => setEditEmployees(!editEmployees)}
+            onChange={() => {
+              setDisabled(false);
+              setEditEmployees(!editEmployees);
+            }}
           />
           <Form.Checkbox
             label="Edit Price Adjustments"
             checked={priceAdjustments}
-            onChange={() => setPriceAdjustments(!priceAdjustments)}
+            onChange={() => {
+              setDisabled(false);
+              setPriceAdjustments(!priceAdjustments);
+            }}
           />
 
           <Form.Checkbox
             label="Edit Inventory"
             checked={editInventory}
-            onChange={() => setEditInventory(!editInventory)}
+            onChange={() => {
+              setDisabled(false);
+              setEditInventory(!editInventory);
+            }}
           />
           <Form.Checkbox
             label="Edit Users"
             checked={editUsers}
-            onChange={() => setEditUsers(!editUsers)}
+            onChange={() => {
+              setDisabled(false);
+              setEditUsers(!editUsers);
+            }}
           />
           <Form.Checkbox
             label="Edit Orders"
             checked={editOrders}
-            onChange={() => setEditOrders(!editOrders)}
+            onChange={() => {
+              setDisabled(false);
+              setEditOrders(!editOrders);
+            }}
           />
         </div>
 
       </Table.Cell>
       <Table.Cell>
-        <Button
-          icon
-          onClick={() => {
-            edit.employee({
-              canDefinePriceAdjustments: priceAdjustments,
-              canEditEmployees: editEmployees,
-              canEditInventory: editInventory,
-              canEditUsers: editUsers,
-              canProcessOrders: editOrders,
-            }, employee.id);
-          }}
-        >
-          <Icon name="edit" />
-Submit Changes
-        </Button>
+        <SubmitButton
+          initialIcon="edit"
+          disabled={disabled}
+          buttonText="Submit Changes"
+          submitActionThatReturnsPromise={() => edit.employee({
+            canDefinePriceAdjustments: priceAdjustments,
+            canEditEmployees: editEmployees,
+            canEditInventory: editInventory,
+            canEditUsers: editUsers,
+            canProcessOrders: editOrders,
+          }, employee.id)}
+        />
+
       </Table.Cell>
       {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
       <Card.Header className="painting--card-header">{name}</Card.Header>
