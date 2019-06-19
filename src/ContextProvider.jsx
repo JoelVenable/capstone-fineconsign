@@ -78,11 +78,14 @@ class Provider extends PureComponent {
       'priceAdjustments',
     ];
     endpoints.forEach((endpoint) => {
+      //  the 'minus' variable chops off the 's' at the end of each endpoint
+      //  i.e. add.painting() instead of add.paintings()
+      const minus = endpoint.substring(0, endpoint.length - 1);
       this.state[endpoint] = [];
       this.state.get[endpoint] = async () => this.setState({ [endpoint]: await API[endpoint].getAll() });
-      this.state.add[endpoint] = async obj => API[endpoint].create(obj).then(this.state.get[endpoint]);
-      this.state.edit[endpoint] = (obj, id) => API[endpoint].edit(id, obj).then(this.state.get[endpoint]);
-      this.state.remove[endpoint] = async id => API[endpoint].delete(id).then(this.state.get[endpoint]);
+      this.state.add[minus] = async obj => API[endpoint].create(obj).then(this.state.get[endpoint]);
+      this.state.edit[minus] = (obj, id) => API[endpoint].edit(id, obj).then(this.state.get[endpoint]);
+      this.state.remove[minus] = async id => API[endpoint].delete(id).then(this.state.get[endpoint]);
     });
   }
 
