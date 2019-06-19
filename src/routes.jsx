@@ -21,6 +21,7 @@ import { Consumer } from './ContextProvider';
 import { ArtistProfile } from './components/Artists/ArtistProfile';
 import { EditPainting } from './components/PaintingList/EditPainting';
 import { EditArtist } from './components/Artists/EditArtist';
+import { Cart } from './components/Cart/Cart';
 
 
 export const checkProtectedRoutes = user => [
@@ -169,6 +170,11 @@ export const routes = user => [
   {
     path: '/gallery',
     render: props => <Gallery {...props} />,
+    exact: true,
+  },
+  {
+    path: '/cart',
+    render: () => <Consumer>{context => <Cart {...context} />}</Consumer>,
     exact: true,
   },
   {
