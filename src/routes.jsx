@@ -98,6 +98,15 @@ export const checkProtectedRoutes = user => [
     render: props => <Consumer>{context => <Account {...context} {...props} />}</Consumer>,
     isAuthorized: checkLoggedIn(user),
     exact: true,
+  },
+  {
+    path: '/paintings/:paintingId(\\d+)',
+    render: (props) => {
+      const id = parseInt(props.match.params.paintingId, 10);
+      return <PaintingDetail {...props} id={id} />;
+    },
+    isAuthorized: true,
+    exact: true,
   }, {
     path: '/artists/:artistId(\\d+)/edit',
     render: ({ history, match }) => (
