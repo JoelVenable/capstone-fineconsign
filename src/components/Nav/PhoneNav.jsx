@@ -4,6 +4,22 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 
+/*
+
+routes needed in navbar:
+
+Employee view:
+/users
+/artists
+/orders
+/priceAdjustments
+/paintings
+/account
+/gallery
+
+*/
+
+
 export function PhoneMenu({ user }) {
   if (user.userType === 'employee') {
     const emp = user.employee;
@@ -12,61 +28,6 @@ export function PhoneMenu({ user }) {
 
         <Dropdown item icon="bars">
           <Dropdown.Menu>
-            {emp.canEditInventory
-              ? (
-                <Link to="/paintings">
-                  <Dropdown.Item
-                    key="paintings"
-                    icon="file image"
-                    text="Paintings"
-                    value="paintings"
-                  />
-                </Link>
-              ) : null}
-            {emp.canEditInventory
-              ? (
-                <Link to="/artists">
-                  <Dropdown.Item
-                    key="artists"
-                    icon="paint brush"
-                    text="Artists"
-                    value="artists"
-                  />
-                </Link>
-              ) : null}
-            {emp.canEditEmployees
-              ? (
-                <Link to="/employees">
-                  <Dropdown.Item
-                    key="employees"
-                    icon="id card"
-                    text="Employees"
-                    value="employees"
-                  />
-                </Link>
-              ) : null}
-            {emp.canProcessOrders
-              ? (
-                <Link to="/orders">
-                  <Dropdown.Item
-                    key="orders"
-                    icon="box"
-                    text="Orders"
-                    value="orders"
-                  />
-                </Link>
-              ) : null}
-            {emp.canEditCustomers
-              ? (
-                <Link to="/customers">
-                  <Dropdown.Item
-                    key="customers"
-                    icon="users"
-                    text="Customers"
-                    value="customers"
-                  />
-                </Link>
-              ) : null}
             {emp.canEditEmployees
               ? (
                 <Link to="/users">
@@ -78,6 +39,31 @@ export function PhoneMenu({ user }) {
                   />
                 </Link>
               ) : null}
+            {emp.canEditInventory
+              ? (
+                <Link to="/paintings">
+                  <Dropdown.Item
+                    key="paintings"
+                    icon="file image"
+                    text="Paintings"
+                    value="paintings"
+                  />
+                </Link>
+              ) : null}
+
+            {emp.canProcessOrders
+              ? (
+                <Link to="/orders">
+                  <Dropdown.Item
+                    key="orders"
+                    icon="box"
+                    text="Orders"
+                    value="orders"
+                  />
+                </Link>
+              ) : null}
+
+
             {emp.canDefinePriceAdjustments
               ? (
                 <Link to="/priceAdjustments">
@@ -142,12 +128,14 @@ export function PhoneMenu({ user }) {
       <Menu.Menu position="right">
         <Dropdown item icon="bars">
           <Dropdown.Menu>
-            <Dropdown.Item
-              key="paintings"
-              icon="file image"
-              text="My Paintings"
-              value="paintings"
-            />
+            <Link to="/paintings">
+              <Dropdown.Item
+                key="paintings"
+                icon="file image"
+                text="My Paintings"
+                value="paintings"
+              />
+            </Link>
             <Link to={`/artists/${user.artist.id}`}>
               <Dropdown.Item
                 key="profile"
@@ -156,12 +144,15 @@ export function PhoneMenu({ user }) {
                 value="paintings"
               />
             </Link>
-            <Dropdown.Item
-              key="account"
-              icon="edit"
-              text="My Account"
-              value="account"
-            />
+            <Link to="/account">
+
+              <Dropdown.Item
+                key="account"
+                icon="edit"
+                text="My Account"
+                value="account"
+              />
+            </Link>
             <Dropdown.Divider />
             <SignOutButton />
           </Dropdown.Menu>
@@ -170,7 +161,7 @@ export function PhoneMenu({ user }) {
       </Menu.Menu>
     );
   }
-  // else
+  // show the "not logged in" menu
   return (
     <>
       <Menu.Menu position="right">
@@ -208,55 +199,3 @@ PhoneMenu.propTypes = {
 PhoneMenu.defaultProps = {
   user: null,
 };
-/*
-
-
-Icons:
-
-"file image"  -- Paintings
-"paint brush"   -- Artists
-"id card" --     Employees
-"box"  --  Orders
-"users" -- Customers
-"wrench"  -- Users
-"dollar sign" -- Price Adjustments
- "sign-out"  -- Sign Out
-
-"edit" -- My account
-
-
-"shopping cart" -- Shopping Cart
-
-
-Employee options:
-
-Artists
-Paintings
-Employees
-Orders
-Customers
-Users
-Price Adjustments
-
-Sign Out
-
-
-Artist Options:
-
-My Paintings
-My Profile
-My Account
-
-Sign Out
-
-Customer Options:
-My Cart
----
-My Orders
-My Account
-Favorite Artists
-
-Sign out
-
-
-*/

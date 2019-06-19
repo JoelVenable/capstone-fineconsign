@@ -14,52 +14,17 @@ export function ComputerMenu({ user, history }) {
     switch (user.userType) {
       case 'employee':
         return (
-          <Menu.Menu position="right">
-
-            <Dropdown item floating button text="User Types">
-              <Dropdown.Menu>
-                {employee.canEditInventory
-                  ? (
-                    <Dropdown.Item
-                      key="key"
-                      icon="paint brush"
-                      text="Artists"
-                      value="/artists"
-                      onClick={handleClick}
-                    />
-                  ) : null}
-                {employee.canEditEmployees
-                  ? (
-                    <Dropdown.Item
-                      key="employees"
-                      icon="id card"
-                      text="Employees"
-                      value="/employees"
-                      onClick={handleClick}
-                    />
-                  ) : null}
-                {employee.canEditCustomers
-                  ? (
-                    <Dropdown.Item
-                      key="customers"
-                      icon="users"
-                      text="Customers"
-                      onClick={handleClick}
-                      value="/customers"
-                    />
-                  ) : null}
-                {employee.canEditEmployees
-                  ? (
-                    <Dropdown.Item
-                      key="users"
-                      onClick={handleClick}
-                      icon="wrench"
-                      text="Users"
-                      value="/users"
-                    />
-                  ) : null}
-              </Dropdown.Menu>
-            </Dropdown>
+          <Menu.Menu position="right" size="mini">
+            {employee.canEditUsers
+              ? (
+                <Dropdown.Item
+                  key="users"
+                  onClick={handleClick}
+                  icon="wrench"
+                  text="Users"
+                  value="/users"
+                />
+              ) : null}
             {employee.canEditInventory
               ? (
                 <Menu.Item
