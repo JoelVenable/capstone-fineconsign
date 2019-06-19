@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Image, Header, Grid,
+  Image, Header, Grid, Icon,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
@@ -35,7 +35,11 @@ export function ArtistProfile({ id }) {
               <Grid.Column width="6">
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   {controls}
-                  <Image fluid src={artist.artistImageUrl} alt={`${artist.firstName} ${artist.lastName}`} />
+                  {artist.imgUrl ? (
+                    <Image fluid src={artist.imgUrl} alt={`${artist.firstName} ${artist.lastName}`} />
+                  ) : (
+                    <Icon name="user circle" />
+                  )}
                 </div>
               </Grid.Column>
               <Grid.Column width="10">
@@ -43,8 +47,8 @@ export function ArtistProfile({ id }) {
 
                   <Header.Content>{`${artist.firstName} ${artist.lastName}`}</Header.Content>
                   <Header.Subheader>
-Hometown:
-                    {artist.hometown}
+                    {'Hometown: '}
+                    {artist.hometown ? artist.hometown : 'Not Provided'}
                   </Header.Subheader>
                 </Header>
                 <section style={{ whiteSpace: 'pre-wrap' }}>
