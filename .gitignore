@@ -28,3 +28,6 @@ yarn-error.log*
 /env
 /src/env
 *.tmp
+
+# VS code temp files
+*.swp
