@@ -44,9 +44,9 @@ class Provider extends PureComponent {
     /* eslint-disable-next-line */
     history: this.props.history,
     /* eslint-disable-next-line */
-    register: () => { console.log('register!'); },
-    showError: (errorMessage, handleClose) => {
-      this.setState({ errorMessage, isErrorDialogVisible: true, handleErrorClose: handleClose });
+    register: (newUser) => API.users.register(newUser).catch(error => showError(error)),        
+    showError: (errorMessage, optionalCallbackFunction) => {
+      this.setState({ errorMessage, isErrorDialogVisible: true, handleErrorClose: optionalCallbackFunction });
     },
     showConfirm: confirmObject => this.setState({ confirmObject, isConfirmDialogVisible: true }),
     handleErrorClose: null,
@@ -109,9 +109,15 @@ class Provider extends PureComponent {
 
 
   doLogin = async (username, password) => {
+    const { showError } = this.state;
     sessionStorage.clear();
     const user = await API.users.login(username, password).catch(this.handleInvalidLogin);
+
     if (user) {
+      if (!user.isActive) {
+        showError('This user account has been deactivated!');
+        return null;
+      }
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
       const { history } = this.props;
