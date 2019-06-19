@@ -89,23 +89,13 @@ class Provider extends PureComponent {
     get.customers();
   }
 
-  getAll = async (endpoint) => {
-    this.setState({ [endpoint]: await API[endpoint].getAll() });
-  }
+  getAll = async endpoint => this.setState({ [endpoint]: await API[endpoint].getAll() })
 
-  add = async (obj, endpoint) => {
-    await API[endpoint].create(obj);
-    this.getAll(endpoint);
-  }
+  add = async (obj, endpoint) => API[endpoint].create(obj).then(() => this.getAll(endpoint))
 
-  update = (obj, endpoint, id) => {
-    API[endpoint].edit(id, obj).then(() => this.getAll(endpoint));
-  }
+  update = (obj, endpoint, id) => API[endpoint].edit(id, obj).then(() => this.getAll(endpoint))
 
-  delete = async (id, endpoint) => {
-    await API[endpoint].delete(id);
-    this.getAll(endpoint);
-  }
+  delete = async (id, endpoint) => API[endpoint].delete(id).then(() => this.getAll(endpoint))
 
 
   doLogin = async (username, password) => {
