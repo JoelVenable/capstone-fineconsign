@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import {
-  Button, Form, Input,
+  Button, Form, Input, Message,
 } from 'semantic-ui-react';
 import { Consumer } from '../../../ContextProvider';
 
 export function Login() {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const wait = ms => new Promise((r, j) => setTimeout(r, ms));
 
 
   // Update state whenever an input field is edited
@@ -18,9 +21,20 @@ export function Login() {
     }
   };
 
+  const showSuccess = async () => {
+    setSuccess(true);
+    return await wait(300);
+  };
+
 
   return (
-    <Form>
+    <Form loading={loading} success={success}>
+      <Message
+        size="mini"
+        success
+        header="Success!"
+        icon="check"
+      />
       <Form.Field>
         <Input
           placeholder="Username"
@@ -43,14 +57,15 @@ export function Login() {
 
 
       <Consumer>
-        {({ login }) => (
+        {({ login, redirect }) => (
           <Button
             type="submit"
             style={{ float: 'right' }}
             color="blue"
             onClick={(e) => {
               e.preventDefault();
-              login(username, password);
+              setLoading(true);
+              login(username, password).then(showSuccess).then(redirect);
             }}
           >
                 Sign In
