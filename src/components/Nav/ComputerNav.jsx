@@ -17,7 +17,7 @@ export function ComputerMenu({ user, history }) {
           <Menu.Menu position="right" size="mini">
             {employee.canEditUsers
               ? (
-                <Dropdown.Item
+                <Menu.Item
                   key="users"
                   onClick={handleClick}
                   icon="wrench"
