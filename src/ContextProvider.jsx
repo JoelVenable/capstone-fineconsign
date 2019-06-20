@@ -66,17 +66,15 @@ class Provider extends PureComponent {
       edit: {},
       remove: {},
       myCart: getCartFromSessionStorage(),
-      getOpenCart: (custId) => {
-        console.log('custId', custId);
-        return API.orders.getMyOpenCart(custId).then(([myCart]) => {
-          if (myCart.id) {
-            //  Found an existing cart in the database
-            sessionStorage.setItem('myCart', JSON.stringify(myCart));
-            return this.setState({ myCart });
-          }
-          return this.state.createCart();
-        });
-      },
+      getOpenCart: custId => API.orders.getMyOpenCart(custId).then(([myCart]) => {
+        if (myCart.id) {
+          //  Found an existing cart in the database
+          sessionStorage.setItem('myCart', JSON.stringify(myCart));
+          return this.setState({ myCart });
+        }
+        //  Did not find an existing cart, so make a new one
+        return this.state.createCart();
+      }),
       createCart: async () => {
         const { user, showError, getOpenCart } = this.state;
         // This function assumes a customer is logged in!
@@ -100,7 +98,6 @@ class Provider extends PureComponent {
         const {
           myCart, getOpenCart, user, addToCart, showError,
         } = this.state;
-        console.log('myCart', myCart);
         if (!user) return null; // TODO: show register/login modal and add to cart when user finishes.
         if (user.userType !== 'customer') {
           //  Artists/employees should not see the "Buy now" control at all, but just in case...
@@ -108,24 +105,18 @@ class Provider extends PureComponent {
           return null; // TODO: show error
         }
 
-        // Get cart if not present, then try again!
-        if (!myCart.id) {
-          return API.orderItems.findExisting(myCart.id, paintingId).then((found) => {
-            console.log('found', found);
-            if (found.length === 0) {
-              return (
-                API.orderItems.create({
-                  orderId: myCart.id,
-                  paintingId,
-                }).then(getOpenCart)
 
-              );
-            }
-          });
-        }
-
-        // if no cart exists in local storage, get it
-        return getOpenCart(user.customer.id).then(() => addToCart(paintingId));
+        return API.orderItems.findExisting(myCart.id, paintingId).then((found) => {
+          console.log('found', found);
+          if (found.length === 0) {
+            return (
+              API.orderItems.create({
+                orderId: myCart.id,
+                paintingId,
+              }).then(() => getOpenCart(user.customer.id))
+            );
+          }
+        });
       },
       removeFromCart: (item) => {
         const { myCart } = this.state;
