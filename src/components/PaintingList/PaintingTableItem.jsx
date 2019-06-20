@@ -40,21 +40,7 @@ export function PaintingTableItem({
         {showControls(userType, painting, history)}
 
       </Table.Cell>
-      {/* <Image className="painting--card-image" src={thumbUrl} alt={name} />
-      <Card.Header className="painting--card-header">{name}</Card.Header>
-      <Card.Meta className="painting--card-meta">
-        {'By: '}
-        {`${artist.firstName} ${artist.lastName}`}
-      </Card.Meta>
-      <Card.Description className="painting--card-description">
-        {`Price: $${currentPrice}`}
-        <Link to={`/paintings/${id}`}>
-          <Button icon labelPosition="right" className="ui button">
-          Details
-            <Icon name="search" />
-          </Button>
-        </Link>
-      </Card.Description> */}
+
     </Table.Row>
   );
 }
@@ -137,19 +123,25 @@ function showControls(userType, {
 }
 
 function showStatus(userType, {
-  isSubmitted, isLive, isSold, currentPrice,
+  isSubmitted, isLive, isSold, currentPrice, isReviewed,
 }) {
   if (userType === 'artist') {
     if (isSold) return <Header as="h4" color="green">{`Sold for $${currentPrice}`}</Header>;
     if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
-    if (isSubmitted) return <Header as="h4" color="purple">Submitted</Header>;
+    if (isSubmitted) {
+      if (isReviewed) return <Header as="h4" color="violet">Reviewed</Header>;
+      return <Header as="h4" color="olive">Submitted</Header>;
+    }
     return <Header as="h4" color="orange">Draft</Header>;
   }
 
   if (userType === 'employee') {
     if (isSold) return <Header as="h4" color="green">{`Sold for $${currentPrice}`}</Header>;
     if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
-    if (isSubmitted) return <Header as="h4" color="orange">Needs Review</Header>;
+    if (isSubmitted) {
+      if (isReviewed) return <Header as="h4" color="violet">Reviewed</Header>;
+      return <Header as="h4" color="orange">Needs Review</Header>;
+    }
   }
 
   // this line should never be reached...
