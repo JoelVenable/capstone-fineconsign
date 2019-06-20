@@ -66,15 +66,21 @@ class Provider extends PureComponent {
       edit: {},
       remove: {},
       myCart: getCartFromSessionStorage(),
-      getOpenCart: custId => API.orders.getMyOpenCart(custId).then(([myCart]) => {
-        if (myCart.id) {
+      getOpenCart: () => {
+        const { user } = this.state;
+        if (!user) return null;
+        if (user.userType !== 'customer') return null;
+        const custId = user.customer.id;
+        return API.orders.getMyOpenCart(custId).then(([myCart]) => {
+          if (myCart.id) {
           //  Found an existing cart in the database
-          sessionStorage.setItem('myCart', JSON.stringify(myCart));
-          return this.setState({ myCart });
-        }
-        //  Did not find an existing cart, so make a new one
-        return this.state.createCart();
-      }),
+            sessionStorage.setItem('myCart', JSON.stringify(myCart));
+            return this.setState({ myCart });
+          }
+          //  Did not find an existing cart, so make a new one
+          return this.state.createCart();
+        });
+      },
       createCart: async () => {
         const { user, showError, getOpenCart } = this.state;
         // This function assumes a customer is logged in!
@@ -92,7 +98,7 @@ class Provider extends PureComponent {
           createdTimestamp: new Date(),
           isSubmitted: false,
         };
-        return API.orders.create(newCart).then(() => getOpenCart(user.customer.id));
+        return API.orders.create(newCart).then(getOpenCart);
       },
       addToCart: async (paintingId) => {
         const {
@@ -107,20 +113,20 @@ class Provider extends PureComponent {
 
 
         return API.orderItems.findExisting(myCart.id, paintingId).then((found) => {
-          console.log('found', found);
           if (found.length === 0) {
             return (
               API.orderItems.create({
                 orderId: myCart.id,
                 paintingId,
-              }).then(() => getOpenCart(user.customer.id))
+              }).then(getOpenCart)
             );
           }
         });
       },
-      removeFromCart: (item) => {
-        const { myCart } = this.state;
-        const index = myCart.items.findIndex(cartItem => cartItem.id === item.id);
+      removeFromCart: (paintingId) => {
+        const { myCart, getOpenCart } = this.state;
+        const itemToRemove = myCart.orderItems.find(cartItem => cartItem.paintingId === paintingId);
+        API.orderItems.delete(itemToRemove.id).then(getOpenCart);
       },
       submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
       isErrorDialogVisible: false,
@@ -155,7 +161,7 @@ class Provider extends PureComponent {
     get.paintings();
     get.employees();
     get.customers();
-    // orders, orderItems, priceAdjustments
+    // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
   }
 
 
@@ -171,7 +177,7 @@ class Provider extends PureComponent {
       }
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
-      if (userType === 'customer') getOpenCart(typeObj.id);
+      if (userType === 'customer') getOpenCart();
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
       // if (userType === 'customer') history.push('/gallery');
