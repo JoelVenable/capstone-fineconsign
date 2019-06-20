@@ -45,6 +45,7 @@ export function AddPainting({
       currentPrice: price,
       priceAdjustmentId: null,
       isSubmitted: false,
+      isReviewed: false,
       isLive: false,
       isSold: false,
     }).then(() => setActiveTab(0));
