@@ -6,11 +6,11 @@ import {
 import { Link } from 'react-router-dom';
 
 export function ArtistCard({
-  id, firstName, lastName, artistImageUrl, hometown,
+  id, firstName, lastName, imgUrl, hometown,
 }) {
   return (
     <Card>
-      <Image className="painting--card-image" src={artistImageUrl} alt={`${firstName} ${lastName}`} />
+      <Image className="painting--card-image" src={imgUrl} alt={`${firstName} ${lastName}`} />
       <Card.Header className="painting--card-header">{`${firstName} ${lastName}`}</Card.Header>
       <Card.Meta className="painting--card-meta">
         {`Hometown: ${hometown}`}
@@ -33,7 +33,7 @@ ArtistCard.propTypes = {
   id: PropTypes.number.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
-  artistImageUrl: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string.isRequired,
   hometown: PropTypes.string,
 };
 
