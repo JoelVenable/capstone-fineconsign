@@ -13,9 +13,9 @@ export function PaintingCard({
   // forSaleDate,
   id,
   // imgUrl,
-  // isLive,
+  isLive,
   // isPriced,
-  // isSold,
+  isSold,
   // liveDescription,
   name,
   // originalPrice,
@@ -32,7 +32,7 @@ export function PaintingCard({
         {`${artist.firstName} ${artist.lastName}`}
       </Card.Meta>
       <Card.Description className="painting--card-description">
-        {`Price: $${currentPrice}`}
+        {showPaintingStatus(isLive, isSold, currentPrice)}
         <Link to={`/gallery/${id}`}>
           <Button icon labelPosition="right" className="ui button">
           Details
@@ -42,6 +42,13 @@ export function PaintingCard({
       </Card.Description>
     </Card>
   );
+}
+
+
+function showPaintingStatus(isLive, isSold, currentPrice) {
+  if (!isLive && !isSold) return 'Coming soon!';
+  if (isLive) return `Price: $${currentPrice}`;
+  return 'Sold!';
 }
 
 PaintingCard.propTypes = {
@@ -54,9 +61,9 @@ PaintingCard.propTypes = {
   // forSaleDate: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   // imgUrl: PropTypes.string.isRequired,
-  // isLive: PropTypes.bool.isRequired,
+  isLive: PropTypes.bool.isRequired,
   // isPriced: PropTypes.bool.isRequired,
-  // isSold: PropTypes.bool.isRequired,
+  isSold: PropTypes.bool.isRequired,
   // liveDescription: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   // originalPrice: PropTypes.number.isRequired,
