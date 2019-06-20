@@ -35,6 +35,8 @@ export function EditPainting({
       width,
       originalPrice: price,
     };
+    if (user.userType === 'employee') editedPainting.isReviewed = true;
+
     if (photo) {
       const mainImg = await compressImage(photo, 'mainImg');
       const thumbImg = await compressImage(photo, 'thumbImg');
