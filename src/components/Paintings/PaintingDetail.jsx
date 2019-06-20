@@ -14,7 +14,6 @@ export function PaintingDetail({ id }) {
   const [showBuyButton, setShowBuyButton] = useState(false);
   // const [painting, setPainting] = React.useState([]);
   // setPainting(getPainting(id));
-  console.log(typeof id);
   return (
     <>
       <Container>
