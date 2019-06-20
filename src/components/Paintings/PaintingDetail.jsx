@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container, Button, Grid, Image,
 } from 'semantic-ui-react';
@@ -11,15 +11,20 @@ import { ArtistNameLink } from '../Artists/ArtistNameLink';
 
 
 export function PaintingDetail({ id }) {
+  const [showBuyButton, setShowBuyButton] = useState(false);
   // const [painting, setPainting] = React.useState([]);
   // setPainting(getPainting(id));
+  console.log(typeof id);
   return (
     <>
       <Container>
         <Grid stackable>
           <Consumer>
-            {({ paintings }) => {
+            {({ paintings, addToCart, user }) => {
               const painting = paintings.find(pntg => pntg.id === id);
+              if (user) {
+                if (user.userType === 'customer') setShowBuyButton(true);
+              } else setShowBuyButton(true);
               return painting ? (
                 <>
                   <Grid.Column width="6">
@@ -37,7 +42,10 @@ export function PaintingDetail({ id }) {
                       Original Price: $
                       {painting.originalPrice}
                     </p>
-                    <Button primary>Buy now</Button>
+
+                    {showBuyButton ? (
+                      <Button primary onClick={() => addToCart(id)}>Buy now</Button>
+                    ) : null }
                   </Grid.Column>
                 </>
               ) : <>No painting found!</>;
