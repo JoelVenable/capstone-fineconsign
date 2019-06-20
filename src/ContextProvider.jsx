@@ -60,6 +60,7 @@ class Provider extends PureComponent {
           if (user.userType === 'artist') history.push('/paintings');
           if (user.userType === 'customer') history.push('/gallery');
         }
+        return null;
       },
       get: {},
       add: {},
@@ -71,6 +72,7 @@ class Provider extends PureComponent {
         if (!user) return null;
         if (user.userType !== 'customer') return null;
         const custId = user.customer.id;
+
         return API.orders.getMyOpenCart(custId).then(([myCart]) => {
           if (myCart.id) {
           //  Found an existing cart in the database
@@ -102,7 +104,7 @@ class Provider extends PureComponent {
       },
       addToCart: async (paintingId) => {
         const {
-          myCart, getOpenCart, user, addToCart, showError,
+          myCart, getOpenCart, user, showError,
         } = this.state;
         if (!user) return null; // TODO: show register/login modal and add to cart when user finishes.
         if (user.userType !== 'customer') {
@@ -121,6 +123,8 @@ class Provider extends PureComponent {
               }).then(getOpenCart)
             );
           }
+          showError('Already in your cart!');
+          return null;
         });
       },
       removeFromCart: (paintingId) => {
@@ -169,7 +173,6 @@ class Provider extends PureComponent {
     const { showError, getOpenCart } = this.state;
     sessionStorage.clear();
     const user = await API.users.login(username, password).catch(this.handleInvalidLogin);
-
     if (user) {
       if (!user.isActive) {
         showError('This user account has been deactivated!');
@@ -177,16 +180,11 @@ class Provider extends PureComponent {
       }
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
-      if (userType === 'customer') getOpenCart();
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
-      // if (userType === 'customer') history.push('/gallery');
-      // if (userType === 'artist' || userType === 'employee') {
-      //   console.log('test passed');
-      //   history.push('/paintings');
-      // }
-      this.setState({ user });
+      this.setState({ user }, getOpenCart);
     }
+    //  if no user found...
     return null;
   }
 

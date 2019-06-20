@@ -10,9 +10,8 @@ export const orders = {
   getMine: customerId => endpoint.getAll(`?customerId=${customerId}`),
   getMyOpenCart: customerId => endpoint.getAll(`?customerId=${customerId}&isSubmitted=false&_embed=orderItems`)
     .then((results) => {
-      console.log('getOpenCart results:', results);
-      /* eslint-disable-next-line */
       if (results.length > 1) {
+        /* eslint-disable-next-line */
         console.log('Warning, multiple carts found!');
       }
 
