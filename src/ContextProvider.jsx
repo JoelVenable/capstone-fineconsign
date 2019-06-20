@@ -65,14 +65,20 @@ class Provider extends PureComponent {
       add: {},
       edit: {},
       remove: {},
-      myCart: {
-        orderItems: [],
+      myCart: getCartFromSessionStorage(),
+      getOpenCart: (custId) => {
+        console.log('custId', custId);
+        return API.orders.getMyOpenCart(custId).then(([myCart]) => {
+          if (myCart.id) {
+            //  Found an existing cart in the database
+            sessionStorage.setItem('myCart', JSON.stringify(myCart));
+            return this.setState({ myCart });
+          }
+          return this.state.createCart();
+        });
       },
-      getOpenCart: userId => API.orders.getMyOpenCart(userId).then(([myCart]) => (
-        myCart ? this.setState({ myCart }) : this.state.createCart()
-      )),
-      createCart: () => {
-        const { user, showError } = this.state;
+      createCart: async () => {
+        const { user, showError, getOpenCart } = this.state;
         // This function assumes a customer is logged in!
         if (!user) {
           showError('Only customers can make purchases!');
@@ -85,11 +91,42 @@ class Provider extends PureComponent {
         const newCart = {
           customerId: user.customer.id,
           isCompleted: false,
+          createdTimestamp: new Date(),
           isSubmitted: false,
         };
-        return API.orders.create(newCart).then(result => console.log(result));
+        return API.orders.create(newCart).then(() => getOpenCart(user.customer.id));
       },
-      addToCart: item => this.state.myCart.items.push(item),
+      addToCart: async (paintingId) => {
+        const {
+          myCart, getOpenCart, user, addToCart, showError,
+        } = this.state;
+        console.log('myCart', myCart);
+        if (!user) return null; // TODO: show register/login modal and add to cart when user finishes.
+        if (user.userType !== 'customer') {
+          //  Artists/employees should not see the "Buy now" control at all, but just in case...
+          showError('Only customers can place orders!');
+          return null; // TODO: show error
+        }
+
+        // Get cart if not present, then try again!
+        if (!myCart.id) {
+          return API.orderItems.findExisting(myCart.id, paintingId).then((found) => {
+            console.log('found', found);
+            if (found.length === 0) {
+              return (
+                API.orderItems.create({
+                  orderId: myCart.id,
+                  paintingId,
+                }).then(getOpenCart)
+
+              );
+            }
+          });
+        }
+
+        // if no cart exists in local storage, get it
+        return getOpenCart(user.customer.id).then(() => addToCart(paintingId));
+      },
       removeFromCart: (item) => {
         const { myCart } = this.state;
         const index = myCart.items.findIndex(cartItem => cartItem.id === item.id);
@@ -132,7 +169,7 @@ class Provider extends PureComponent {
 
 
   doLogin = async (username, password) => {
-    const { showError } = this.state;
+    const { showError, getOpenCart } = this.state;
     sessionStorage.clear();
     const user = await API.users.login(username, password).catch(this.handleInvalidLogin);
 
@@ -143,6 +180,7 @@ class Provider extends PureComponent {
       }
       const { userType } = user;
       const [typeObj] = await API[`${userType}s`].getFromUserId(user.id);
+      if (userType === 'customer') getOpenCart(typeObj.id);
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
       // if (userType === 'customer') history.push('/gallery');
@@ -197,3 +235,10 @@ Provider.propTypes = {
 
 
 export const ContextProvider = withRouter(Provider);
+
+
+function getCartFromSessionStorage() {
+  const cart = JSON.parse(sessionStorage.getItem('myCart'));
+  if (!cart) return { orderItems: [] };
+  return cart;
+}
