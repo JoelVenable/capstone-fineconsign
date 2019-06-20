@@ -61,7 +61,7 @@ export function EditArtist({
       <Grid stackable>
         <Grid.Column tablet="6">
           <Header>Existing Image</Header>
-          <Image fluid src={artist.artistImageUrl} />
+          <Image fluid src={artist.imgUrl} />
         </Grid.Column>
         <Grid.Column tablet="10">
           <Form
@@ -156,12 +156,9 @@ export function EditArtist({
 
 EditArtist.propTypes = {
   id: PropTypes.number.isRequired,
-  painting: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  }).isRequired,
-  user: PropTypes.shape({
-    userType: PropTypes.string.isRequired,
-  }).isRequired,
+  // user: PropTypes.shape({
+  //   userType: PropTypes.string.isRequired,
+  // }).isRequired,
   storageRef: PropTypes.shape({
     child: PropTypes.func.isRequired,
   }).isRequired,
