@@ -12,7 +12,11 @@ export function Cart({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const orderedPaintings = myCart.orderItems.map(orderItem => paintings.find(item => item.id === orderItem.paintingId));
-  const isDefined = !!orderedPaintings[0]; // Checks to see if data has been loaded.
+
+  // The 'isDefined' variable checks to see if data has been loaded.
+  // Otherwise the page will break as it will try to access properties of an undefined object
+  // (happens on initial paint before the fetch call resolves)
+  const isDefined = !!orderedPaintings[0];
 
   return (
     <>
