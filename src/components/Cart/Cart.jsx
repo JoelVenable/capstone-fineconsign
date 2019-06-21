@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Table, Transition, Button, Icon, Loader, Segment, Dimmer, Card,
+  Header, Table, Transition, Button, Icon, Loader, Segment, Dimmer, Card, Responsive,
 } from 'semantic-ui-react';
 import { PaintingCartItem } from './PaintingCartItem';
 
@@ -48,13 +48,23 @@ Submitting...
           </Dimmer>
 
           <Table celled>
+
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Painting Name</Table.HeaderCell>
-                <Table.HeaderCell>Artist</Table.HeaderCell>
-                <Table.HeaderCell>Price</Table.HeaderCell>
+
+                <Table.HeaderCell>
+                  <Responsive minWidth={767}>Painting Name</Responsive>
+                  <Responsive maxWidth={766}>Items:</Responsive>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Responsive minWidth={767}>Artist</Responsive>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Responsive minWidth={767}>Price</Responsive>
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
+
             <Table.Body>
               <Transition.Group animation="slide down" duration={300}>
                 {isDefined ? orderedPaintings.map(painting => (
@@ -70,7 +80,15 @@ Submitting...
               </Transition.Group>
               <Table.Row>
                 <Table.Cell>
-              Order Total
+                  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    {'Order Total:'}
+                    <Responsive maxWidth={766}>
+                      {isDefined ? `$${(
+                        orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
+                      )}` : null}
+                    </Responsive>
+                  </div>
+
                 </Table.Cell>
                 <Table.Cell>
                   <Button
@@ -100,9 +118,11 @@ Buy Now
                   </Button>
                 </Table.Cell>
                 <Table.Cell>
-                  {isDefined ? `$${(
-                    orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
-                  )}` : null}
+                  <Responsive minWidth={767}>
+                    {isDefined ? `$${(
+                      orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
+                    )}` : null}
+                  </Responsive>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>

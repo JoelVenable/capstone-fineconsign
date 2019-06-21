@@ -22,7 +22,7 @@ export function TabletMenu({
           <Menu.Menu position="right" size="mini">
             {employee.canEditUsers
               ? (
-                <Dropdown.Item
+                <Menu.Item
                   key="users"
                   onClick={handleClick}
                   icon="wrench"
@@ -75,14 +75,14 @@ export function TabletMenu({
               key="favorites"
               onClick={handleClick}
               icon="paint brush"
-              name="Favorite Artists"
+              name="Artists"
               value="/artists"
             />
             <Menu.Item
               key="account"
               onClick={handleClick}
               icon="edit"
-              name="My Account"
+              name="Account"
               value="/account"
             />
             <CartMenuItem handleClick={handleClick} showText />
@@ -97,21 +97,21 @@ export function TabletMenu({
               key="paintings"
               onClick={handleClick}
               icon="file image"
-              name="My Paintings"
+              name="Paintings"
               value="/paintings"
             />
             <Menu.Item
               key="profile"
               onClick={handleClick}
               icon="file image"
-              name="My Profile"
+              name="Profile"
               value={`/artists/${artist.id}`}
             />
             <Menu.Item
               key="account"
               onClick={handleClick}
               icon="edit"
-              name="My Account"
+              name="Account"
               value="/account"
             />
             <SignOutButton />
@@ -137,7 +137,6 @@ function SignOutButton() {
         <Dropdown.Item
           key="signout"
           icon="sign-out"
-          text="Sign Out"
           value="signout"
           onClick={logout}
         />
