@@ -19,7 +19,9 @@ export function PaintingDetail({ id }) {
       <Container>
         <Grid stackable>
           <Consumer>
-            {({ paintings, addToCart, user }) => {
+            {({
+              paintings, user, myCart,
+            }) => {
               const painting = paintings.find(pntg => pntg.id === id);
               if (user) {
                 if (user.userType === 'customer') setShowBuyButton(true);
@@ -43,7 +45,7 @@ export function PaintingDetail({ id }) {
                     </p>
 
                     {showBuyButton ? (
-                      <Button primary onClick={() => addToCart(id)}>Buy now</Button>
+                      <BuyButton id={id} />
                     ) : null }
                   </Grid.Column>
                 </>
@@ -59,6 +61,51 @@ export function PaintingDetail({ id }) {
 }
 
 
+function BuyButton({ id }) {
+  const [buttonText, setButtonText] = useState('Add to Cart');
+  const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
+  return (
+    <Consumer>
+      {({
+        user, addToCart, history, myCart,
+      }) => {
+        const cartItem = myCart.orderItems.find(item => item.paintingId === id);
+        console.log(cartItem);
+        if (cartItem) {
+          setDisabled(true);
+          setButtonText('Already in your cart');
+        }
+        return (
+          <Button
+            primary
+            disabled={disabled}
+            loading={loading}
+            onClick={() => {
+              if (!user) {
+                // TODO: Show Login/Register Modal
+              } else {
+                setLoading(true);
+                addToCart(id);
+                setTimeout(() => history.push('/cart'), 800);
+              }
+            }}
+          >
+            {buttonText}
+          </Button>
+        );
+      }}
+    </Consumer>
+  );
+}
+
+
 PaintingDetail.propTypes = {
+  id: PropTypes.number.isRequired,
+};
+
+BuyButton.propTypes = {
   id: PropTypes.number.isRequired,
 };
