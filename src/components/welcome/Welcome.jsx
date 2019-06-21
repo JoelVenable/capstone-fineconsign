@@ -9,7 +9,6 @@ export function Welcome() {
     <div>
       <HeroImage />
       <Title position="hero" />
-      <SelectLoginRegister />
     </div>
   );
 }
