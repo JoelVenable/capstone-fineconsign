@@ -5,10 +5,12 @@ import {
   Checkbox, Form, Button, Message, Icon,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Consumer } from '../../../ContextProvider';
-import { SelectUserType } from '../../utility/SelectUserType';
+import { SelectUserType } from '../utility/SelectUserType';
+
 
 export function StepOne({
+  showError,
+  showConfirm,
   warning,
   handleFieldChange,
   handleUserTypeChange,
@@ -101,61 +103,59 @@ export function StepOne({
         onChange={toggleTerms}
       />
 
-      <Consumer>
-        {({ showError, showConfirm }) => (
-          <Button
-            type="submit"
-            disabled={disabled}
-            variant="contained"
-            color="blue"
-            style={{ float: 'right' }}
-            icon
-            labelPosition="right"
-            onClick={(e) => {
-              e.preventDefault();
-              if (terms) {
-                setLoading(true);
-                if (userType !== 'employee') {
-                  handleStepOneSubmit()
-                    .then(() => {
-                      setSuccess(true);
-                      setTimeout(showStepTwo, 1000);
-                    })
-                    .catch(() => {
-                      setError(true);
-                      setLoading(false);
-                    });
-                } else {
-                  showConfirm({
-                    title: 'New Employee accounts require manual administrator approval', // REQUIRED.  The title of the message requesting delete confirmation
-                    text: 'Are you sure you need an employee account?', // The inner content of text to be displayed
-                    confirmAction: () => {
-                      setLoading(false);
-                      setDisabled(true);
-                      handleEmployeeSubmit();
-                    }, // Function called when action is confirmed
-                    confirmBtnColor: 'blue', // String value.  Accepts color of confirmation button.
-                    icon: 'id card', // String value or null.  Icon next to the title
-                    btnIcon: 'send', // String value or null.  Icon inside the confirmation button
-                    btnText: 'Send it!', // string value.  Defaults to "yes"
-                  });
-                }
-              } else {
-                showError('Please accept the terms and conditions');
-              }
-            }}
-          >
+      <Button
+        type="submit"
+        disabled={disabled}
+        variant="contained"
+        color="blue"
+        style={{ float: 'right' }}
+        icon
+        labelPosition="right"
+        onClick={(e) => {
+          e.preventDefault();
+          if (terms) {
+            setLoading(true);
+            if (userType !== 'employee') {
+              handleStepOneSubmit()
+                .then(() => {
+                  setSuccess(true);
+                  setTimeout(showStepTwo, 1000);
+                })
+                .catch(() => {
+                  setError(true);
+                  setLoading(false);
+                });
+            } else {
+              showConfirm({
+                title: 'New Employee accounts require manual administrator approval', // REQUIRED.  The title of the message requesting delete confirmation
+                text: 'Are you sure you need an employee account?', // The inner content of text to be displayed
+                confirmAction: () => {
+                  setLoading(false);
+                  setDisabled(true);
+                  handleEmployeeSubmit();
+                }, // Function called when action is confirmed
+                confirmBtnColor: 'blue', // String value.  Accepts color of confirmation button.
+                icon: 'id card', // String value or null.  Icon next to the title
+                btnIcon: 'send', // String value or null.  Icon inside the confirmation button
+                btnText: 'Send it!', // string value.  Defaults to "yes"
+              });
+            }
+          } else {
+            showError('Please accept the terms and conditions');
+          }
+        }}
+      >
                 Continue
-            <Icon name="right arrow" />
-          </Button>
-        )}
-      </Consumer>
+        <Icon name="right arrow" />
+      </Button>
     </Form>
   );
 }
 
 
 StepOne.propTypes = {
+  showError: PropTypes.func.isRequired,
+  showConfirm: PropTypes.func.isRequired,
   warning: PropTypes.bool.isRequired,
   handleFieldChange: PropTypes.func.isRequired,
   handleUserTypeChange: PropTypes.func.isRequired,

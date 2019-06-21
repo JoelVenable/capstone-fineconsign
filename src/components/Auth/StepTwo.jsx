@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   Form, Message, Icon, Button,
 } from 'semantic-ui-react';
-import { Consumer } from '../../../ContextProvider';
 
 
 export function StepTwo({
@@ -17,6 +16,8 @@ export function StepTwo({
   password,
   handleFieldChange,
   handleStepTwoSubmit,
+  login,
+  redirect,
 }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -89,33 +90,27 @@ export function StepTwo({
           icon="check"
         />
 
-        <Consumer>
-          {({ history, login, redirect }) => (
-            <Button
-              type="submit"
-              variant="contained"
-              color="blue"
-              style={{ float: 'right' }}
-              icon
-              labelPosition="left"
-              onClick={(e) => {
-                e.preventDefault();
-                setLoading(true);
-                handleStepTwoSubmit()
-                  .then(() => {
-                    console.log('username', username);
-                    console.log('password', password);
-                    login(username, password);
-                    setSuccess(true);
-                    setTimeout(redirect, 600);
-                  });
-              }}
-            >
+        <Button
+          type="submit"
+          variant="contained"
+          color="blue"
+          style={{ float: 'right' }}
+          icon
+          labelPosition="left"
+          onClick={(e) => {
+            e.preventDefault();
+            setLoading(true);
+            handleStepTwoSubmit()
+              .then(() => {
+                login(username, password);
+                setSuccess(true);
+                setTimeout(redirect, 600);
+              });
+          }}
+        >
                    Register
-              <Icon name="plus" />
-            </Button>
-          )}
-        </Consumer>
+          <Icon name="plus" />
+        </Button>
       </Form>
     </>
   );
@@ -133,4 +128,6 @@ StepTwo.propTypes = {
   zipcode: PropTypes.string.isRequired,
   handleFieldChange: PropTypes.func.isRequired,
   handleStepTwoSubmit: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  redirect: PropTypes.func.isRequired,
 };

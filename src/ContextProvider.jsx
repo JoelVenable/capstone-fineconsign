@@ -12,6 +12,7 @@ import { ErrorDialog } from './components/utility/ErrorDialog';
 import { firebaseCredentials } from './env/firebaseCredentials';
 import 'firebase/firebase-storage';
 import { ConfirmDialog } from './components/utility/ConfirmDialog';
+import { SelectLoginRegister } from './components/Auth/SelectLoginRegister';
 
 
 const Context = React.createContext();
@@ -34,7 +35,6 @@ class Provider extends PureComponent {
     this.state = {
       user: JSON.parse(sessionStorage.getItem('userdata')),
       storageRef: firebase.storage().ref(),
-      login: (username, pw) => this.doLogin(username, pw),
       logout: () => {
         sessionStorage.clear();
         this.setState({ user: null });
@@ -51,17 +51,7 @@ class Provider extends PureComponent {
       handleErrorClose: null,
       confirmObject: {},
       errorMessage: '',
-      redirect: () => {
-        const { location, history } = this.props;
-        const { user } = this.state;
-        if (!user) return null;
-        if (location.pathname === '/') {
-          if (user.userType === 'employee') history.push('/paintings');
-          if (user.userType === 'artist') history.push('/paintings');
-          if (user.userType === 'customer') history.push('/gallery');
-        }
-        return null;
-      },
+
       get: {},
       add: {},
       edit: {},
@@ -135,7 +125,9 @@ class Provider extends PureComponent {
       submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,
+      isLoginModalVisible: true,
     };
+
 
     const endpoints = [
       'employees',
@@ -168,6 +160,9 @@ class Provider extends PureComponent {
     // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
   }
 
+  showLogin = () => this.setState({ isLoginModalVisible: true });
+
+  handleLoginClose = () => this.setState({ isLoginModalVisible: false });
 
   doLogin = async (username, password) => {
     const { showError, getOpenCart } = this.state;
@@ -188,6 +183,18 @@ class Provider extends PureComponent {
     return null;
   }
 
+  redirect = () => {
+    const { location, history } = this.props;
+    const { user } = this.state;
+    if (!user) return null;
+    if (location.pathname === '/') {
+      if (user.userType === 'employee') history.push('/paintings');
+      if (user.userType === 'artist') history.push('/paintings');
+      if (user.userType === 'customer') history.push('/gallery');
+    }
+    return null;
+  };
+
   hideError = () => {
     const { handleErrorClose } = this.state;
     this.setState({ isErrorDialogVisible: false, errorMessage: '' });
@@ -204,14 +211,27 @@ class Provider extends PureComponent {
   render() {
     const { children } = this.props;
     const {
-      isErrorDialogVisible, errorMessage, confirmObject, isConfirmDialogVisible,
+      isErrorDialogVisible,
+      errorMessage,
+      confirmObject,
+      isConfirmDialogVisible,
+      isLoginModalVisible,
+      showError,
+      showConfirm,
     } = this.state;
     return (
       <Context.Provider value={this.state}>
         {children}
         <ErrorDialog title={errorMessage} hide={this.hideError} isVisible={isErrorDialogVisible} />
         <ConfirmDialog {...confirmObject} hide={this.hideConfirm} isVisible={isConfirmDialogVisible} />
-
+        <SelectLoginRegister
+          isOpen={isLoginModalVisible}
+          handleClose={this.handleLoginClose}
+          showConfirm={showConfirm}
+          showError={showError}
+          login={this.doLogin}
+          redirect={this.redirect}
+        />
 
       </Context.Provider>
     );

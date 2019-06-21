@@ -5,7 +5,7 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { StepOne } from './StepOne';
-import { API } from '../../../modules/api/API';
+import { API } from '../../modules/api/API';
 import { StepTwo } from './StepTwo';
 
 export class SignUp extends Component {
@@ -92,6 +92,12 @@ export class SignUp extends Component {
        zipcode,
        accountBalance,
      } = this.state;
+     const {
+       login,
+       redirect,
+       showError,
+       showConfirm,
+     } = this.props;
 
      const userObj = {
        firstName,
@@ -129,6 +135,12 @@ export class SignUp extends Component {
     const {
       step,
     } = this.state;
+    const {
+      login,
+      redirect,
+      showError,
+      showConfirm,
+    } = this.props;
     return (
       <>
         <Step.Group widths={2} size="mini">
@@ -158,12 +170,16 @@ export class SignUp extends Component {
             handleEmployeeSubmit={this.handleEmployeeSubmit}
             handleStepOneSubmit={this.handleStepOneSubmit}
             showStepTwo={this.showStepTwo}
+            showError={showError}
+            showConfirm={showConfirm}
           />
         ) : (
           <StepTwo
             {...this.state}
             handleFieldChange={this.handleFieldChange}
             handleStepTwoSubmit={this.handleStepTwoSubmit}
+            login={login}
+            redirect={redirect}
           />
         ) }
       </>
@@ -173,4 +189,7 @@ export class SignUp extends Component {
 
 SignUp.propTypes = {
   showError: PropTypes.func.isRequired,
+  showConfirm: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  redirect: PropTypes.func.isRequired,
 };
