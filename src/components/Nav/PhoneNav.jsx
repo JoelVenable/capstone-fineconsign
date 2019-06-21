@@ -3,6 +3,7 @@ import { Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
+import { CartMenuItem } from './CartItem';
 
 /*
 
@@ -88,9 +89,7 @@ export function PhoneMenu({ user }) {
     return (
       <>
         <Menu.Menu position="right">
-          <Dropdown item icon="shopping cart" />
-        </Menu.Menu>
-        <Menu.Menu position="right">
+          <CartMenuItem />
           <Dropdown item icon="bars">
             <Dropdown.Menu>
               <Dropdown.Item
@@ -161,7 +160,7 @@ export function PhoneMenu({ user }) {
       </Menu.Menu>
     );
   }
-  // show the "not logged in" menu
+  // show the "not logged in" menu - TODO: login button
   return (
     <>
       <Menu.Menu position="right">
