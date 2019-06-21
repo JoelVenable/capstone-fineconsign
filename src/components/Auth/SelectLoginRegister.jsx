@@ -20,36 +20,40 @@ export function SelectLoginRegister({
       open={isOpen}
       onClose={handleClose}
     >
-      <Menu className="loginRegisterMenu">
-        <Menu.Item
-          className="loginRegisterMenu-item"
-          name="Login"
-          active={tabPosition === 'menuItem--0'}
-          onClick={handleChange}
-          id="menuItem--0"
-        >
+      <Modal.Header>
+        <Menu className="loginRegisterMenu">
+          <Menu.Item
+            className="loginRegisterMenu-item"
+            name="Login"
+            active={tabPosition === 'menuItem--0'}
+            onClick={handleChange}
+            id="menuItem--0"
+          >
           LOGIN
-        </Menu.Item>
-        <Menu.Item
-          className="loginRegisterMenu-item"
-          name="Register"
-          active={tabPosition === 'menuItem--1'}
-          onClick={handleChange}
-          id="menuItem--1"
-        >
+          </Menu.Item>
+          <Menu.Item
+            className="loginRegisterMenu-item"
+            name="Register"
+            active={tabPosition === 'menuItem--1'}
+            onClick={handleChange}
+            id="menuItem--1"
+          >
           REGISTER
-        </Menu.Item>
-      </Menu>
-      {(tabPosition === 'menuItem--1') ? (
-        <SignUp
-          showError={showError}
-          showConfirm={showConfirm}
-          login={login}
-          redirect={redirect}
-        />
-      ) : (
-        <Login login={login} redirect={redirect} />
-      )}
+          </Menu.Item>
+        </Menu>
+      </Modal.Header>
+      <Modal.Content style={{ marginBottom: '2rem' }}>
+        {(tabPosition === 'menuItem--1') ? (
+          <SignUp
+            showError={showError}
+            showConfirm={showConfirm}
+            login={login}
+            redirect={redirect}
+          />
+        ) : (
+          <Login login={login} redirect={redirect} />
+        )}
+      </Modal.Content>
     </Modal>
   );
 }
