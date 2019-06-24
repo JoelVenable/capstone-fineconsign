@@ -11,6 +11,12 @@
 }
 
 
+.loginRegisterBox--header {
+  text-align: center;
+  color: #eee;
+  margin-bottom: -2rem;
+}
+
 .title--hero {
   position: absolute;
   width: 90%;
