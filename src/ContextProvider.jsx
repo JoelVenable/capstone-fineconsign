@@ -125,7 +125,8 @@ class Provider extends PureComponent {
       submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,
-      isLoginModalVisible: true,
+      showLogin: () => this.setState({ isLoginModalVisible: true }),
+      isLoginModalVisible: false,
     };
 
 
@@ -160,7 +161,6 @@ class Provider extends PureComponent {
     // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
   }
 
-  showLogin = () => this.setState({ isLoginModalVisible: true });
 
   handleLoginClose = () => this.setState({ isLoginModalVisible: false });
 
