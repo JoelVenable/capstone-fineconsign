@@ -1,10 +1,13 @@
 import React from 'react';
 import {
-  Image, Button, Icon, Table, Header,
+  Image, Button, Icon, Table, Header, Popup,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Consumer } from '../../ContextProvider';
+import { EditButton } from '../utility/EditButton';
+import { DeactivateButton } from '../utility/DeactivateButton';
+
 
 export function PaintingTableItem({
   painting, user: { userType }, history,
@@ -46,7 +49,7 @@ export function PaintingTableItem({
 }
 
 function showControls(userType, {
-  isSubmitted, isLive, isSold, id,
+  isSubmitted, isLive, isSold, id, isReviewed, isPendingSale,
 }, history) {
   if (userType === 'artist') {
     if (isSold) return null;
@@ -80,12 +83,12 @@ function showControls(userType, {
     );
   }
   if (userType === 'employee') {
-    if (isSold) return null;
+    if (isSold) return null; // TODO: display complete order.
     if (isLive) {
       return (
         <div className="table-actionIconContainer">
           <EditButton id={id} history={history} />
-
+          <DeactivateButton id={id} />
         </div>
       );
     }
@@ -171,22 +174,5 @@ PaintingTableItem.propTypes = {
   }).isRequired,
   user: PropTypes.shape({
     userType: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-
-function EditButton({ id, history }) {
-  return (
-    <Button icon>
-      <Icon name="edit" onClick={() => history.push(`/paintings/${id}/edit`)} />
-    </Button>
-  );
-}
-
-
-EditButton.propTypes = {
-  id: PropTypes.number.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
   }).isRequired,
 };
