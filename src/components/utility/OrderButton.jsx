@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export function OrderButton({ id, history }) {
   return (
-    <Button icon>
+    <Button icon color="blue">
       <Icon name="box" onClick={() => history.push(`/orders/${id}`)} />
     </Button>
   );
@@ -12,7 +12,7 @@ export function OrderButton({ id, history }) {
 
 
 OrderButton.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired, // Expects the ORDER ID!!!
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

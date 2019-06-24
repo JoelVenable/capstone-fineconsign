@@ -6,6 +6,9 @@ import './addPainting.css';
 import PropTypes from 'prop-types';
 import { compressImage } from '../utility/compressImage';
 import { DeleteButton } from '../utility/DeleteButton';
+import { DeactivateButton } from '../utility/DeactivateButton';
+import { GoLiveButton } from '../utility/GoLiveButton';
+// import { GoLiveButton } from '../utility/GoLiveButton';
 
 export function EditPainting({
   user, id, storageRef, artists, edit, history, painting,
@@ -155,18 +158,59 @@ export function EditPainting({
             placeholder="Painting description"
           />
 
-          <Form.Group>
-            {painting.isLive ? null : (
-              <DeleteButton id={id} type="painting" />
-            )}
 
-            <Button type="submit" content="Save" color="purple" width="4" />
-          </Form.Group>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            float: 'right',
+          }}
+          >
+
+            <EditControls user={user} painting={painting} />
+          </div>
 
         </Form>
       </Grid.Column>
     </Grid>
   );
+}
+
+
+function EditControls({ user, painting }) {
+  //  If user is artist, they are able to edit only if the painting has not been submitted
+
+  if (user.userType === 'artist') {
+    if (!painting.isSubmitted) {
+      return (
+        <>
+          <DeleteButton id={painting.id} type="painting" />
+          <Button type="submit" content="Save" color="purple" width="4" />
+        </>
+      );
+    }
+    return null;
+  }
+
+  if (user.userType === 'employee') {
+    if (painting.isSold || painting.isPendingSale) return null;
+    if (painting.isLive) {
+      return (
+        <>
+          <DeactivateButton id={painting.id} />
+          <Button type="submit" content="Save" color="purple" width="4" />
+        </>
+      );
+    }
+    // painting is in "submitted" status.
+    return (
+      <>
+        <Button type="submit" content="Save" color="purple" width="4" />
+        <GoLiveButton id={painting.id} />
+      </>
+    );
+  }
+  return null;
 }
 
 

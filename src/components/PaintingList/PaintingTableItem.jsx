@@ -1,13 +1,16 @@
 import React from 'react';
 import {
-  Image, Button, Icon, Table, Header, Popup,
+  Image, Table, Header,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Consumer } from '../../ContextProvider';
 import { EditButton } from '../utility/EditButton';
 import { DeactivateButton } from '../utility/DeactivateButton';
-
+import { GoLiveButton } from '../utility/GoLiveButton';
+import { OrderButton } from '../utility/OrderButton';
+import { SendForReviewButton } from '../utility/SendForReviewButton';
+import { KickbackButton } from '../utility/KickbackButton';
 
 export function PaintingTableItem({
   painting, user: { userType }, history,
@@ -52,70 +55,42 @@ function showControls(userType, {
   isSubmitted, isLive, isSold, id, isReviewed, isPendingSale,
 }, history) {
   if (userType === 'artist') {
-    if (isSold) return null;
-    if (isLive) return null;
-    if (isSubmitted) return null;
+    if (isSold || isLive || isSubmitted || isPendingSale) return null;
     return (
       <div className="table-actionIconContainer">
         <EditButton id={id} history={history} />
-
-        <Consumer>
-          {({ edit, showConfirm }) => (
-            <Button
-              icon
-              color="green"
-              onClick={() =>
-                showConfirm({
-                  title: 'Send Painting for Employee Review', // REQUIRED.  The title of the message requesting delete confirmation
-                  text: 'Please confirm; you cannot reverse this action.', // The inner content of text to be displayed
-                  confirmAction: () => edit.painting({ isSubmitted: true }, id), // Function called when action is confirmed
-                  confirmBtnColor: 'green', // String value.  Accepts color of confirmation button.
-                  icon: 'arrow circle right', // String value or null.  Icon next to the title
-                  btnIcon: 'send', // String value or null.  Icon inside the confirmation button
-                  btnText: 'Send it!',
-                })}
-            >
-              <Icon name="send" />
-            </Button>
-          )}
-        </Consumer>
+        <SendForReviewButton id={id} />
       </div>
     );
   }
   if (userType === 'employee') {
     if (isSold) return null; // TODO: display complete order.
+    if (isPendingSale) {
+      return (
+        <div className="table-actionIconContainer">
+          <Consumer>
+            {(context) => {
+              console.log(context);
+              return <OrderButton id={null} history={history} />;
+            }}
+          </Consumer>
+        </div>
+      );
+    }
     if (isLive) {
       return (
         <div className="table-actionIconContainer">
-          <EditButton id={id} history={history} />
           <DeactivateButton id={id} />
+          <EditButton id={id} history={history} />
         </div>
       );
     }
     if (isSubmitted) {
       return (
         <div className="table-actionIconContainer">
+          <KickbackButton id={id} />
           <EditButton id={id} history={history} />
-          <Consumer>
-            {({ edit, showConfirm }) => (
-              <Button
-                icon
-                color="green"
-                onClick={() =>
-                  showConfirm({
-                    title: 'Show this painting to customers!', // REQUIRED.  The title of the message requesting delete confirmation
-                    text: '', // The inner content of text to be displayed
-                    confirmAction: () => edit.painting({ isLive: true }, id), // Function called when action is confirmed
-                    confirmBtnColor: 'green', // String value.  Accepts color of confirmation button.
-                    icon: 'bullhorn', // String value or null.  Icon next to the title
-                    btnIcon: 'fire', // String value or null.  Icon inside the confirmation button
-                    btnText: 'Go Live!',
-                  })}
-              >
-                <Icon name="send" />
-              </Button>
-            )}
-          </Consumer>
+          <GoLiveButton id={id} />
         </div>
       );
     }
@@ -126,10 +101,11 @@ function showControls(userType, {
 }
 
 function showStatus(userType, {
-  isSubmitted, isLive, isSold, currentPrice, isReviewed,
+  isSubmitted, isLive, isSold, currentPrice, isReviewed, isPendingSale,
 }) {
   if (userType === 'artist') {
-    if (isSold) return <Header as="h4" color="green">{`Sold for $${currentPrice}`}</Header>;
+    if (isSold) return <Header as="h4" color="purple">{`Sold for $${currentPrice}`}</Header>;
+    if (isPendingSale) return <Header as="h4" color="green">Pending Sale</Header>;
     if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
     if (isSubmitted) {
       if (isReviewed) return <Header as="h4" color="violet">Reviewed</Header>;
@@ -140,6 +116,7 @@ function showStatus(userType, {
 
   if (userType === 'employee') {
     if (isSold) return <Header as="h4" color="green">{`Sold for $${currentPrice}`}</Header>;
+    if (isPendingSale) return <Header as="h4" color="purple">Pending Sale</Header>;
     if (isLive) return <Header as="h4" color="blue">For Sale</Header>;
     if (isSubmitted) {
       if (isReviewed) return <Header as="h4" color="violet">Reviewed</Header>;
