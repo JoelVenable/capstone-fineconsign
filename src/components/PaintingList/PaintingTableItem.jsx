@@ -11,6 +11,7 @@ import { GoLiveButton } from '../utility/GoLiveButton';
 import { OrderButton } from '../utility/OrderButton';
 import { SendForReviewButton } from '../utility/SendForReviewButton';
 import { KickbackButton } from '../utility/KickbackButton';
+import { PaintingControls } from './PaintingControls';
 
 export function PaintingTableItem({
   painting, user: { userType }, history,
@@ -43,8 +44,8 @@ export function PaintingTableItem({
         {showStatus(userType, painting)}
       </Table.Cell>
       <Table.Cell>
-        {showControls(userType, painting, history)}
-
+        {/* {showControls(userType, painting, history)} */}
+        <PaintingControls id={painting.id} />
       </Table.Cell>
 
     </Table.Row>
