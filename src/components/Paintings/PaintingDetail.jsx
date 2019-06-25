@@ -22,7 +22,7 @@ export function PaintingDetail({ id }) {
         <Grid stackable>
           <Consumer>
             {({
-              paintings, user, myCart,
+              paintings, user,
             }) => {
               const painting = paintings.find(pntg => pntg.id === id);
               if (user) {
@@ -73,10 +73,9 @@ function BuyButton({ id }) {
   return (
     <Consumer>
       {({
-        user, addToCart, history, myCart,
+        user, addToCart, history, myCart, showLogin,
       }) => {
         const cartItem = myCart.orderItems.find(item => item.paintingId === id);
-        console.log(cartItem);
         if (cartItem) {
           setDisabled(true);
           setButtonText('Already in your cart');
@@ -88,7 +87,7 @@ function BuyButton({ id }) {
             loading={loading}
             onClick={() => {
               if (!user) {
-                // TODO: Show Login/Register Modal
+                showLogin();
               } else {
                 setLoading(true);
                 addToCart(id);
