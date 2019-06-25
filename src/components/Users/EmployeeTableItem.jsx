@@ -81,13 +81,16 @@ export function EmployeeTableItem({
           initialIcon="edit"
           disabled={disabled}
           buttonText="Submit Changes"
-          submitActionThatReturnsPromise={() => edit.employee({
-            canDefinePriceAdjustments: priceAdjustments,
-            canEditEmployees: editEmployees,
-            canEditInventory: editInventory,
-            canEditUsers: editUsers,
-            canProcessOrders: editOrders,
-          }, employee.id)}
+          submitActionThatReturnsPromise={() => {
+            setDisabled(true);
+            return edit.employee({
+              canDefinePriceAdjustments: priceAdjustments,
+              canEditEmployees: editEmployees,
+              canEditInventory: editInventory,
+              canEditUsers: editUsers,
+              canProcessOrders: editOrders,
+            }, employee.id);
+          }}
         />
 
       </Table.Cell>
