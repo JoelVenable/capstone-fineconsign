@@ -43,11 +43,9 @@ export class SignUp extends Component {
 
    handleStepOneSubmit = () => {
      const { username } = this.state;
-     const { showError } = this.props;
 
 
-     return API.users.checkExisting({ username })
-       .catch(error => showError(error));
+     return API.users.checkExisting({ username });
    }
 
    createUser = () => {
