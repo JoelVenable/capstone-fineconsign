@@ -22,6 +22,7 @@ import { ArtistProfile } from './components/Artists/ArtistProfile';
 import { EditPainting } from './components/PaintingList/EditPainting';
 import { EditArtist } from './components/Artists/EditArtist';
 import { Cart } from './components/Cart/Cart';
+import { OrderDetail } from './components/Orders/OrderDetail';
 
 
 export const checkProtectedRoutes = user => [
@@ -33,6 +34,14 @@ export const checkProtectedRoutes = user => [
   }, {
     path: '/orders',
     render: props => <Orders {...props} />,
+    isAuthorized: checkLoggedIn(user),
+    exact: true,
+  }, {
+    path: '/orders/:orderId(\\d+)',
+    render: (props) => {
+      const id = parseInt(props.match.params.paintingId, 10);
+      return <OrderDetail {...props} id={id} />;
+    },
     isAuthorized: checkLoggedIn(user),
     exact: true,
   }, {
