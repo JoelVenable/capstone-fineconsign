@@ -90,12 +90,7 @@ export class SignUp extends Component {
        zipcode,
        accountBalance,
      } = this.state;
-     const {
-       login,
-       redirect,
-       showError,
-       showConfirm,
-     } = this.props;
+
 
      const userObj = {
        firstName,
