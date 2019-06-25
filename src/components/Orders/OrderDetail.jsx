@@ -8,6 +8,7 @@ import { Consumer } from '../../ContextProvider';
 
 
 export function OrderDetail({ id }) {
+  console.log(id);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -15,136 +16,89 @@ export function OrderDetail({ id }) {
   return (
     <Consumer>
       {({
-        myCart, paintings, history, removeFromCart, user, edit,
+        orders, paintings, history, removeFromCart, user, edit,
       }) => {
-        const orderedPaintings = myCart.orderItems.map(orderItem => paintings.find(item => item.id === orderItem.paintingId));
+        console.log('orders', orders);
+        const order = orders.find(item => item.id === id);
+        console.log('found order', order);
+        const orderedPaintings = order ? order.orderItems.map(orderItem => paintings.find(item => item.id === orderItem.paintingId)) : null;
         // The 'isDefined' variable checks to see if data has been loaded.
         // Otherwise the page will break as it will try to access properties of an undefined object
         // (happens on initial paint before the fetch call resolves)
-        const isDefined = !!orderedPaintings[0];
+        const isDefined = order ? !!orderedPaintings[0] : false;
         return (
           <>
-            <Header as="h1" style={{ marginBottom: '2rem' }}>
-    My Cart
-            </Header>
-            {(orderedPaintings.length > 0) ? (
-              <Segment>
-                <Dimmer active={loading}>
-                  <Loader>
+            {isDefined ? (
+              <>
+
+                <Header as="h1" style={{ marginBottom: '2rem' }}>
+Order number:
+                  {' '}
+                  {id}
+                </Header>
+                <Segment>
+                  <Dimmer active={loading}>
+                    <Loader>
 Submitting...
-                  </Loader>
-                </Dimmer>
+                    </Loader>
+                  </Dimmer>
 
-                <Dimmer active={success}>
-                  <Card>
+                  <Dimmer active={success}>
+                    <Card>
 
-                    <Card.Content>
-                      <Card.Header>Your order has been processed!</Card.Header>
-                      <Card.Description>
-      We will be in touch soon.
-                      </Card.Description>
+                      <Card.Content>
+                        <Card.Header>Your order has been processed!</Card.Header>
+                        <Card.Description>
+  We will be in touch soon.
+                        </Card.Description>
 
 
-                    </Card.Content>
+                      </Card.Content>
 
-                  </Card>
+                    </Card>
 
-                </Dimmer>
+                  </Dimmer>
 
-                <Table celled>
 
-                  <Table.Header>
-                    <Table.Row>
+                  <Table celled>
 
-                      <Table.HeaderCell>
-                        <Responsive minWidth={767}>Painting Name</Responsive>
-                        <Responsive maxWidth={766}>Items:</Responsive>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        <Responsive minWidth={767}>Artist</Responsive>
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        <Responsive minWidth={767}>Price</Responsive>
-                      </Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
+                    <Table.Header>
+                      <Table.Row>
 
-                  <Table.Body>
-                    <Transition.Group animation="slide down" duration={300}>
-                      {isDefined ? orderedPaintings.map(painting => (
-                        <PaintingOrderItem
-                          painting={painting}
-                          history={history}
-                          removeFromCart={removeFromCart}
-                          user={user}
-                          key={painting.id}
-                        />
+                        <Table.HeaderCell>
+                          <Responsive minWidth={767}>Painting Name</Responsive>
+                          <Responsive maxWidth={766}>Items:</Responsive>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          <Responsive minWidth={767}>Artist</Responsive>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          <Responsive minWidth={767}>Price</Responsive>
+                        </Table.HeaderCell>
+                      </Table.Row>
+                    </Table.Header>
 
-                      )) : null}
-                    </Transition.Group>
-                    <Table.Row>
-                      <Table.Cell>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                          {'Order Total:'}
-                          <Responsive maxWidth={766}>
-                            {isDefined ? `$${(
-                              orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
-                            )}` : null}
-                          </Responsive>
-                        </div>
+                    <Table.Body>
+                      <Transition.Group animation="slide down" duration={300}>
+                        {isDefined ? orderedPaintings.map(painting => (
+                          <PaintingOrderItem
+                            painting={painting}
+                            history={history}
+                            removeFromCart={removeFromCart}
+                            user={user}
+                            key={painting.id}
+                          />
+                        )) : null}
 
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Button
-                          icon
-                          primary
-                          fluid
-                          onClick={() => {
-                            setLoading(true);
-                            edit.order({
-                              isSubmitted: true,
-                              submittedTime: new Date(),
+                      </Transition.Group>
+                    </Table.Body>
+                  </Table>
 
-                            }, myCart.id).then(() => {
-                              orderedPaintings.forEach((painting) => {
-                                edit.painting({ isPendingSale: true }, painting.id);
-                              });
-                            });
 
-                            setTimeout(() => {
-                              setSuccess(true);
-                              setLoading(false);
-                            }, 1000);
-                          }}
-                        >
-                          <Icon name="dollar sign" />
-Buy Now
-                        </Button>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Responsive minWidth={767}>
-                          {isDefined ? `$${(
-                            orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
-                          )}` : null}
-                        </Responsive>
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
+                </Segment>
 
-              </Segment>
-            ) : (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Card>
-                  <Card.Content>
-                    <Card.Header>
-                      <Icon name="frown outline" color="orange" size="big" />
-Your cart is empty...
-                    </Card.Header>
-                  </Card.Content>
-                </Card>
-              </div>
-            )}
+              </>
+            ) : null}
           </>
         );
       }}
@@ -168,3 +122,73 @@ OrderDetail.propTypes = {
   removeFromCart: PropTypes.func.isRequired,
 
 };
+
+
+//         {(orderedPaintings.length > 0) ? (
+
+
+//                   )) : null}
+//                 </Transition.Group>
+//                 <Table.Row>
+//                   <Table.Cell>
+//                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+//                       {'Order Total:'}
+//                       <Responsive maxWidth={766}>
+//                         {isDefined ? `$${(
+//                           orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
+//                         )}` : null}
+//                       </Responsive>
+//                     </div>
+
+//                   </Table.Cell>
+//                   <Table.Cell>
+//                     <Button
+//                       icon
+//                       primary
+//                       fluid
+//                       onClick={() => {
+//                         setLoading(true);
+//                         edit.order({
+//                           isSubmitted: true,
+//                           submittedTime: new Date(),
+
+//                         }, order.id).then(() => {
+//                           orderedPaintings.forEach((painting) => {
+//                             edit.painting({ isPendingSale: true }, painting.id);
+//                           });
+//                         });
+
+//                         setTimeout(() => {
+//                           setSuccess(true);
+//                           setLoading(false);
+//                         }, 1000);
+//                       }}
+//                     >
+//                       <Icon name="dollar sign" />
+// Buy Now
+//                     </Button>
+//                   </Table.Cell>
+//                   <Table.Cell>
+//                     <Responsive minWidth={767}>
+//                       {isDefined ? `$${(
+//                         orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
+//                       )}` : null}
+//                     </Responsive>
+//                   </Table.Cell>
+//                 </Table.Row>
+//               </Table.Body>
+//             </Table>
+
+//           </Segment>
+//         ) : (
+//           <div style={{ display: 'flex', justifyContent: 'center' }}>
+//             <Card>
+//               <Card.Content>
+//                 <Card.Header>
+//                   <Icon name="frown outline" color="orange" size="big" />
+// Your cart is empty...
+//                 </Card.Header>
+//               </Card.Content>
+//             </Card>
+//           </div>
+//         )}
