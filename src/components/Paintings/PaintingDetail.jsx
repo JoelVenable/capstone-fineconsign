@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 // import { API } from '../../modules/api/API';
 import { Consumer } from '../../ContextProvider';
 import { ArtistNameLink } from '../Artists/ArtistNameLink';
+import { PaintingControls } from '../PaintingList/PaintingControls';
+
 
 // const getPainting = async id => await API.paintings.getOne(id);
 
@@ -47,6 +49,7 @@ export function PaintingDetail({ id }) {
                     {showBuyButton ? (
                       <BuyButton id={id} />
                     ) : null }
+                    <PaintingControls id={id} />
                   </Grid.Column>
                 </>
               ) : <>No painting found!</>;

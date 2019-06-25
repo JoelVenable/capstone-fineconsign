@@ -66,8 +66,6 @@ export function PaintingControls({ id }) {
             );
           }
         }
-        //  Under normal circumstances, this final return
-        //  statement should never be reached...
         return null;
       }}
     </Consumer>
