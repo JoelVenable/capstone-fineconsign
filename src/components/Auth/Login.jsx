@@ -38,6 +38,7 @@ export function Login({ login, redirect }) {
       <Form.Field>
         <Input
           placeholder="Username"
+          value={username}
           id="username"
           icon="users"
           iconPosition="left"
@@ -49,6 +50,7 @@ export function Login({ login, redirect }) {
           placeholder="password"
           id="password"
           icon="lock"
+          value={password}
           type="password"
           iconPosition="left"
           onChange={handleFieldChange}
@@ -63,7 +65,14 @@ export function Login({ login, redirect }) {
         onClick={(e) => {
           e.preventDefault();
           setLoading(true);
-          login(username, password).then(showSuccess).then(redirect);
+          login(username, password)
+            .then(showSuccess)
+            .then(redirect)
+            .catch(() => {
+              setLoading(false);
+              setUsername('');
+              setPassword('');
+            });
         }}
       >
                 Sign In
