@@ -178,9 +178,11 @@ class Provider extends PureComponent {
       user[userType] = typeObj;
       sessionStorage.setItem('userdata', JSON.stringify(user));
       this.setState({ user }, getOpenCart);
+      setTimeout(this.handleLoginClose, 500);
+    } else {
+      //  No user found...
+      throw new Error('login failed');
     }
-    //  if no user found...
-    return null;
   }
 
   redirect = () => {
