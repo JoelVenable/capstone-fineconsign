@@ -1,12 +1,17 @@
 import React from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Popup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 export function OrderButton({ id, history }) {
   return (
-    <Button icon color="blue">
-      <Icon name="box" onClick={() => history.push(`/orders/${id}`)} />
-    </Button>
+    <Popup
+      content="Go to order detail"
+      trigger={(
+        <Button icon color="blue">
+          <Icon name="box" onClick={() => history.push(`/orders/${id}`)} />
+        </Button>
+)}
+    />
   );
 }
 

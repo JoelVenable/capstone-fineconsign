@@ -1,12 +1,17 @@
 import React from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Popup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 export function EditButton({ id, history }) {
   return (
-    <Button icon>
-      <Icon name="edit" onClick={() => history.push(`/paintings/${id}/edit`)} />
-    </Button>
+    <Popup
+      content="Edit this painting"
+      trigger={(
+        <Button icon>
+          <Icon name="edit" onClick={() => history.push(`/paintings/${id}/edit`)} />
+        </Button>
+)}
+    />
   );
 }
 
