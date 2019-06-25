@@ -89,6 +89,7 @@ class Provider extends PureComponent {
           isCompleted: false,
           createdTimestamp: new Date(),
           isSubmitted: false,
+          isRejected: false,
         };
         return API.orders.create(newCart).then(getOpenCart);
       },
@@ -153,11 +154,18 @@ class Provider extends PureComponent {
 
 
   componentDidMount() {
-    const { get } = this.state;
+    const { get, user } = this.state;
     get.artists();
     get.paintings();
     get.employees();
     get.customers();
+    if (user) {
+      if (user.userType === 'employee') {
+        get.orders();
+        get.orderItems();
+        get.priceAdjustments();
+      }
+    }
     // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
   }
 
@@ -187,10 +195,15 @@ class Provider extends PureComponent {
 
   redirect = () => {
     const { location, history } = this.props;
-    const { user } = this.state;
+    const { user, get } = this.state;
     if (!user) return null;
     if (location.pathname === '/') {
-      if (user.userType === 'employee') history.push('/paintings');
+      if (user.userType === 'employee') {
+        get.orders();
+        get.orderItems();
+        get.priceAdjustments();
+        history.push('/paintings');
+      }
       if (user.userType === 'artist') history.push('/paintings');
       if (user.userType === 'customer') history.push('/gallery');
     }
