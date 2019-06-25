@@ -39,7 +39,7 @@ export const checkProtectedRoutes = user => [
   }, {
     path: '/orders/:orderId(\\d+)',
     render: (props) => {
-      const id = parseInt(props.match.params.paintingId, 10);
+      const id = parseInt(props.match.params.orderId, 10);
       return <OrderDetail {...props} id={id} />;
     },
     isAuthorized: checkLoggedIn(user),
