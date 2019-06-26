@@ -4,17 +4,10 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Consumer } from '../../ContextProvider';
-import { EditButton } from '../utility/EditButton';
-import { DeactivateButton } from '../utility/DeactivateButton';
-import { GoLiveButton } from '../utility/GoLiveButton';
-import { OrderButton } from '../utility/OrderButton';
-import { SendForReviewButton } from '../utility/SendForReviewButton';
-import { KickbackButton } from '../utility/KickbackButton';
 import { PaintingControls } from './PaintingControls';
 
 export function PaintingTableItem({
-  painting, user: { userType }, history,
+  painting, user: { userType },
 }) {
   return (
     <Table.Row>
@@ -44,7 +37,6 @@ export function PaintingTableItem({
         {showStatus(userType, painting)}
       </Table.Cell>
       <Table.Cell>
-        {/* {showControls(userType, painting, history)} */}
         <PaintingControls id={painting.id} />
       </Table.Cell>
 
@@ -52,54 +44,6 @@ export function PaintingTableItem({
   );
 }
 
-function showControls(userType, {
-  isSubmitted, isLive, isSold, id, isReviewed, isPendingSale,
-}, history) {
-  if (userType === 'artist') {
-    if (isSold || isLive || isSubmitted || isPendingSale) return null;
-    return (
-      <div className="table-actionIconContainer">
-        <EditButton id={id} history={history} />
-        <SendForReviewButton id={id} />
-      </div>
-    );
-  }
-  if (userType === 'employee') {
-    if (isSold) return null; // TODO: display complete order.
-    if (isPendingSale) {
-      return (
-        <div className="table-actionIconContainer">
-          <Consumer>
-            {(context) => {
-              console.log(context);
-              return <OrderButton id={null} history={history} />;
-            }}
-          </Consumer>
-        </div>
-      );
-    }
-    if (isLive) {
-      return (
-        <div className="table-actionIconContainer">
-          <DeactivateButton id={id} />
-          <EditButton id={id} history={history} />
-        </div>
-      );
-    }
-    if (isSubmitted) {
-      return (
-        <div className="table-actionIconContainer">
-          <KickbackButton id={id} />
-          <EditButton id={id} history={history} />
-          <GoLiveButton id={id} />
-        </div>
-      );
-    }
-  }
-  //  Under normal circumstances, this final return
-  //  statement should never be reached...
-  return null;
-}
 
 function showStatus(userType, {
   isSubmitted, isLive, isSold, currentPrice, isReviewed, isPendingSale,
