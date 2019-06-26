@@ -16,12 +16,16 @@ export function OrderDetail({ id }) {
   return (
     <Consumer>
       {({
-        orders, paintings, history, removeFromCart, user,
+        orders, paintings, history, removeFromCart, user, edit, updateAll,
       }) => {
         const order = orders.find(item => item.id === id);
         const customer = order ? order.customer : null;
         const orderedPaintings = order ? (
-          order.orderItems.map(orderItem => paintings.find(item => item.id === orderItem.paintingId))
+          order.orderItems.map((orderItem) => {
+            const painting = paintings.find(item => item.id === orderItem.paintingId);
+            painting.orderItem = orderItem;
+            return painting;
+          })
         ) : null;
 
         //  Check if user is authorized to view this order
@@ -113,7 +117,8 @@ Submitting...
                             <PaintingOrderItem
                               painting={painting}
                               history={history}
-                              removeFromCart={removeFromCart}
+                              edit={edit}
+                              updateAll={updateAll}
                               user={user}
                               key={painting.id}
                             />
