@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Menu, Dropdown, Icon, Label,
@@ -20,7 +20,17 @@ export function CartMenuItem({ showText, handleClick }) {
             icon={(
               <Icon.Group>
                 <Icon name="shopping cart" />
-                {numCartItems ? <Label floating circular size="mini" color="orange" style={{ top: '-1.5em' }}>{numCartItems}</Label> : null}
+                {numCartItems ? (
+                  <Label
+                    floating
+                    circular
+                    size="mini"
+                    color="orange"
+                    style={{ top: '-1.5em' }}
+                  >
+                    {numCartItems}
+                  </Label>
+                ) : null}
               </Icon.Group>
 )}
             name="My Cart"
@@ -33,7 +43,17 @@ export function CartMenuItem({ showText, handleClick }) {
               icon={(
                 <Icon.Group>
                   <Icon name="shopping cart" />
-                  {numCartItems ? <Label floating circular size="mini" color="orange" style={{ top: '-1.5em' }}>{numCartItems}</Label> : null}
+                  {numCartItems ? (
+                    <Label
+                      floating
+                      circular
+                      size="mini"
+                      color="orange"
+                      style={{ top: '-1.5em' }}
+                    >
+                      {numCartItems}
+                    </Label>
+                  ) : null}
                 </Icon.Group>
 )}
             />

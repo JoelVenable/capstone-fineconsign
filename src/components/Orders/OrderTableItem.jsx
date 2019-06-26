@@ -1,22 +1,15 @@
 import React from 'react';
 import {
-  Image, Table, Header, Popup, Label, Icon,
+  Table, Header, Popup, Label, Icon,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Consumer } from '../../ContextProvider';
-import { EditButton } from '../utility/EditButton';
-import { DeactivateButton } from '../utility/DeactivateButton';
-import { GoLiveButton } from '../utility/GoLiveButton';
 import { OrderButton } from '../utility/OrderButton';
-import { SendForReviewButton } from '../utility/SendForReviewButton';
-import { KickbackButton } from '../utility/KickbackButton';
 
 
 export function OrderTableItem({
   order,
 }) {
-  console.log(order);
   return (
     <Table.Row>
       <Table.Cell>
@@ -28,12 +21,6 @@ export function OrderTableItem({
           }}
         >
           <Header.Content>
-            {/* <strong>{painting.name}</strong>
-              {(userType === 'artist') ? null : (
-                <Header.Subheader>
-                  {`${painting.artist.firstName} ${painting.artist.lastName}`}
-                </Header.Subheader>
-              )} */}
             {`${order.customer.firstName} ${order.customer.lastName}`}
             <Header.Subheader>
               {'Submitted: '}
@@ -49,7 +36,6 @@ export function OrderTableItem({
             return foundPainting ? foundPainting.currentPrice + accumulator : NaN;
           }, 0);
           const orderItems = order.orderItems.length;
-          console.log(orderTotal);
           return (
             <>
 

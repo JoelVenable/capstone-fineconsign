@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Table, Transition, Button, Icon, Loader, Segment, Dimmer, Card, Responsive, Item, Grid,
+  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid,
 } from 'semantic-ui-react';
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
 
 
 export function OrderDetail({ id }) {
-  console.log(id);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [authorized, setAuthorized] = useState(false);
@@ -17,12 +16,13 @@ export function OrderDetail({ id }) {
   return (
     <Consumer>
       {({
-        orders, paintings, history, removeFromCart, user, edit,
+        orders, paintings, history, removeFromCart, user,
       }) => {
         const order = orders.find(item => item.id === id);
         const customer = order ? order.customer : null;
-        console.log('customer', customer);
-        const orderedPaintings = order ? order.orderItems.map(orderItem => paintings.find(item => item.id === orderItem.paintingId)) : null;
+        const orderedPaintings = order ? (
+          order.orderItems.map(orderItem => paintings.find(item => item.id === orderItem.paintingId))
+        ) : null;
 
         //  Check if user is authorized to view this order
 
@@ -31,6 +31,7 @@ export function OrderDetail({ id }) {
         // Otherwise the page will break as it will try to access properties of an undefined object
         // (happens on initial paint before the fetch call resolves)
         const isDefined = order ? !!orderedPaintings[0] : false;
+
         return (
           <>
             {isDefined ? (
@@ -137,20 +138,7 @@ Submitting...
 }
 
 OrderDetail.propTypes = {
-  myCart: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  }).isRequired,
-  paintings: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  })).isRequired,
-  removeFromCart: PropTypes.func.isRequired,
-
+  id: PropTypes.number.isRequired,
 };
 
 

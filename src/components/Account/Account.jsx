@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 // import { Image, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // import { ArtistProfile } from '../Artists/ArtistProfile';
 
-export class Account extends Component {
-  render() {
-    return (
-      <>
+export function Account({ user }) {
+  return (
+    <>
   Hello from Accounts
-      </>
+  Usertype:
+      {' '}
+      {user.userType}
+    </>
 
-    );
-  }
+  );
 }
 
 

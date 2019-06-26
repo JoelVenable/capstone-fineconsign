@@ -8,7 +8,7 @@ import { FilterArtists } from '../utility/FilterArtists';
 export function Gallery() {
   const [artistId, setArtistId] = useState(null);
   const [sold, setSold] = useState(false);
-
+  //  TODO: Filter paintings to show only active ones!
   return (
     <>
       <Header as="h4">

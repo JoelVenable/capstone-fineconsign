@@ -146,6 +146,10 @@ Your cart is empty...
 }
 
 Cart.propTypes = {
+  edit: PropTypes.shape({
+    order: PropTypes.func.isRequired,
+    painting: PropTypes.func.isRequired,
+  }).isRequired,
   myCart: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,
