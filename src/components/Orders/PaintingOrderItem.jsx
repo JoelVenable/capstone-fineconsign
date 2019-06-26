@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Image, Button, Icon, Table, Header, Modal, Form, Segment, Message,
+  Image, Button, Icon, Table, Header,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -57,7 +57,11 @@ export function PaintingOrderItem({
                   as="h4"
                   image
                   style={{
-                    minHeight: '58px', paddingLeft: '.5rem', display: 'flex', flexDirection: 'row', alignItems: 'center',
+                    minHeight: '58px',
+                    paddingLeft: '.5rem',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}
                 >
                   <Image src={painting.thumbUrl} />
@@ -97,8 +101,10 @@ PaintingOrderItem.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  orderId: PropTypes.number.isRequired,
-
+  edit: PropTypes.shape({
+    orderItem: PropTypes.func.isRequired,
+  }).isRequired,
+  updateAll: PropTypes.func.isRequired,
   painting: PropTypes.shape({
     artist: PropTypes.shape({
       firstName: PropTypes.string.isRequired,
