@@ -16,7 +16,7 @@ export function OrderDetail({ id }) {
   return (
     <Consumer>
       {({
-        orders, paintings, history, removeFromCart, user, edit, updateAll,
+        orders, paintings, history, user, edit, updateAll,
       }) => {
         const order = orders.find(item => item.id === id);
         const customer = order ? order.customer : null;
@@ -145,73 +145,3 @@ Submitting...
 OrderDetail.propTypes = {
   id: PropTypes.number.isRequired,
 };
-
-
-//         {(orderedPaintings.length > 0) ? (
-
-
-//                   )) : null}
-//                 </Transition.Group>
-//                 <Table.Row>
-//                   <Table.Cell>
-//                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-//                       {'Order Total:'}
-//                       <Responsive maxWidth={766}>
-//                         {isDefined ? `$${(
-//                           orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
-//                         )}` : null}
-//                       </Responsive>
-//                     </div>
-
-//                   </Table.Cell>
-//                   <Table.Cell>
-//                     <Button
-//                       icon
-//                       primary
-//                       fluid
-//                       onClick={() => {
-//                         setLoading(true);
-//                         edit.order({
-//                           isSubmitted: true,
-//                           submittedTime: new Date(),
-
-//                         }, order.id).then(() => {
-//                           orderedPaintings.forEach((painting) => {
-//                             edit.painting({ isPendingSale: true }, painting.id);
-//                           });
-//                         });
-
-//                         setTimeout(() => {
-//                           setSuccess(true);
-//                           setLoading(false);
-//                         }, 1000);
-//                       }}
-//                     >
-//                       <Icon name="dollar sign" />
-// Buy Now
-//                     </Button>
-//                   </Table.Cell>
-//                   <Table.Cell>
-//                     <Responsive minWidth={767}>
-//                       {isDefined ? `$${(
-//                         orderedPaintings.reduce((total, painting) => total + painting.currentPrice, 0)
-//                       )}` : null}
-//                     </Responsive>
-//                   </Table.Cell>
-//                 </Table.Row>
-//               </Table.Body>
-//             </Table>
-
-//           </Segment>
-//         ) : (
-//           <div style={{ display: 'flex', justifyContent: 'center' }}>
-//             <Card>
-//               <Card.Content>
-//                 <Card.Header>
-//                   <Icon name="frown outline" color="orange" size="big" />
-// Your cart is empty...
-//                 </Card.Header>
-//               </Card.Content>
-//             </Card>
-//           </div>
-//         )}
