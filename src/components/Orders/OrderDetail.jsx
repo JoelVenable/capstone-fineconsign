@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid,
+  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid, Button,
 } from 'semantic-ui-react';
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
@@ -43,10 +43,23 @@ export function OrderDetail({ id }) {
               <>
                 <Segment.Group>
                   <Segment>
-                    <Header as="h1" style={{ marginBottom: '2rem' }}>
-                      {`Order number: ${id}`}
-                    </Header>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Header as="h1" style={{ marginBottom: '2rem' }}>
+                        {`Order number: ${id}`}
+                      </Header>
+                      <div>
+                        <Button negative style={{ marginRight: '1rem' }}>
+                          Cancel Order
+                        </Button>
+                        <Button primary>
+Approve
+                        </Button>
 
+
+                      </div>
+
+
+                    </div>
                     <Dimmer active={loading}>
                       <Loader>
 Submitting...
