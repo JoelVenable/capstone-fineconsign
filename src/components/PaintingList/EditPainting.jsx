@@ -214,6 +214,21 @@ function EditControls({ user, painting }) {
 }
 
 
+EditControls.propTypes = {
+  user: PropTypes.shape({
+    userType: PropTypes.string.isRequired,
+  }).isRequired,
+  painting: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isSubmitted: PropTypes.bool.isRequired,
+    isPendingSale: PropTypes.bool.isRequired,
+    isSold: PropTypes.bool.isRequired,
+    isLive: PropTypes.bool.isRequired,
+
+  }).isRequired,
+};
+
+
 EditPainting.propTypes = {
   id: PropTypes.number.isRequired,
   painting: PropTypes.shape({

@@ -191,6 +191,7 @@ class Provider extends PureComponent {
       //  No user found...
       throw new Error('login failed');
     }
+    return null;
   }
 
   redirect = () => {

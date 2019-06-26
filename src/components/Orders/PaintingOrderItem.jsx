@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Image, Button, Icon, Table, Header, Responsive,
+  Image, Button, Icon, Table, Header,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';

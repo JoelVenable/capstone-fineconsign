@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  Button, Icon, Responsive, Image, Header,
+  Button, Icon, Image, Header,
 } from 'semantic-ui-react';
 import { Consumer } from '../../ContextProvider';
 import largeImg from './assets/gallery-lg.jpg';
-import smallImg from './assets/gallery-sm.jpg';
 
 export function GalleryButton() {
   return (
