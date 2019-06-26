@@ -35,7 +35,7 @@ Submitting...
             <Card>
 
               <Card.Content>
-                <Card.Header>Your order has been processed!</Card.Header>
+                <Card.Header>Your order has been received!</Card.Header>
                 <Card.Description>
       We will be in touch soon.
                 </Card.Description>
