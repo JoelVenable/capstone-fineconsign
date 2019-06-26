@@ -5,6 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { OrderButton } from '../utility/OrderButton';
+import { CalculateOrderTotal } from '../utility/CalculateOrderTotal';
 
 
 export function OrderTableItem({
@@ -33,9 +34,11 @@ export function OrderTableItem({
         {({ paintings, history }) => {
           const orderTotal = order.orderItems.reduce((accumulator, item) => {
             const foundPainting = paintings.find(painting => painting.id === item.paintingId);
-            return foundPainting ? foundPainting.currentPrice + accumulator : NaN;
+            let output = 0;
+            if (foundPainting) output = !foundPainting.isCancelled ? foundPainting.currentPrice : 0;
+            return output + accumulator;
           }, 0);
-          const orderItems = order.orderItems.length;
+          const orderItems = order.orderItems.reduce((accumulator, item) => (item.isCancelled ? accumulator : accumulator + 1), 0);
           return (
             <>
 
@@ -54,7 +57,7 @@ export function OrderTableItem({
                   trigger={(
                     <Label color="green">
                       <Icon name="dollar sign" />
-                      {orderTotal}
+                      <CalculateOrderTotal orderId={order.id} />
                     </Label>
 )}
                 />

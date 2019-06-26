@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react';
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
+import { CalculateOrderTotal } from '../utility/CalculateOrderTotal';
 
 
 export function OrderDetail({ id }) {
@@ -126,6 +127,27 @@ Submitting...
 
                         </Transition.Group>
                       </Table.Body>
+                      <Table.Footer>
+                        <Table.Row>
+                          <Table.HeaderCell colSpan="3">
+                            <div style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              fontWeight: 'bold',
+                            }}
+                            >
+                              <span>Order Total:</span>
+                              <span>
+$
+                                <CalculateOrderTotal orderId={id} />
+                              </span>
+                            </div>
+
+                          </Table.HeaderCell>
+                        </Table.Row>
+
+                      </Table.Footer>
                     </Table>
                   </Segment>
                   <Segment>
