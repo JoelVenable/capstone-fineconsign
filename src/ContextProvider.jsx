@@ -73,6 +73,22 @@ class Provider extends PureComponent {
           return this.state.createCart();
         });
       },
+      updateAll: () => {
+        const { get, user } = this.state;
+        get.artists();
+        get.paintings();
+        get.employees();
+        get.customers();
+        if (user) {
+          if (user.userType === 'employee') {
+            get.orders();
+            get.orderItems();
+            get.priceAdjustments();
+          }
+        }
+        //  TODO: If user is a customer, get their orders only
+        // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
+      },
       createCart: async () => {
         const { user, showError, getOpenCart } = this.state;
         // This function assumes a customer is logged in!
@@ -109,6 +125,7 @@ class Provider extends PureComponent {
           if (found.length === 0) {
             return (
               API.orderItems.create({
+                isCancelled: false,
                 orderId: myCart.id,
                 paintingId,
               }).then(getOpenCart)
@@ -154,19 +171,8 @@ class Provider extends PureComponent {
 
 
   componentDidMount() {
-    const { get, user } = this.state;
-    get.artists();
-    get.paintings();
-    get.employees();
-    get.customers();
-    if (user) {
-      if (user.userType === 'employee') {
-        get.orders();
-        get.orderItems();
-        get.priceAdjustments();
-      }
-    }
-    // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
+    /* eslint-disable-next-line */
+    this.state.updateAll();
   }
 
 
