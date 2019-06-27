@@ -6,13 +6,17 @@ import {
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
 import { CalculateOrderTotal } from '../utility/CalculateOrderTotal';
-
+import { CancelOrderModal } from './CancelOrderModal';
 
 export function OrderDetail({ id }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [authorized, setAuthorized] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  function handleClose() {
+    setIsModalVisible(false);
+  }
 
   return (
     <Consumer>
@@ -42,17 +46,24 @@ export function OrderDetail({ id }) {
             {isDefined ? (
               <>
                 <Segment.Group>
+                  <CancelOrderModal
+                    isModalVisible={isModalVisible}
+                    handleClose={handleClose}
+                    edit={edit}
+                    updateAll={updateAll}
+                    orderId={id}
+                  />
                   <Segment>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                       <Header as="h1" style={{ marginBottom: '2rem' }}>
                         {`Order number: ${id}`}
                       </Header>
                       <div>
-                        <Button negative style={{ marginRight: '1rem' }}>
+                        <Button negative style={{ marginRight: '1rem' }} onClick={() => setIsModalVisible(true)}>
                           Cancel Order
                         </Button>
                         <Button primary>
-Approve
+Approve Order
                         </Button>
 
 
