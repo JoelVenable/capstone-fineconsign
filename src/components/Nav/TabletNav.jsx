@@ -3,6 +3,7 @@ import { Dropdown, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { CartMenuItem } from './CartItem';
+import { SignInButton } from './SignInButton';
 
 export function TabletMenu({
   user,
@@ -121,13 +122,7 @@ export function TabletMenu({
     }
   }
 
-  return (
-    <>
-      <Menu.Menu position="right">
-        <Dropdown item icon="shopping cart" />
-      </Menu.Menu>
-    </>
-  );
+  return <SignInButton />;
 }
 
 function SignOutButton() {
