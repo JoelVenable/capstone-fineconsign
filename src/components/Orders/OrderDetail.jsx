@@ -58,17 +58,18 @@ export function OrderDetail({ id }) {
                       <Header as="h1" style={{ marginBottom: '2rem' }}>
                         {`Order number: ${id}`}
                       </Header>
-                      <div>
-                        <Button negative style={{ marginRight: '1rem' }} onClick={() => setIsModalVisible(true)}>
+                      {(order.isCancelled || order.isApproved) ? null : (
+                        <div>
+                          <Button negative style={{ marginRight: '1rem' }} onClick={() => setIsModalVisible(true)}>
                           Cancel Order
-                        </Button>
-                        <Button primary>
+                          </Button>
+                          <Button primary>
 Approve Order
-                        </Button>
+                          </Button>
 
 
-                      </div>
-
+                        </div>
+                      )}
 
                     </div>
                     <Dimmer active={loading}>
