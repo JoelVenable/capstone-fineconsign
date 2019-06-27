@@ -38,14 +38,10 @@ export function CancelOrderModal({
       onClose={handleClose}
     >
       <Segment>
-        <Header>
-          <Header.Content>
-          Do you want to cancel this customer order?
-            <Header.Subtitle>
-            Note that paintings will be automatically made available for sale again.
-            </Header.Subtitle>
-          </Header.Content>
-        </Header>
+        <Header
+          content="Do you want to cancel this customer order?"
+          subheader="Note that paintings will be automatically made available for sale again."
+        />
         <Form>
           <Form.Field
             disabled={modalDisabled}
