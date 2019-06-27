@@ -5,8 +5,8 @@ import {
 import PropTypes from 'prop-types';
 
 export function Login({ login, redirect }) {
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const wait = ms => new Promise(r => setTimeout(r, ms));
