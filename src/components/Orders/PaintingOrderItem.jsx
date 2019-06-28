@@ -9,7 +9,7 @@ import { DeleteOrderItemModal } from './DeleteOrderItemModal';
 
 
 export function PaintingOrderItem({
-  painting, user: { userType }, edit, updateAll,
+  painting, user: { userType }, edit, updateAll, showControls,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleOpen = () => setIsModalVisible(true);
@@ -75,10 +75,12 @@ export function PaintingOrderItem({
                   </Header.Content>
                 </Header>
               </Link>
-              <Button icon basic onClick={handleOpen}>
-                <Icon name="times circle" color="red" />
+              {showControls ? (
+                <Button icon basic onClick={handleOpen}>
+                  <Icon name="times circle" color="red" />
 
-              </Button>
+                </Button>
+              ) : null}
             </>
           )}
 
@@ -98,6 +100,7 @@ export function PaintingOrderItem({
 
 
 PaintingOrderItem.propTypes = {
+  showControls: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
