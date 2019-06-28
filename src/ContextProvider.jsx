@@ -73,9 +73,32 @@ class Provider extends PureComponent {
           return this.state.createCart();
         });
       },
+      updateAll: () => {
+        const { user } = this.state;
+        const endpoints = [
+          'artists',
+          'paintings',
+          'employees',
+          'customers',
+        ];
+        if (user) {
+          if (user.userType === 'employee') {
+            endpoints.push(
+              'orders',
+              'orderItems',
+            );
+          }
+        }
+        const newState = {};
+        return Promise.all(endpoints.map(endpoint => API[endpoint].getAll()))
+          .then(data => data.forEach((item, index) => newState[endpoints[index]] = item))
+          .then(() => this.setState(newState));
+
+        //  TODO: If user is a customer, get their orders only
+        // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
+      },
       createCart: async () => {
         const { user, showError, getOpenCart } = this.state;
-        // This function assumes a customer is logged in!
         if (!user) {
           showError('Only customers can make purchases!');
           return null;
@@ -109,6 +132,7 @@ class Provider extends PureComponent {
           if (found.length === 0) {
             return (
               API.orderItems.create({
+                isCancelled: false,
                 orderId: myCart.id,
                 paintingId,
               }).then(getOpenCart)
@@ -124,6 +148,71 @@ class Provider extends PureComponent {
         API.orderItems.delete(itemToRemove.id).then(getOpenCart);
       },
       submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
+      calculateOrderTotal: (orderId) => {
+        const { orders, paintings } = this.state;
+        const order = orders.find(item => item.id === orderId);
+        return order.orderItems.reduce((acc, item) => (!item.isCancelled
+          ? acc + paintings.find(painting => painting.id === item.paintingId).currentPrice
+          : acc),
+        0);
+      },
+      completeOrder: async (orderId) => {
+        const { orders, paintings, calculateOrderTotal } = this.state;
+        const order = orders.find(item => item.id === orderId);
+        const orderTotal = calculateOrderTotal(orderId);
+        let storeProfit = 0;
+
+        function roundDollars(num) {
+          return Math.round(num * 100) / 100;
+        }
+
+
+        // Update customer account balance: accountBalance - orderTotal
+        await API.customers.edit(order.customerId, {
+          accountBalance: order.customer.accountBalance - orderTotal,
+        });
+
+        //  Update order in database to reflect sold status and the final order total
+        await API.orders.edit(orderId, {
+          isCompleted: true,
+          orderTotal,
+        });
+
+        await order.orderItems.map((item) => {
+          const painting = paintings.find(pntg => pntg.id === item.paintingId);
+          console.log(painting);
+
+          // Calculate artist's share of profit
+          let artistShare = painting.currentPrice * painting.artist.profitRatio;
+
+          // Round to nearest penny
+          artistShare = roundDollars(artistShare);
+
+          const storeShare = roundDollars(painting.currentPrice - artistShare);
+          storeProfit += storeShare;
+
+          return Promise.all([
+            // Update artist account balance: orderTotal * profitRatio
+            API.artists.edit(painting.artistId, { accountBalance: painting.artist.accountBalance + artistShare }),
+
+            // Update painting to sold status
+            API.paintings.edit(painting.id, {
+              isSold: true, isLive: false, artistShare, storeShare,
+            }),
+          ]);
+        });
+
+
+        // Update store account balance
+        return API.stores.get()
+          .then(store => API.stores.edit(1, {
+            accountBalance: roundDollars(store.accountBalance + storeProfit),
+          }))
+          // Then update everything
+
+          /* eslint-disable-next-line */
+          .then(this.state.updateAll)
+      },
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,
       showLogin: () => this.setState({ isLoginModalVisible: true }),
@@ -154,19 +243,8 @@ class Provider extends PureComponent {
 
 
   componentDidMount() {
-    const { get, user } = this.state;
-    get.artists();
-    get.paintings();
-    get.employees();
-    get.customers();
-    if (user) {
-      if (user.userType === 'employee') {
-        get.orders();
-        get.orderItems();
-        get.priceAdjustments();
-      }
-    }
-    // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
+    /* eslint-disable-next-line */
+    this.state.updateAll();
   }
 
 

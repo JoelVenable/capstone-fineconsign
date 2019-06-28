@@ -30,34 +30,48 @@ export function OrderTableItem({
         </Header>
       </Table.Cell>
       <Consumer>
-        {({ paintings, history }) => {
+        {({ paintings, history, calculateOrderTotal }) => {
           const orderTotal = order.orderItems.reduce((accumulator, item) => {
             const foundPainting = paintings.find(painting => painting.id === item.paintingId);
-            return foundPainting ? foundPainting.currentPrice + accumulator : NaN;
+            let output = 0;
+            if (foundPainting) output = !foundPainting.isCancelled ? foundPainting.currentPrice : 0;
+            return output + accumulator;
           }, 0);
-          const orderItems = order.orderItems.length;
+          const orderItems = order.orderItems.reduce((accumulator, item) => (item.isCancelled ? accumulator : accumulator + 1), 0);
           return (
             <>
 
               <Table.Cell>
-                <Popup
-                  content={`This order contains ${orderItems} painting${(orderItems === 1) ? '' : 's'}`}
-                  trigger={(
-                    <Label color="blue">
-                      <Icon name="images" />
-                      {orderItems}
-                    </Label>
+                {(!order.isCancelled && !order.isCompleted) ? (
+                  <>
+                    <Popup
+                      content={`This order contains ${orderItems} painting${(orderItems === 1) ? '' : 's'}`}
+                      trigger={(
+                        <Label color="blue">
+                          <Icon name="images" />
+                          {orderItems}
+                        </Label>
 )}
-                />
-                <Popup
-                  content="The total of the order"
-                  trigger={(
-                    <Label color="green">
-                      <Icon name="dollar sign" />
-                      {orderTotal}
-                    </Label>
+                    />
+                    <Popup
+                      content="The total of the order"
+                      trigger={(
+                        <Label color="green">
+                          <Icon name="dollar sign" />
+                          {calculateOrderTotal(order.id)}
+                        </Label>
 )}
-                />
+                    />
+                  </>
+                ) : null}
+
+                {order.isCancelled ? (
+                  <Header as="h4" color="red" content="Cancelled" />
+                ) : null}
+                {order.isCompleted ? (
+                  <Header as="h4" color="blue" content="Completed" />
+                ) : null}
+
               </Table.Cell>
               <Table.Cell>
                 <OrderButton id={order.id} history={history} />
