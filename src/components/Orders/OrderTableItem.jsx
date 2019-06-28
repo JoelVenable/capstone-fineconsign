@@ -43,24 +43,36 @@ export function OrderTableItem({
             <>
 
               <Table.Cell>
-                <Popup
-                  content={`This order contains ${orderItems} painting${(orderItems === 1) ? '' : 's'}`}
-                  trigger={(
-                    <Label color="blue">
-                      <Icon name="images" />
-                      {orderItems}
-                    </Label>
+                {(!order.isCancelled && !order.isApproved) ? (
+                  <>
+                    <Popup
+                      content={`This order contains ${orderItems} painting${(orderItems === 1) ? '' : 's'}`}
+                      trigger={(
+                        <Label color="blue">
+                          <Icon name="images" />
+                          {orderItems}
+                        </Label>
 )}
-                />
-                <Popup
-                  content="The total of the order"
-                  trigger={(
-                    <Label color="green">
-                      <Icon name="dollar sign" />
-                      <CalculateOrderTotal orderId={order.id} />
-                    </Label>
+                    />
+                    <Popup
+                      content="The total of the order"
+                      trigger={(
+                        <Label color="green">
+                          <Icon name="dollar sign" />
+                          <CalculateOrderTotal orderId={order.id} />
+                        </Label>
 )}
-                />
+                    />
+                  </>
+                ) : null}
+
+                {order.isCancelled ? (
+                  <Header as="h4" color="red" content="Cancelled" />
+                ) : null}
+                {order.isApproved ? (
+                  <Header as="h4" color="blue" content="Completed" />
+                ) : null}
+
               </Table.Cell>
               <Table.Cell>
                 <OrderButton id={order.id} history={history} />
