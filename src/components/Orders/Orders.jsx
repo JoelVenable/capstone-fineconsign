@@ -17,7 +17,7 @@ export function Orders() {
       render: () => (
         <Tab.Pane>
           <Consumer>
-            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isSubmitted && !item.isCompleted)} />}
+            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isSubmitted && !item.isCompleted && !item.isCancelled)} />}
           </Consumer>
         </Tab.Pane>
       ),
@@ -27,7 +27,17 @@ export function Orders() {
       render: () => (
         <Tab.Pane>
           <Consumer>
-            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isCompleted)} />}
+            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isCompleted && !item.isCancelled)} />}
+          </Consumer>
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: 'Cancelled',
+      render: () => (
+        <Tab.Pane>
+          <Consumer>
+            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isCancelled)} />}
           </Consumer>
         </Tab.Pane>
       ),
