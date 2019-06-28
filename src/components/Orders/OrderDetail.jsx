@@ -25,7 +25,7 @@ export function OrderDetail({ id }) {
       }) => {
         const order = orders.find(item => item.id === id);
         const customer = order ? order.customer : null;
-        const showControls = order ? !order.isCancelled && !order.isApproved : false;
+        const showControls = order ? !order.isCancelled && !order.isCompleted : false;
         const orderedPaintings = order ? (
           order.orderItems.map((orderItem) => {
             const painting = paintings.find(item => item.id === orderItem.paintingId);
@@ -96,7 +96,7 @@ export function OrderDetail({ id }) {
                     {order.isCancelled ? (
                       <Header as="h3" color="red" content="Order Cancelled" />
                     ) : null}
-                    {order.isApproved ? (
+                    {order.isCompleted ? (
                       <Header as="h3" color="blue" content="Order Completed" />
                     ) : null}
 

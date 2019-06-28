@@ -43,7 +43,7 @@ export function OrderTableItem({
             <>
 
               <Table.Cell>
-                {(!order.isCancelled && !order.isApproved) ? (
+                {(!order.isCancelled && !order.isCompleted) ? (
                   <>
                     <Popup
                       content={`This order contains ${orderItems} painting${(orderItems === 1) ? '' : 's'}`}
@@ -69,7 +69,7 @@ export function OrderTableItem({
                 {order.isCancelled ? (
                   <Header as="h4" color="red" content="Cancelled" />
                 ) : null}
-                {order.isApproved ? (
+                {order.isCompleted ? (
                   <Header as="h4" color="blue" content="Completed" />
                 ) : null}
 
