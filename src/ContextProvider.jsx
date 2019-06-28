@@ -73,25 +73,33 @@ class Provider extends PureComponent {
           return this.state.createCart();
         });
       },
-      updateAll: () => {
-        const { get, user } = this.state;
-        get.artists();
-        get.paintings();
-        get.employees();
-        get.customers();
+      updateAll: async () => {
+        const { user } = this.state;
+        const endpoints = [
+          'artists',
+          'paintings',
+          'employees',
+          'customers',
+        ];
         if (user) {
           if (user.userType === 'employee') {
-            get.orders();
-            get.orderItems();
-            get.priceAdjustments();
+            endpoints.push(
+              'orders',
+              'orderItems',
+            );
           }
         }
+        const newState = {};
+        await Promise.all(endpoints.map(endpoint => API[endpoint].getAll()))
+          .then(data => data.forEach((item, index) => newState[endpoints[index]] = item));
+
+        this.setState(newState);
+
         //  TODO: If user is a customer, get their orders only
         // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
       },
       createCart: async () => {
         const { user, showError, getOpenCart } = this.state;
-        // This function assumes a customer is logged in!
         if (!user) {
           showError('Only customers can make purchases!');
           return null;
@@ -141,6 +149,57 @@ class Provider extends PureComponent {
         API.orderItems.delete(itemToRemove.id).then(getOpenCart);
       },
       submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
+      calculateOrderTotal: (orderId) => {
+        const { orders, paintings } = this.state;
+        const order = orders.find(item => item.id === orderId);
+        return order.orderItems.reduce((acc, item) => (!item.isCancelled
+          ? acc + paintings.find(painting => painting.id === item.paintingId).currentPrice
+          : acc),
+        0);
+      },
+      completeOrder: async (orderId) => {
+        const { orders, paintings, calculateOrderTotal } = this.state;
+        const order = orders.find(item => item.id === orderId);
+        const orderTotal = calculateOrderTotal(orderId);
+        const storeProfit = 0;
+
+        //  Update order in database, new keys:
+        // 'isCompleted: true',
+        // 'orderTotal: num.toFixed(2)'
+
+        // await API.orders.edit(orderId, {
+        //   isCompleted: true,
+        //   orderTotal: orderTotal.toFixed(2),
+        // });
+
+        order.orderItems.map((item) => {
+          const painting = paintings.find(pntg => pntg.id === item.paintingId);
+          console.log(painting);
+          // Calculate artist's share of profit
+          let artistShare = painting.currentPrice * painting.artist.profitRatio;
+          // Round to nearest penny
+          artistShare = Math.round(artistShare * 100) / 100;
+
+          storeProfit += painting.currentPrice - artistShare;
+          console.log('artist share', artistShare);
+          // Mark painting as sold.
+          // return API.paintings.edit(painting.id, {
+          //   isSold: true,
+          // }).then(() => {
+          //   API.artists.edit(painting.artistId, [
+          //     accountBalance: painting.artist.accountBalance + artistShare
+          //   ])
+          // })
+        });
+
+        // Update artist account balance: orderTotal * profitRatio
+
+        // Update customer account balance: accountBalance - orderTotal
+
+        // Update store account balance: accountBalance += orderTotal - (orderTotal * profitRatio)
+
+        // Then update everything
+      },
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,
       showLogin: () => this.setState({ isLoginModalVisible: true }),
