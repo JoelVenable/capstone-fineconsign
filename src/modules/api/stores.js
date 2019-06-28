@@ -6,7 +6,7 @@ const endpoint = new Endpoint(`${baseURL}/stores`);
 
 export const stores = {
   create: obj => endpoint.create(obj),
-  getAll: () => endpoint.getAll(),
+  get: () => endpoint.getOne(1),
   edit: (id, newParams) => endpoint.update(id, newParams),
   delete: id => endpoint.delete(id),
 };

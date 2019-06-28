@@ -73,7 +73,7 @@ class Provider extends PureComponent {
           return this.state.createCart();
         });
       },
-      updateAll: async () => {
+      updateAll: () => {
         const { user } = this.state;
         const endpoints = [
           'artists',
@@ -90,10 +90,9 @@ class Provider extends PureComponent {
           }
         }
         const newState = {};
-        await Promise.all(endpoints.map(endpoint => API[endpoint].getAll()))
-          .then(data => data.forEach((item, index) => newState[endpoints[index]] = item));
-
-        this.setState(newState);
+        return Promise.all(endpoints.map(endpoint => API[endpoint].getAll()))
+          .then(data => data.forEach((item, index) => newState[endpoints[index]] = item))
+          .then(() => this.setState(newState));
 
         //  TODO: If user is a customer, get their orders only
         // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
@@ -161,44 +160,52 @@ class Provider extends PureComponent {
         const { orders, paintings, calculateOrderTotal } = this.state;
         const order = orders.find(item => item.id === orderId);
         const orderTotal = calculateOrderTotal(orderId);
-        const storeProfit = 0;
+        let storeProfit = 0;
 
-        //  Update order in database, new keys:
-        // 'isCompleted: true',
-        // 'orderTotal: num.toFixed(2)'
 
-        // await API.orders.edit(orderId, {
-        //   isCompleted: true,
-        //   orderTotal: orderTotal.toFixed(2),
-        // });
+        // Update customer account balance: accountBalance - orderTotal
+        await API.customers.edit(order.customerId, {
+          accountBalance: order.customer.accountBalance - orderTotal,
+        });
 
-        order.orderItems.map((item) => {
+        //  Update order in database to reflect sold status and the final order total
+        await API.orders.edit(orderId, {
+          isCompleted: true,
+          orderTotal,
+        });
+
+        await order.orderItems.map((item) => {
           const painting = paintings.find(pntg => pntg.id === item.paintingId);
           console.log(painting);
+
           // Calculate artist's share of profit
           let artistShare = painting.currentPrice * painting.artist.profitRatio;
+
           // Round to nearest penny
           artistShare = Math.round(artistShare * 100) / 100;
 
           storeProfit += painting.currentPrice - artistShare;
-          console.log('artist share', artistShare);
-          // Mark painting as sold.
-          // return API.paintings.edit(painting.id, {
-          //   isSold: true,
-          // }).then(() => {
-          //   API.artists.edit(painting.artistId, [
-          //     accountBalance: painting.artist.accountBalance + artistShare
-          //   ])
-          // })
+
+
+          return Promise.all([
+            // Update artist account balance: orderTotal * profitRatio
+            API.artists.edit(painting.artistId, { accountBalance: painting.artist.accountBalance + artistShare }),
+
+            // Update painting to sold status
+            API.paintings.edit(painting.id, { isSold: true }),
+          ]);
         });
 
-        // Update artist account balance: orderTotal * profitRatio
 
-        // Update customer account balance: accountBalance - orderTotal
+        // Update store account balance
+        return API.stores.get()
+          .then(store => API.stores.edit(1, {
+            accountBalance: store.accountBalance + storeProfit,
+          }))
+          // Then update everything
 
-        // Update store account balance: accountBalance += orderTotal - (orderTotal * profitRatio)
-
-        // Then update everything
+          /* eslint-disable-next-line */
+          .then(this.state.updateAll)
       },
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,

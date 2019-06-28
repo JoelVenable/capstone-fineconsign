@@ -6,6 +6,7 @@ import { orderItems } from './orderItems';
 import { priceAdjustments } from './priceAdjustments';
 import { users } from './users';
 import { artists } from './artists';
+import { stores } from './stores';
 
 export const API = {
   employees,
@@ -16,4 +17,5 @@ export const API = {
   priceAdjustments,
   artists,
   users,
+  stores,
 };
