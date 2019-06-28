@@ -5,7 +5,6 @@ import {
 } from 'semantic-ui-react';
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
-import { CalculateOrderTotal } from '../utility/CalculateOrderTotal';
 import { CancelOrderModal } from './CancelOrderModal';
 
 export function OrderDetail({ id }) {
@@ -21,7 +20,7 @@ export function OrderDetail({ id }) {
   return (
     <Consumer>
       {({
-        orders, paintings, history, user, edit, updateAll,
+        orders, paintings, history, user, edit, updateAll, calculateOrderTotal, completeOrder,
       }) => {
         const order = orders.find(item => item.id === id);
         const customer = order ? order.customer : null;
@@ -82,6 +81,7 @@ export function OrderDetail({ id }) {
                       primary
                       onClick={() => {
                         setLoading(true);
+                        completeOrder(id);
                         setTimeout(() => {
                           setSuccess(true);
                           setLoading(false);
@@ -184,11 +184,12 @@ export function OrderDetail({ id }) {
                         fontWeight: 'bold',
                       }}
                       >
-                        <span>Order Total:</span>
                         <span>
-$
-                          <CalculateOrderTotal orderId={id} />
+                          {'Order Total: '}
                         </span>
+                        <div>
+                          {`$${calculateOrderTotal(id)}`}
+                        </div>
                       </div>
 
                     </Table.HeaderCell>

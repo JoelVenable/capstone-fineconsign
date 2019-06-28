@@ -5,7 +5,6 @@ import {
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { OrderButton } from '../utility/OrderButton';
-import { CalculateOrderTotal } from '../utility/CalculateOrderTotal';
 
 
 export function OrderTableItem({
@@ -31,7 +30,7 @@ export function OrderTableItem({
         </Header>
       </Table.Cell>
       <Consumer>
-        {({ paintings, history }) => {
+        {({ paintings, history, calculateOrderTotal }) => {
           const orderTotal = order.orderItems.reduce((accumulator, item) => {
             const foundPainting = paintings.find(painting => painting.id === item.paintingId);
             let output = 0;
@@ -59,7 +58,7 @@ export function OrderTableItem({
                       trigger={(
                         <Label color="green">
                           <Icon name="dollar sign" />
-                          <CalculateOrderTotal orderId={order.id} />
+                          {calculateOrderTotal(order.id)}
                         </Label>
 )}
                     />
