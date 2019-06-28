@@ -162,6 +162,10 @@ class Provider extends PureComponent {
         const orderTotal = calculateOrderTotal(orderId);
         let storeProfit = 0;
 
+        function roundDollars(num) {
+          return Math.round(num * 100) / 100;
+        }
+
 
         // Update customer account balance: accountBalance - orderTotal
         await API.customers.edit(order.customerId, {
@@ -182,17 +186,19 @@ class Provider extends PureComponent {
           let artistShare = painting.currentPrice * painting.artist.profitRatio;
 
           // Round to nearest penny
-          artistShare = Math.round(artistShare * 100) / 100;
+          artistShare = roundDollars(artistShare);
 
-          storeProfit += painting.currentPrice - artistShare;
-
+          const storeShare = roundDollars(painting.currentPrice - artistShare);
+          storeProfit += storeShare;
 
           return Promise.all([
             // Update artist account balance: orderTotal * profitRatio
             API.artists.edit(painting.artistId, { accountBalance: painting.artist.accountBalance + artistShare }),
 
             // Update painting to sold status
-            API.paintings.edit(painting.id, { isSold: true }),
+            API.paintings.edit(painting.id, {
+              isSold: true, isLive: false, artistShare, storeShare,
+            }),
           ]);
         });
 
@@ -200,7 +206,7 @@ class Provider extends PureComponent {
         // Update store account balance
         return API.stores.get()
           .then(store => API.stores.edit(1, {
-            accountBalance: store.accountBalance + storeProfit,
+            accountBalance: roundDollars(store.accountBalance + storeProfit),
           }))
           // Then update everything
 
