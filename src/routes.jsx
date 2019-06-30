@@ -8,7 +8,6 @@ import { Redirect } from 'react-router-dom';
 import { Users } from './components/Users/Users';
 import { Gallery } from './components/Gallery/Gallery';
 import { Orders } from './components/Orders/Orders';
-import { PriceAdjustments } from './components/PriceAdjustments/PriceAdjustments';
 import { Stores } from './components/Stores/Stores';
 import { PaintingDetail } from './components/Paintings/PaintingDetail';
 import { PaintingList } from './components/PaintingList/PaintingList';
@@ -44,12 +43,7 @@ export const checkProtectedRoutes = user => [
     },
     isAuthorized: checkLoggedIn(user),
     exact: true,
-  }, {
-    path: '/priceAdjustments',
-    render: props => <PriceAdjustments {...props} />,
-    isAuthorized: checkEmployeeAccess(user, 'canDefinePriceAdjustments'),
-    exact: true,
-  }, {
+  },  {
     path: '/stores',
     render: props => <Stores {...props} />,
     isAuthorized: checkEmployeeAccess(user, 'canEditEmployees'),
