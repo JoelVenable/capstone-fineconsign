@@ -10,7 +10,7 @@ import { CancelOrderModal } from './CancelOrderModal';
 export function OrderDetail({ id }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [authorized, setAuthorized] = useState(false);
+  // const [authorized, setAuthorized] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   function handleClose() {
@@ -48,7 +48,8 @@ export function OrderDetail({ id }) {
               handleClose={handleClose}
               edit={edit}
               updateAll={updateAll}
-              orderId={id}
+              orderedPaintings={orderedPaintings}
+              order={order}
             />
             <Dimmer active={loading}>
               <Loader content="Submitting..." />
