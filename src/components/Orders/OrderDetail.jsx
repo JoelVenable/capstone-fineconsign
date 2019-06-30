@@ -40,7 +40,9 @@ export function OrderDetail({ id }) {
         // Otherwise the page will break as it will try to access properties of an undefined object
         // (happens on initial paint before the fetch call resolves)
         const isDefined = order ? !!orderedPaintings[0] : false;
+        const isCancelled = order ? order.isCancelled : false;
 
+        console.log(isCancelled);
         return isDefined ? (
           <Segment.Group>
             <CancelOrderModal
@@ -100,14 +102,24 @@ export function OrderDetail({ id }) {
                     {order.isCompleted ? (
                       <Header as="h3" color="blue" content="Order Completed" />
                     ) : null}
-
                   </div>
                 )}
-
               </div>
-
-
             </Segment>
+            {isCancelled ? (
+              <Segment>
+                <Grid columns={2}>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header content="Reason for cancellation:" />
+                    </Grid.Column>
+                    <Grid.Column>
+                      {order.cancelMessage}
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+            ) : null}
             <Segment
               disabled={loading || order.isCancelled}
             >
@@ -200,7 +212,7 @@ export function OrderDetail({ id }) {
               </Table>
             </Segment>
           </Segment.Group>
-        ) : null;
+        ) : <></>;
       }}
     </Consumer>
   );
