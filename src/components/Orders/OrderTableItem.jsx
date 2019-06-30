@@ -30,14 +30,10 @@ export function OrderTableItem({
         </Header>
       </Table.Cell>
       <Consumer>
-        {({ paintings, history, calculateOrderTotal }) => {
-          const orderTotal = order.orderItems.reduce((accumulator, item) => {
-            const foundPainting = paintings.find(painting => painting.id === item.paintingId);
-            let output = 0;
-            if (foundPainting) output = !foundPainting.isCancelled ? foundPainting.currentPrice : 0;
-            return output + accumulator;
-          }, 0);
-          const orderItems = order.orderItems.reduce((accumulator, item) => (item.isCancelled ? accumulator : accumulator + 1), 0);
+        {({ history, calculateOrderTotal }) => {
+          const orderItems = order.orderItems.reduce(
+            (accumulator, item) => (item.isCancelled ? accumulator : accumulator + 1), 0,
+          );
           return (
             <>
 
