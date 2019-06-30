@@ -61,16 +61,18 @@ export function ArtistProfile({ id }) {
               <Header.Content>Featured Paintings</Header.Content>
             </Header>
             <Grid container>
-              {artist.paintings.map(painting => (
-                <Grid.Column
-                  mobile={16}
-                  tablet={8}
-                  computer={5}
-                  key={painting.id}
-                >
-                  <PaintingCard {...painting} artist={artist} />
-                </Grid.Column>
-              ))}
+              {artist.paintings
+                .filter(({ isLive, isSold, isPendingSale }) => isLive || isSold || isPendingSale)
+                .map(painting => (
+                  <Grid.Column
+                    mobile={16}
+                    tablet={8}
+                    computer={5}
+                    key={painting.id}
+                  >
+                    <PaintingCard {...painting} artist={artist} />
+                  </Grid.Column>
+                ))}
             </Grid>
           </>
         ) : (
