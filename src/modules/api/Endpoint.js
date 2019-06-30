@@ -67,7 +67,6 @@ export function Endpoint(url) {
       'Content-Type': 'application/json',
     },
   })
-    .then(checkAndParseResponse)
     .catch(catchError);
 }
 
