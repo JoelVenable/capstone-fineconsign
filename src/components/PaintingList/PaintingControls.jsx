@@ -7,7 +7,12 @@ import { OrderButton } from '../utility/OrderButton';
 import { DeactivateButton } from '../utility/DeactivateButton';
 import { KickbackButton } from '../utility/KickbackButton';
 import { GoLiveButton } from '../utility/GoLiveButton';
+import { DeleteButton } from '../utility/DeleteButton';
 
+const style = {
+  display: 'flex',
+  flexDirection: 'row',
+};
 
 export function PaintingControls({ id }) {
   return (
@@ -23,6 +28,7 @@ export function PaintingControls({ id }) {
             if (isSold || isLive || isSubmitted || isPendingSale) return null;
             return (
               <div className="table-actionIconContainer">
+                <DeleteButton id={id} type="painting" />
                 <EditButton id={id} history={history} />
                 <SendForReviewButton id={id} />
               </div>
@@ -32,17 +38,17 @@ export function PaintingControls({ id }) {
           if (user.userType === 'employee') {
             if (isSold || isPendingSale) {
             //  find all order items containing the painting
-              const orderId = orderItems.filter(item => item.paintingId === id)
+              const order = orderItems.filter(item => item.paintingId === id)
 
               //  then make an orders array from values referenced in the orderItems table
-                .map(item => orders.find(order => order.id === item.orderId))
+                .map(item => orders.find(myOrder => myOrder.id === item.orderId))
 
               //  then find the order that triggered the current 'isPendingSale' flag.
-                .find(item => item.isSubmitted && !item.isRejected)
-                .id;
+                .find(item => item.isSubmitted && !item.isRejected);
+              const orderId = order ? order.id : NaN;
 
               return (
-                <div className="table-actionIconContainer">
+                <div style={style}>
 
                   <OrderButton id={orderId} history={history} />
 
@@ -52,7 +58,7 @@ export function PaintingControls({ id }) {
             }
             if (isLive) {
               return (
-                <div className="table-actionIconContainer">
+                <div style={style}>
                   <DeactivateButton id={id} />
                   <EditButton id={id} history={history} />
                 </div>
@@ -60,8 +66,9 @@ export function PaintingControls({ id }) {
             }
             if (isSubmitted) {
               return (
-                <div className="table-actionIconContainer">
+                <div style={style}>
                   <KickbackButton id={id} />
+                  <DeleteButton id={id} showText={false} type="painting" />
                   <EditButton id={id} history={history} />
                   <GoLiveButton id={id} />
                 </div>

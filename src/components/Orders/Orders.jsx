@@ -17,7 +17,12 @@ export function Orders() {
       render: () => (
         <Tab.Pane>
           <Consumer>
-            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isSubmitted && !item.isCompleted && !item.isCancelled)} />}
+            {({ orders }) => (
+              <OrderTable ordersList={
+              orders.filter(item => item.isSubmitted && !item.isCompleted && !item.isCancelled)
+              }
+              />
+            )}
           </Consumer>
         </Tab.Pane>
       ),
