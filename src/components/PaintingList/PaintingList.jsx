@@ -13,7 +13,7 @@ export function PaintingList({ history }) {
   };
   const panes = [
     {
-      menuItem: 'Pending',
+      menuItem: 'Drafts',
       render: () => (
         <Tab.Pane>
           <Consumer>
