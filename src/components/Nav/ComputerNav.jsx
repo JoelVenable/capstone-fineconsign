@@ -72,7 +72,7 @@ export function ComputerMenu({ user, history }) {
               key="favorites"
               onClick={handleClick}
               icon="paint brush"
-              name="Favorite Artists"
+              name="Artists"
               value="/artists"
             />
             <Menu.Item

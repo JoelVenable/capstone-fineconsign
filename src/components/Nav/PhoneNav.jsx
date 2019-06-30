@@ -22,7 +22,11 @@ Employee view:
 */
 
 
-export function PhoneMenu({ user }) {
+export function PhoneMenu({ user, history }) {
+  function handleClick(_e, { value }) {
+    // setactiveLink(value);
+    history.push(value);
+  }
   if (user) {
     if (user.userType === 'employee') {
       const emp = user.employee;
@@ -91,13 +95,13 @@ export function PhoneMenu({ user }) {
       return (
         <>
           <Menu.Menu position="right">
-            <CartMenuItem />
+            <CartMenuItem handleClick={handleClick} />
             <Dropdown item icon="bars">
               <Dropdown.Menu>
                 <Dropdown.Item
                   key="favorites"
                   icon="paint brush"
-                  text="Favorite Artists"
+                  text="Artists"
                   value="favorites"
                 />
                 <Dropdown.Item
@@ -189,6 +193,9 @@ PhoneMenu.propTypes = {
   user: PropTypes.shape({
     userType: PropTypes.string.isRequired,
   }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 
