@@ -54,8 +54,8 @@ FilterArtists.propTypes = {
 };
 
 FilterArtists.defaultProps = {
-  inline: true,
+  inline: false,
   selection: false,
   clearable: true,
-  placeholder: null,
+  placeholder: 'All artists',
 };
