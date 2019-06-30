@@ -6,14 +6,19 @@ const options = {
   mainImg: {
     maxSizeMB: 1, // 1mb file - Only use this for detail view
     maxWidthOrHeight: 1200,
+    useWebWorker: false,
   },
   thumbImg: {
     maxSizeMB: 0.2, // 200kb
     maxWidthOrHeight: 400,
+    useWebWorker: false,
+
   },
   avatarImg: {
     maxSizeMB: 0.03, // 30kb
     maxWidthOrHeight: 80,
+    useWebWorker: false,
+
   },
 };
 
