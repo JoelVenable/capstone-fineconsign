@@ -23,7 +23,7 @@ export function PaintingList({ history }) {
                 tableType="pending"
                 history={history}
                 paintingList={paintings.filter(
-                  ({ isLive, isSold }) => !isLive && !isSold,
+                  ({ isLive, isPendingSale, isSold }) => !isLive && !isPendingSale && !isSold,
                 )}
               />
             )}
@@ -42,7 +42,7 @@ export function PaintingList({ history }) {
                 user={user}
                 history={history}
                 paintingList={paintings.filter(
-                  ({ isLive, isSold }) => isLive && !isSold,
+                  ({ isLive, isSold, isPendingSale }) => isLive && !isSold && !isPendingSale,
                 )}
               />
             )}
@@ -62,7 +62,7 @@ export function PaintingList({ history }) {
                 history={history}
 
                 paintingList={paintings.filter(
-                  ({ isLive, isSold }) => !isLive && isSold,
+                  ({ isLive, isSold, isPendingSale }) => !isLive && (isPendingSale || isSold),
                 )}
               />
             )}
