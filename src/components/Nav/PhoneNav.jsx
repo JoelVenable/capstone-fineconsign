@@ -14,7 +14,6 @@ Employee view:
 /users
 /artists
 /orders
-/priceAdjustments
 /paintings
 /account
 /gallery
@@ -71,17 +70,6 @@ export function PhoneMenu({ user, history }) {
                 ) : null}
 
 
-              {emp.canDefinePriceAdjustments
-                ? (
-                  <Link to="/priceAdjustments">
-                    <Dropdown.Item
-                      key="priceAdjustments"
-                      icon="dollar sign"
-                      text="Price Adjustments"
-                      value="priceAdjustments"
-                    />
-                  </Link>
-                ) : null}
               <Dropdown.Divider />
               <SignOutButton />
             </Dropdown.Menu>

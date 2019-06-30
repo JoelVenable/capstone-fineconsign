@@ -72,7 +72,6 @@ export class SignUp extends Component {
          userId: id,
          canEditInventory: false,
          canProcessOrders: false,
-         canDefinePriceAdjustments: false,
          canEditEmployees: false,
          canEditUsers: false,
        });

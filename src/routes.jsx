@@ -43,7 +43,7 @@ export const checkProtectedRoutes = user => [
     },
     isAuthorized: checkLoggedIn(user),
     exact: true,
-  },  {
+  }, {
     path: '/stores',
     render: props => <Stores {...props} />,
     isAuthorized: checkEmployeeAccess(user, 'canEditEmployees'),

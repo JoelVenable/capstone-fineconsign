@@ -95,7 +95,7 @@ class Provider extends PureComponent {
           .then(() => this.setState(newState));
 
         //  TODO: If user is a customer, get their orders only
-        // orders, orderItems, priceAdjustments - not fetching these automatically because reasons...
+        // orders, orderItems, - not fetching these automatically because reasons...
       },
       createCart: async () => {
         const { user, showError, getOpenCart } = this.state;
@@ -228,7 +228,6 @@ class Provider extends PureComponent {
       'paintings',
       'orders',
       'orderItems',
-      'priceAdjustments',
     ];
     endpoints.forEach((endpoint) => {
       //  the 'minus' variable chops off the 's' at the end of each endpoint
@@ -281,7 +280,6 @@ class Provider extends PureComponent {
       if (user.userType === 'employee') {
         get.orders();
         get.orderItems();
-        get.priceAdjustments();
         history.push('/paintings');
       }
       if (user.userType === 'artist') history.push('/paintings');

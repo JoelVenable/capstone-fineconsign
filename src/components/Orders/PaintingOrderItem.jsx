@@ -122,7 +122,6 @@ PaintingOrderItem.propTypes = {
     // liveDescription: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     originalPrice: PropTypes.number.isRequired,
-    // priceAdjustmentId: PropTypes.number.isRequired,
     submittedDescription: PropTypes.string.isRequired,
     thumbUrl: PropTypes.string.isRequired,
   }).isRequired,

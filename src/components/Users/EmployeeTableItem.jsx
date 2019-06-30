@@ -8,7 +8,6 @@ import { SubmitButton } from '../utility/SubmitButton';
 export function EmployeeTableItem({
   employee, edit,
 }) {
-  const [priceAdjustments, setPriceAdjustments] = useState(employee.canDefinePriceAdjustments);
   const [editEmployees, setEditEmployees] = useState(employee.canEditEmployees);
   const [editInventory, setEditInventory] = useState(employee.canEditInventory);
   const [editUsers, setEditUsers] = useState(employee.canEditUsers);
@@ -40,14 +39,7 @@ export function EmployeeTableItem({
               setEditEmployees(!editEmployees);
             }}
           />
-          <Form.Checkbox
-            label="Edit Price Adjustments"
-            checked={priceAdjustments}
-            onChange={() => {
-              setDisabled(false);
-              setPriceAdjustments(!priceAdjustments);
-            }}
-          />
+
 
           <Form.Checkbox
             label="Edit Inventory"
@@ -84,7 +76,6 @@ export function EmployeeTableItem({
           submitActionThatReturnsPromise={() => {
             setDisabled(true);
             return edit.employee({
-              canDefinePriceAdjustments: priceAdjustments,
               canEditEmployees: editEmployees,
               canEditInventory: editInventory,
               canEditUsers: editUsers,

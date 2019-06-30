@@ -49,16 +49,6 @@ export function ComputerMenu({ user, history }) {
               ) : null}
 
 
-            {employee.canDefinePriceAdjustments
-              ? (
-                <Menu.Item
-                  key="priceAdjustments"
-                  onClick={handleClick}
-                  icon="dollar sign"
-                  name="Price Adjustments"
-                  value="/priceAdjustments"
-                />
-              ) : null}
             <SignOutButton />
 
 
@@ -137,7 +127,6 @@ ComputerMenu.propTypes = {
     userType: PropTypes.oneOf(['employee', 'artist', 'customer']).isRequired,
     employee: PropTypes.shape({
       canEditIventory: PropTypes.bool,
-      canDefinePriceAdjustments: PropTypes.bool,
       canProcessOrders: PropTypes.bool,
       canEditCustomers: PropTypes.bool,
     }),

@@ -43,7 +43,6 @@ export function AddPainting({
         .then(response => response.ref.getDownloadURL()),
       originalPrice: price,
       currentPrice: price,
-      priceAdjustmentId: null,
       isSubmitted: false,
       isReviewed: false,
       isPendingSale: false,
@@ -136,10 +135,11 @@ export function AddPainting({
         />
       </Form.Group>
 
-      <TextArea
+      <Form.TextArea
         value={description}
         onChange={(_e, { value }) => setDescription(value)}
         required
+        label="Description"
 
         rows={7}
         placeholder="Painting description"
