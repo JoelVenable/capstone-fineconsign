@@ -11,10 +11,10 @@ import { ComputerMenu } from './Nav/ComputerNav';
 export function Navbar() {
   return (
     <Menu className="navbar">
-      <Title position="navbar" />
       <Consumer>
         {({ user, history, location }) => (
           <>
+            <Title position="navbar" history={history} />
             <MediaPhone>
               <PhoneMenu user={user} history={history} location={location} />
             </MediaPhone>
