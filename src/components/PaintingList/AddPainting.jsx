@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Input, TextArea, Form, Button,
+  Input, Form, Button,
 } from 'semantic-ui-react';
 import './addPainting.css';
 import PropTypes from 'prop-types';
