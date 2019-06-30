@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Grid, Header, Icon } from 'semantic-ui-react';
+import {
+  Grid, Icon, Table, Checkbox,
+} from 'semantic-ui-react';
 import { Consumer } from '../../ContextProvider';
 import { PaintingCard } from '../Paintings/PaintingCard';
 import { FilterArtists } from '../utility/FilterArtists';
@@ -8,18 +10,33 @@ import { FilterArtists } from '../utility/FilterArtists';
 export function Gallery() {
   const [artistId, setArtistId] = useState(null);
   const [sold, setSold] = useState(false);
-  //  TODO: Filter paintings to show only active ones!
   return (
     <>
-      <Header as="h4">
-        <Icon name="paint brush" />
-        <Header.Content>
-          {'Filter by Artist: '}
-          <FilterArtists setArtist={setArtistId} showOnlyActive={!sold} />
-        </Header.Content>
-      </Header>
+      <Table basic>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell textAlign="center" verticalAlign="middle">
+              <Icon name="paint brush" />
+              {'Filter by Artist: '}
+              <FilterArtists setArtist={setArtistId} showOnlyActive />
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="center" verticalAlign="middle">
+              <Checkbox
+                slider
+                label="Show sold paintings"
+                onChange={(_e, data) => {
+                  setSold(data.checked);
+                }}
+              />
+
+            </Table.HeaderCell>
+
+          </Table.Row>
+        </Table.Header>
+      </Table>
+
       <Grid container>
-        {artistId ? filterPaintings(artistId) : showAllPaintings()}
+        {filterPaintings(artistId, sold)}
 
       </Grid>
     </>
@@ -27,20 +44,13 @@ export function Gallery() {
 }
 
 
-function filterPaintings(artistId) {
+function filterPaintings(artistId, sold) {
   return (
     <Consumer>
       {({ paintings }) => paintings
-        .filter(painting => painting.artistId === artistId && painting.isLive)
+        .filter(painting => (sold ? painting.isSold || painting.isPendingSale : painting.isLive))
+        .filter(painting => (artistId ? painting.artistId === artistId : true))
         .map(showPainting)}
-    </Consumer>
-  );
-}
-
-function showAllPaintings() {
-  return (
-    <Consumer>
-      {({ paintings }) => paintings.map(showPainting)}
     </Consumer>
   );
 }
