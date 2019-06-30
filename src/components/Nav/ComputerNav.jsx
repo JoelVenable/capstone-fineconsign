@@ -23,7 +23,7 @@ export function ComputerMenu({ user, history }) {
                   key="users"
                   onClick={handleClick}
                   icon="wrench"
-                  text="Users"
+                  name="Users"
                   value="/users"
                 />
               ) : null}
@@ -108,7 +108,7 @@ function SignOutButton() {
   return (
     <Consumer>
       {({ logout }) => (
-        <Dropdown.Item
+        <Menu.Item
           key="signout"
           icon="sign-out"
           text="Sign Out"

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
 import { CartMenuItem } from './CartItem';
@@ -36,37 +35,35 @@ export function PhoneMenu({ user, history }) {
             <Dropdown.Menu>
               {emp.canEditEmployees
                 ? (
-                  <Link to="/users">
-                    <Dropdown.Item
-                      key="users"
-                      icon="wrench"
-                      text="Users"
-                      value="users"
-                    />
-                  </Link>
+                  <Dropdown.Item
+                    key="users"
+                    onClick={handleClick}
+                    icon="wrench"
+                    text="Users"
+                    value="/users"
+                  />
                 ) : null}
               {emp.canEditInventory
                 ? (
-                  <Link to="/paintings">
-                    <Dropdown.Item
-                      key="paintings"
-                      icon="file image"
-                      text="Paintings"
-                      value="paintings"
-                    />
-                  </Link>
+                  <Dropdown.Item
+                    key="paintings"
+                    onClick={handleClick}
+                    icon="file image"
+                    text="Paintings"
+                    value="/paintings"
+                  />
                 ) : null}
 
               {emp.canProcessOrders
                 ? (
-                  <Link to="/orders">
-                    <Dropdown.Item
-                      key="orders"
-                      icon="box"
-                      text="Orders"
-                      value="orders"
-                    />
-                  </Link>
+                  <Dropdown.Item
+                    key="orders"
+                    onClick={handleClick}
+
+                    icon="box"
+                    text="Orders"
+                    value="/orders"
+                  />
                 ) : null}
 
 
@@ -88,22 +85,26 @@ export function PhoneMenu({ user, history }) {
               <Dropdown.Menu>
                 <Dropdown.Item
                   key="favorites"
+                  onClick={handleClick}
+
                   icon="paint brush"
                   text="Artists"
-                  value="favorites"
+                  value="/artists"
                 />
                 <Dropdown.Item
                   key="orders"
+                  onClick={handleClick}
                   icon="box"
                   text="My Orders"
-                  value="orders"
+                  value="/orders"
                 />
 
                 <Dropdown.Item
                   key="account"
+                  onClick={handleClick}
                   icon="edit"
                   text="My Account"
-                  value="account"
+                  value="/account"
                 />
                 <Dropdown.Divider />
                 <SignOutButton />
@@ -121,31 +122,29 @@ export function PhoneMenu({ user, history }) {
         <Menu.Menu position="right">
           <Dropdown item icon="bars">
             <Dropdown.Menu>
-              <Link to="/paintings">
-                <Dropdown.Item
-                  key="paintings"
-                  icon="file image"
-                  text="My Paintings"
-                  value="paintings"
-                />
-              </Link>
-              <Link to={`/artists/${user.artist.id}`}>
-                <Dropdown.Item
-                  key="profile"
-                  icon="address card"
-                  text="My Profile"
-                  value="paintings"
-                />
-              </Link>
-              <Link to="/account">
+              <Dropdown.Item
+                key="paintings"
+                onClick={handleClick}
+                icon="file image"
+                text="My Paintings"
+                value="/paintings"
+              />
+              <Dropdown.Item
+                key="profile"
+                onClick={handleClick}
 
-                <Dropdown.Item
-                  key="account"
-                  icon="edit"
-                  text="My Account"
-                  value="account"
-                />
-              </Link>
+                icon="address card"
+                text="My Profile"
+                value="/paintings"
+              />
+
+              <Dropdown.Item
+                key="account"
+                icon="edit"
+                onClick={handleClick}
+                text="My Account"
+                value="/account"
+              />
               <Dropdown.Divider />
               <SignOutButton />
             </Dropdown.Menu>
