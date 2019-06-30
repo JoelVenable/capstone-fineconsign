@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container, Button, Grid, Image,
 } from 'semantic-ui-react';
@@ -36,18 +36,13 @@ export function PaintingDetail({ id }) {
                   <Grid.Column width="10">
                     <h3>{painting.name}</h3>
                     <ArtistNameLink id={painting.artistId} />
-                    <p style={{ whiteSpace: 'pre-wrap' }}>{painting.liveDescription}</p>
+                    <p style={{ whiteSpace: 'pre-wrap', marginTop: '1rem' }}>{painting.liveDescription}</p>
                     <p>
-                      Current Price: $
+                      Price: $
                       {painting.currentPrice}
                     </p>
-                    <p style={{ textDecoration: 'line-through' }}>
-                      Original Price: $
-                      {painting.originalPrice}
-                    </p>
-
                     {showBuyButton ? (
-                      <BuyButton id={id} />
+                      <BuyButton id={id} painting={painting} />
                     ) : null }
                     <PaintingControls id={id} />
                   </Grid.Column>
@@ -64,11 +59,22 @@ export function PaintingDetail({ id }) {
 }
 
 
-function BuyButton({ id }) {
+function BuyButton({ id, painting }) {
   const [buttonText, setButtonText] = useState('Add to Cart');
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (painting.isPendingSale) {
+      setDisabled(true);
+      setButtonText('Pending sale');
+    }
+
+    if (painting.isSold) {
+      setDisabled(true);
+      setButtonText('Sold');
+    }
+  }, [painting.isPendingSale, painting.isSold]);
 
   return (
     <Consumer>
@@ -106,8 +112,13 @@ function BuyButton({ id }) {
 
 PaintingDetail.propTypes = {
   id: PropTypes.number.isRequired,
+
 };
 
 BuyButton.propTypes = {
   id: PropTypes.number.isRequired,
+  painting: PropTypes.shape({
+    isPendingSale: PropTypes.bool.isRequired,
+    isSold: PropTypes.bool.isRequired,
+  }).isRequired,
 };
