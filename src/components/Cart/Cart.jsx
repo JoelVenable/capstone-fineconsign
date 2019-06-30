@@ -7,7 +7,7 @@ import { PaintingCartItem } from './PaintingCartItem';
 
 
 export function Cart({
-  myCart, history, user, paintings, removeFromCart, edit,
+  myCart, history, user, paintings, removeFromCart, edit, createCart,
 }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -103,13 +103,17 @@ Submitting...
 
                       }, myCart.id).then(() => {
                         orderedPaintings.forEach((painting) => {
-                          edit.painting({ isPendingSale: true }, painting.id);
+                          edit.painting({ isPendingSale: true, isLive: false }, painting.id);
                         });
                       });
 
                       setTimeout(() => {
                         setSuccess(true);
                         setLoading(false);
+                        setTimeout(() => {
+                          createCart();
+                          history.push('/gallery');
+                        }, 2000);
                       }, 1000);
                     }}
                   >
@@ -156,6 +160,7 @@ Cart.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  createCart: PropTypes.func.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,
