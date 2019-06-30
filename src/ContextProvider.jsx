@@ -91,7 +91,7 @@ class Provider extends PureComponent {
         }
         const newState = {};
         return Promise.all(endpoints.map(endpoint => API[endpoint].getAll()))
-          .then(data => data.forEach((item, index) => newState[endpoints[index]] = item))
+          .then((data) => { data.forEach((item, index) => { newState[endpoints[index]] = item; }); })
           .then(() => this.setState(newState));
 
         //  TODO: If user is a customer, get their orders only
@@ -145,7 +145,9 @@ class Provider extends PureComponent {
       removeFromCart: (paintingId) => {
         const { myCart, getOpenCart } = this.state;
         const itemToRemove = myCart.orderItems.find(cartItem => cartItem.paintingId === paintingId);
-        API.orderItems.delete(itemToRemove.id).then(getOpenCart);
+        return API.orderItems.edit(itemToRemove.id, { paintingId: null, orderId: null })
+          .then(() => API.orderItems.delete(itemToRemove.id))
+          .then(getOpenCart);
       },
       submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
       calculateOrderTotal: (orderId) => {
@@ -180,7 +182,6 @@ class Provider extends PureComponent {
 
         await order.orderItems.map((item) => {
           const painting = paintings.find(pntg => pntg.id === item.paintingId);
-          console.log(painting);
 
           // Calculate artist's share of profit
           let artistShare = painting.currentPrice * painting.artist.profitRatio;
