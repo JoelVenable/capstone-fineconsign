@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 
 export function CancelOrderModal({
-  isModalVisible, handleClose, edit, updateAll, orderId,
+  isModalVisible, handleClose, edit, updateAll, order, orderedPaintings,
 }) {
   const [message, setMessage] = useState('');
   const [modalDisabled, setModalDisabled] = useState(false);
@@ -17,7 +17,10 @@ export function CancelOrderModal({
     edit.order({
       isCancelled: true,
       cancelMessage: message,
-    }, orderId)
+    }, order.id)
+      .then(() => orderedPaintings.forEach((painting) => {
+        edit.painting({ isPendingSale: false, isLive: true }, painting.id);
+      }))
       .then(updateAll)
       .then(() => {
         setTimeout(() => {
@@ -81,6 +84,10 @@ CancelOrderModal.propTypes = {
     order: PropTypes.func.isRequired,
   }).isRequired,
   updateAll: PropTypes.func.isRequired,
-  orderId: PropTypes.number.isRequired,
-
+  order: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+  orderedPaintings: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  })).isRequired,
 };
