@@ -3,28 +3,27 @@ import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { OrderTableItem } from './OrderTableItem';
 
+
 export function OrderTable({ ordersList }) {
   return (
-    <>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>
             Order
-            </Table.HeaderCell>
-            <Table.HeaderCell>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
             Status
-            </Table.HeaderCell>
-            <Table.HeaderCell>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
             Actions
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {renderTableItems(ordersList)}
-        </Table.Body>
-      </Table>
-    </>
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {renderTableItems(ordersList)}
+      </Table.Body>
+    </Table>
   );
 }
 
