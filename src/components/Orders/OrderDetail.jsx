@@ -84,7 +84,7 @@ export function OrderDetail({ id }) {
                   {order.isSubmitted ? (
                     <StatusItem label="Submitted" time={order.submittedTime} color="blue" />
                   ) : null}
-                  {order.isApproved ? (
+                  {order.isCompleted ? (
                     <StatusItem label="Approved" time={order.approvedTime} color="green" />
                   ) : null}
                   {order.isCancelled ? (
@@ -109,6 +109,7 @@ export function OrderDetail({ id }) {
                         setTimeout(() => {
                           setSuccess(true);
                           setLoading(false);
+                          setTimeout(() => history.push('/orders'), 2000);
                         });
                       }}
                     />
