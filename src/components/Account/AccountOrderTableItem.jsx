@@ -24,7 +24,11 @@ export function AccountOrderTableItem({
                   as="h4"
                   image
                   style={{
-                    minHeight: '58px', paddingLeft: '.5rem', display: 'flex', flexDirection: 'row', alignItems: 'center',
+                    minHeight: '58px',
+                    paddingLeft: '.5rem',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}
                 >
                   <Header.Content>

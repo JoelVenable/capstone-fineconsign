@@ -49,17 +49,8 @@ export function Account({ user }) {
                 <Table>
                   <Table.Body>
                     {orders ? orders
-                      .filter(({ customerId, isSubmitted }) => {
-                        console.log('customerId', customerId);
-                        console.log('isSubmitted', isSubmitted);
-                        console.log('data', data);
-
-                        return customerId === data.id && isSubmitted;
-                      })
-                      .map((order) => {
-                        console.log(order);
-                        return <AccountOrderTableItem order={order} key={order.id} />;
-                      }) : <> </>}
+                      .filter(({ customerId, isSubmitted }) => customerId === data.id && isSubmitted)
+                      .map(order => <AccountOrderTableItem order={order} key={order.id} />) : <> </>}
                   </Table.Body>
                 </Table>
 

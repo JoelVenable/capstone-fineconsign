@@ -52,7 +52,6 @@ export function OrderDetail({ id }) {
           if (user.employee.canProcessOrders) authorized = true;
         }
 
-        console.log(isCancelled);
         return (isDefined && authorized) ? (
           <Segment.Group>
             <CancelOrderModal

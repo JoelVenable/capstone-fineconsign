@@ -8,7 +8,7 @@ import { API } from '../../modules/api/API';
 export function DeleteButton({ id, type, showText }) {
   return (
     <Consumer>
-      {({ showConfirm, remove, edit }) => (
+      {({ showConfirm, remove }) => (
         <Popup
           content={`Delete this ${type}`}
           trigger={(
