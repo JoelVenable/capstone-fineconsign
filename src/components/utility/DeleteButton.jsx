@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../ContextProvider';
+import { API } from '../../modules/api/API';
+
 
 export function DeleteButton({ id, type, showText }) {
   return (
@@ -21,7 +23,7 @@ export function DeleteButton({ id, type, showText }) {
                   id, // The id to be passed to the delete function when confirmed (optional)
                   confirmAction: async () => {
                     if (type === 'painting') {
-                      await edit.painting({ artistId: null }, id);
+                      await API.paintings.edit(id, { artistId: null });
                     }
                     return remove[type](id);
                   }, // Function called when action is confirmed

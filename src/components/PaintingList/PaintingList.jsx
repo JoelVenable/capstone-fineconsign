@@ -17,7 +17,7 @@ export function PaintingList({ history }) {
       render: () => (
         <Tab.Pane>
           <Consumer>
-            {({ paintings, user }) => (
+            {({ paintings, user }) => (paintings ? (
               <PaintingTable
                 user={user}
                 tableType="pending"
@@ -26,7 +26,8 @@ export function PaintingList({ history }) {
                   ({ isLive, isPendingSale, isSold }) => !isLive && !isPendingSale && !isSold,
                 )}
               />
-            )}
+            ) : null)
+            }
           </Consumer>
         </Tab.Pane>
       ),
