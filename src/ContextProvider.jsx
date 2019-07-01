@@ -74,7 +74,6 @@ class Provider extends PureComponent {
         });
       },
       updateAll: () => {
-        const { user } = this.state;
         const endpoints = [
           'artists',
           'paintings',
