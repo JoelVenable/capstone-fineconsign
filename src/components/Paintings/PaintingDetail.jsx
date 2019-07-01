@@ -36,6 +36,9 @@ export function PaintingDetail({ id }) {
                   <Grid.Column width="10">
                     <h3>{painting.name}</h3>
                     <ArtistNameLink id={painting.artistId} />
+                    <p style={{ marginTop: '1rem' }}>{`Size: ${painting.height}" x ${painting.width}"`}</p>
+                    <p style={{ marginTop: '1rem' }}>{`Medium: ${painting.medium}`}</p>
+
                     <p style={{ whiteSpace: 'pre-wrap', marginTop: '1rem' }}>{painting.liveDescription}</p>
                     <p>
                       Price: $
