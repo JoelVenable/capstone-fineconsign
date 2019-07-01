@@ -9,13 +9,14 @@ import { DeleteOrderItemModal } from './DeleteOrderItemModal';
 
 
 export function PaintingOrderItem({
-  painting, user: { userType }, edit, updateAll, showControls,
+  painting, user: { userType }, edit, updateAll, showControls, isCompleted,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleOpen = () => setIsModalVisible(true);
   const handleClose = () => setIsModalVisible(false);
-  const { isCancelled, cancelMessage } = painting.orderItem;
-
+  const {
+    isCancelled, cancelMessage,
+  } = painting.orderItem;
 
   return (
     <Table.Row>
@@ -91,7 +92,30 @@ export function PaintingOrderItem({
         <ArtistNameLink id={painting.artist.id} isLink={false} />
       </Table.Cell>
       <Table.Cell>
-        {isCancelled ? 'Cancelled' : `$${painting.currentPrice}`}
+        {isCancelled ? 'Cancelled' : (
+          <>
+            {isCompleted && userType === 'employee' ? (
+              <Table>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell>Item Total</Table.Cell>
+                    <Table.Cell>{`$${painting.currentPrice}`}</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Artist Share</Table.Cell>
+                    <Table.Cell>{`$${painting.artistShare}`}</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Store Share</Table.Cell>
+                    <Table.Cell>{`$${painting.storeShare}`}</Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            ) : (
+              <p>{`$${painting.currentPrice}`}</p>
+            )}
+          </>
+        )}
 
       </Table.Cell>
     </Table.Row>
@@ -100,6 +124,7 @@ export function PaintingOrderItem({
 
 
 PaintingOrderItem.propTypes = {
+  isCompleted: PropTypes.bool.isRequired,
   showControls: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -121,7 +146,6 @@ PaintingOrderItem.propTypes = {
     // imgUrl: PropTypes.string.isRequired,
     // liveDescription: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    originalPrice: PropTypes.number.isRequired,
     submittedDescription: PropTypes.string.isRequired,
     thumbUrl: PropTypes.string.isRequired,
   }).isRequired,
