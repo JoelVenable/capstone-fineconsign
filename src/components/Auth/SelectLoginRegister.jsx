@@ -19,6 +19,7 @@ export function SelectLoginRegister({
     <Modal
       open={isOpen}
       onClose={handleClose}
+      size="small"
     >
       <Modal.Header>
         <Menu className="loginRegisterMenu">
