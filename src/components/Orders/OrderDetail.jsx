@@ -105,7 +105,7 @@ export function OrderDetail({ id }) {
                       primary
                       onClick={() => {
                         setLoading(true);
-                        completeOrder(id);
+                        updateAll().then(() => completeOrder(id));
                         setTimeout(() => {
                           setSuccess(true);
                           setLoading(false);
@@ -199,6 +199,7 @@ export function OrderDetail({ id }) {
                       <PaintingOrderItem
                         painting={painting}
                         history={history}
+                        isCompleted={order.isCompleted}
                         edit={edit}
                         showControls={showControls}
                         updateAll={updateAll}
