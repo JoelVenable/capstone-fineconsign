@@ -1,7 +1,8 @@
 import React from 'react';
 import { Segment, Header, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-// import { ArtistProfile } from '../Artists/ArtistProfile';
+import { Consumer } from '../../ContextProvider';
+import { AccountOrderTableItem } from './AccountOrderTableItem';
 
 export function Account({ user }) {
   let data = {};
@@ -38,10 +39,35 @@ export function Account({ user }) {
         </Table>
       </Segment>
       {user.userType === 'customer' ? (
-        <Segment>
-          <Header content="My Orders" />
+        <>
+          <Segment>
+            <Header content="My Orders" />
+          </Segment>
+          <Segment>
+            <Consumer>
+              {({ orders }) => (
+                <Table>
+                  <Table.Body>
+                    {orders ? orders
+                      .filter(({ customerId, isSubmitted }) => {
+                        console.log('customerId', customerId);
+                        console.log('isSubmitted', isSubmitted);
+                        console.log('data', data);
 
-        </Segment>
+                        return customerId === data.id && isSubmitted;
+                      })
+                      .map((order) => {
+                        console.log(order);
+                        return <AccountOrderTableItem order={order} key={order.id} />;
+                      }) : <> </>}
+                  </Table.Body>
+                </Table>
+
+
+              )}
+            </Consumer>
+          </Segment>
+        </>
       ) : null}
     </Segment.Group>
 
@@ -78,5 +104,5 @@ function AccountRow({ header, content }) {
 
 AccountRow.propTypes = {
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
