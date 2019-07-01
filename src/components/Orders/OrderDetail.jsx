@@ -130,7 +130,7 @@ export function OrderDetail({ id }) {
             </Segment>
             {isCancelled ? (
               <Segment>
-                <Grid columns={2}>
+                <Grid stackable columns={2}>
                   <Grid.Row>
                     <Grid.Column>
                       <Header content="Reason for cancellation:" />
