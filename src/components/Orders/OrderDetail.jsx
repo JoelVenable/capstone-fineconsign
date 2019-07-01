@@ -10,7 +10,6 @@ import { CancelOrderModal } from './CancelOrderModal';
 export function OrderDetail({ id }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  // const [authorized, setAuthorized] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   function handleClose() {
@@ -23,8 +22,11 @@ export function OrderDetail({ id }) {
         orders, paintings, history, user, edit, updateAll, calculateOrderTotal, completeOrder,
       }) => {
         const order = orders.find(item => item.id === id);
-        const customer = order ? order.customer : null;
-        const showControls = order ? !order.isCancelled && !order.isCompleted : false;
+        const userType = user ? user.userType : null;
+
+        const customer = order ? order.customer : { id: null };
+        let authorized = false;
+        let showControls = order ? !order.isCancelled && !order.isCompleted : false;
         const orderedPaintings = order ? (
           order.orderItems.map((orderItem) => {
             const painting = paintings.find(item => item.id === orderItem.paintingId);
@@ -33,8 +35,6 @@ export function OrderDetail({ id }) {
           })
         ) : null;
 
-        //  Check if user is authorized to view this order
-
 
         // The 'isDefined' variable checks to see if data has been loaded.
         // Otherwise the page will break as it will try to access properties of an undefined object
@@ -42,8 +42,18 @@ export function OrderDetail({ id }) {
         const isDefined = order ? !!orderedPaintings[0] : false;
         const isCancelled = order ? order.isCancelled : false;
 
+        //  Check if user is authorized to view this order
+        if (userType === 'customer') {
+          showControls = false;
+          // checks the order's customer id against the logged in user's customer id.
+          if (customer.id === user.customer.id) authorized = true;
+        }
+        if (userType === 'employee') {
+          if (user.employee.canProcessOrders) authorized = true;
+        }
+
         console.log(isCancelled);
-        return isDefined ? (
+        return (isDefined && authorized) ? (
           <Segment.Group>
             <CancelOrderModal
               isModalVisible={isModalVisible}
