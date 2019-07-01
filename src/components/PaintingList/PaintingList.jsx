@@ -72,7 +72,7 @@ export function PaintingList({ history }) {
       ),
     },
     {
-      menuItem: 'Add Painting',
+      menuItem: 'Add',
       render: () => (
         <Tab.Pane>
           <Consumer>

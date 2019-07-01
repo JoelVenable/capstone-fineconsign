@@ -5,7 +5,7 @@ import { Table } from 'semantic-ui-react';
 
 export function UserTable({ children }) {
   return (
-    <Table unstackable>
+    <Table>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>

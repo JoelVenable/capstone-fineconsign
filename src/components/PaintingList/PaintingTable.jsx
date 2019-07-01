@@ -6,7 +6,7 @@ import { PaintingTableItem } from './PaintingTableItem';
 
 export function PaintingTable({ paintingList, user, history }) {
   return (
-    <Table unstackable>
+    <Table>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>
