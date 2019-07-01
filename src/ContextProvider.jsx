@@ -58,7 +58,7 @@ class Provider extends PureComponent {
       remove: {},
       myCart: getCartFromSessionStorage(),
       getOpenCart: () => {
-        const { user } = this.state;
+        const { user, updateAll } = this.state;
         if (!user) return null;
         if (user.userType !== 'customer') return null;
         const custId = user.customer.id;
@@ -70,7 +70,7 @@ class Provider extends PureComponent {
             return this.setState({ myCart });
           }
           //  Did not find an existing cart, so make a new one
-          return this.state.createCart();
+          return this.state.createCart().then(updateAll);
         });
       },
       updateAll: () => {
@@ -91,7 +91,9 @@ class Provider extends PureComponent {
         // orders, orderItems, - not fetching these automatically because reasons...
       },
       createCart: async () => {
-        const { user, showError, getOpenCart } = this.state;
+        const {
+          user, showError, getOpenCart, updateAll,
+        } = this.state;
         if (!user) {
           showError('Only customers can make purchases!');
           return null;
@@ -107,11 +109,11 @@ class Provider extends PureComponent {
           isSubmitted: false,
           isCancelled: false,
         };
-        return API.orders.create(newCart).then(getOpenCart);
+        return API.orders.create(newCart).then(getOpenCart).then(updateAll);
       },
       addToCart: async (paintingId) => {
         const {
-          myCart, getOpenCart, user, showError,
+          myCart, getOpenCart, user, showError, updateAll,
         } = this.state;
         if (!user) return null; // TODO: show register/login modal and add to cart when user finishes.
         if (user.userType !== 'customer') {
@@ -129,6 +131,7 @@ class Provider extends PureComponent {
                 orderId: myCart.id,
                 paintingId,
               }).then(getOpenCart)
+                .then(updateAll)
             );
           }
           showError('Already in your cart!');
@@ -136,13 +139,15 @@ class Provider extends PureComponent {
         });
       },
       removeFromCart: (paintingId) => {
-        const { myCart, getOpenCart } = this.state;
+        const { myCart, getOpenCart, updateAll } = this.state;
         const itemToRemove = myCart.orderItems.find(cartItem => cartItem.paintingId === paintingId);
         return API.orderItems.edit(itemToRemove.id, { paintingId: null, orderId: null })
           .then(() => API.orderItems.delete(itemToRemove.id))
-          .then(getOpenCart);
+          .then(getOpenCart)
+          .then(updateAll);
       },
-      submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }),
+      /* eslint-disable-next-line */
+      submitCart: cartId => API.orders.edit(cartId, { isSubmitted: true }).then(this.state.updateAll),
       calculateOrderTotal: (orderId) => {
         const { orders, paintings } = this.state;
         const order = orders.find(item => item.id === orderId);
@@ -152,8 +157,10 @@ class Provider extends PureComponent {
         0);
       },
       completeOrder: async (orderId) => {
-        const { orders, paintings, calculateOrderTotal } = this.state;
-        const order = orders.find(item => item.id === orderId);
+        const {
+          paintings, calculateOrderTotal, updateAll,
+        } = this.state;
+        const order = await API.orders.getOne(orderId);
         const orderTotal = calculateOrderTotal(orderId);
         let storeProfit = 0;
 
@@ -178,12 +185,10 @@ class Provider extends PureComponent {
           const painting = paintings.find(pntg => pntg.id === item.paintingId);
 
           // Calculate artist's share of profit
-          let artistShare = painting.currentPrice * painting.artist.profitRatio;
-
-          // Round to nearest penny
-          artistShare = roundDollars(artistShare);
+          const artistShare = roundDollars(painting.currentPrice * painting.artist.profitRatio);
 
           const storeShare = roundDollars(painting.currentPrice - artistShare);
+
           storeProfit += storeShare;
 
           return Promise.all([
@@ -192,7 +197,11 @@ class Provider extends PureComponent {
 
             // Update painting to sold status
             API.paintings.edit(painting.id, {
-              isSold: true, isLive: false, artistShare, storeShare,
+              isSold: true,
+              isLive: false,
+              isPendingSale: false,
+              artistShare,
+              storeShare,
             }),
           ]);
         });
@@ -204,9 +213,7 @@ class Provider extends PureComponent {
             accountBalance: roundDollars(store.accountBalance + storeProfit),
           }))
           // Then update everything
-
-          /* eslint-disable-next-line */
-          .then(this.state.updateAll)
+          .then(updateAll);
       },
       isErrorDialogVisible: false,
       isConfirmDialogVisible: false,
