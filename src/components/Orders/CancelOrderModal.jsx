@@ -17,6 +17,7 @@ export function CancelOrderModal({
     edit.order({
       isCancelled: true,
       cancelMessage: message,
+      cancelledTime: new Date(),
     }, order.id)
       .then(() => orderedPaintings.forEach((painting) => {
         edit.painting({ isPendingSale: false, isLive: true }, painting.id);

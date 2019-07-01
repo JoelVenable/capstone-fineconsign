@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid, Button,
+  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid, Button, Label,
 } from 'semantic-ui-react';
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
@@ -10,7 +10,6 @@ import { CancelOrderModal } from './CancelOrderModal';
 export function OrderDetail({ id }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  // const [authorized, setAuthorized] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   function handleClose() {
@@ -23,8 +22,11 @@ export function OrderDetail({ id }) {
         orders, paintings, history, user, edit, updateAll, calculateOrderTotal, completeOrder,
       }) => {
         const order = orders.find(item => item.id === id);
-        const customer = order ? order.customer : null;
-        const showControls = order ? !order.isCancelled && !order.isCompleted : false;
+        const userType = user ? user.userType : null;
+
+        const customer = order ? order.customer : { id: null };
+        let authorized = false;
+        let showControls = order ? !order.isCancelled && !order.isCompleted : false;
         const orderedPaintings = order ? (
           order.orderItems.map((orderItem) => {
             const painting = paintings.find(item => item.id === orderItem.paintingId);
@@ -33,8 +35,6 @@ export function OrderDetail({ id }) {
           })
         ) : null;
 
-        //  Check if user is authorized to view this order
-
 
         // The 'isDefined' variable checks to see if data has been loaded.
         // Otherwise the page will break as it will try to access properties of an undefined object
@@ -42,8 +42,17 @@ export function OrderDetail({ id }) {
         const isDefined = order ? !!orderedPaintings[0] : false;
         const isCancelled = order ? order.isCancelled : false;
 
-        console.log(isCancelled);
-        return isDefined ? (
+        //  Check if user is authorized to view this order
+        if (userType === 'customer') {
+          showControls = false;
+          // checks the order's customer id against the logged in user's customer id.
+          if (customer.id === user.customer.id) authorized = true;
+        }
+        if (userType === 'employee') {
+          if (user.employee.canProcessOrders) authorized = true;
+        }
+
+        return (isDefined && authorized) ? (
           <Segment.Group>
             <CancelOrderModal
               isModalVisible={isModalVisible}
@@ -66,11 +75,23 @@ export function OrderDetail({ id }) {
             >
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Header
-                  as="h1"
-                  style={{ marginBottom: '2rem' }}
-                  content={`Order number: ${id}`}
-                />
+                <div>
+                  <Header
+                    as="h1"
+                    style={{ marginBottom: '2rem' }}
+                    content={`Order number: ${id}`}
+                  />
+                  {order.isSubmitted ? (
+                    <StatusItem label="Submitted" time={order.submittedTime} color="blue" />
+                  ) : null}
+                  {order.isCompleted ? (
+                    <StatusItem label="Approved" time={order.approvedTime} color="green" />
+                  ) : null}
+                  {order.isCancelled ? (
+                    <StatusItem label="Cancelled" time={order.cancelledTime} color="red" />
+                  ) : null}
+
+                </div>
                 {showControls ? (
                   <div>
                     <Button
@@ -88,6 +109,7 @@ export function OrderDetail({ id }) {
                         setTimeout(() => {
                           setSuccess(true);
                           setLoading(false);
+                          setTimeout(() => history.push('/orders'), 2000);
                         });
                       }}
                     />
@@ -221,3 +243,30 @@ export function OrderDetail({ id }) {
 OrderDetail.propTypes = {
   id: PropTypes.number.isRequired,
 };
+
+
+function StatusItem({ label, time, color }) {
+  return (
+    <Label color={color}>
+      {label}
+      <Label.Detail>{formatDate(time)}</Label.Detail>
+    </Label>
+  );
+}
+
+StatusItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+};
+
+function formatDate(inputDate) {
+  return new Date(inputDate).toLocaleString('en-US', {
+    hour12: true,
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}

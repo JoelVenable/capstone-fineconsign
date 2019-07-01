@@ -15,7 +15,7 @@ export function Title({ position, children, history }) {
   return (
     <div className={titleClassName}>
       <div>
-        <img src={largeLogo} onClick={handleClick} alt="FineConsign logo" style={style} />
+        <img src={largeLogo} onClick={handleClick} onKeyUp={handleClick} alt="FineConsign logo" style={style} />
       </div>
       {children}
     </div>
