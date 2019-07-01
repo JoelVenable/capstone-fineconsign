@@ -7,6 +7,7 @@ const endpoint = new Endpoint(`${baseURL}/orders`);
 export const orders = {
   create: obj => endpoint.create(obj),
   getAll: () => endpoint.getAll('?_embed=orderItems&_expand=customer'),
+  getOne: id => endpoint.getAll(`/${id}?_embed=orderItems&_expand=customer`),
   getMine: customerId => endpoint.getAll(`?customerId=${customerId}`),
   getMyOpenCart: customerId => endpoint.getAll(`?customerId=${customerId}&isSubmitted=false&_embed=orderItems`)
     .then((results) => {
