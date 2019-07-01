@@ -48,7 +48,7 @@ function filterPaintings(artistId, sold) {
   return (
     <Consumer>
       {({ paintings }) => paintings
-        .filter(painting => (sold ? painting.isSold || painting.isPendingSale : painting.isLive))
+        .filter(painting => (sold ? painting.isSold || painting.isPendingSale : painting.isLive && !painting.isSold))
         .filter(painting => (artistId ? painting.artistId === artistId : true))
         .map(showPainting)}
     </Consumer>
