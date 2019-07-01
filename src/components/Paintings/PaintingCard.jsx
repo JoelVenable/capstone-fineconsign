@@ -8,19 +8,12 @@ import './painting.css';
 
 export function PaintingCard({
   artist,
-  // artistId,
   currentPrice,
-  // forSaleDate,
   id,
-  // imgUrl,
   isLive,
-  // isPriced,
   isPendingSale,
   isSold,
-  // liveDescription,
   name,
-  // originalPrice,
-  // submittedDescription,
   thumbUrl,
 }) {
   return (
@@ -48,7 +41,7 @@ export function PaintingCard({
 function showPaintingStatus(isLive, isSold, currentPrice, isPendingSale) {
   if (isPendingSale) return 'Pending Sale';
   if (!isLive && !isSold) return 'Coming soon!';
-  if (isLive) return `Price: $${currentPrice}`;
+  if (isLive && !isSold) return `Price: $${currentPrice}`;
   return 'Sold!';
 }
 
@@ -57,18 +50,11 @@ PaintingCard.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
   }).isRequired,
-  // artistId: PropTypes.number.isRequired,
   currentPrice: PropTypes.number.isRequired,
-  // forSaleDate: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  // imgUrl: PropTypes.string.isRequired,
   isLive: PropTypes.bool.isRequired,
-  // isPriced: PropTypes.bool.isRequired,
   isSold: PropTypes.bool.isRequired,
   isPendingSale: PropTypes.bool.isRequired,
-  // liveDescription: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  // originalPrice: PropTypes.number.isRequired,
-  // submittedDescription: PropTypes.string.isRequired,
   thumbUrl: PropTypes.string.isRequired,
 };
