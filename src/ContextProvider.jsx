@@ -80,15 +80,9 @@ class Provider extends PureComponent {
           'paintings',
           'employees',
           'customers',
+          'orders',
+          'orderItems',
         ];
-        if (user) {
-          if (user.userType === 'employee') {
-            endpoints.push(
-              'orders',
-              'orderItems',
-            );
-          }
-        }
         const newState = {};
         return Promise.all(endpoints.map(endpoint => API[endpoint].getAll()))
           .then((data) => { data.forEach((item, index) => { newState[endpoints[index]] = item; }); })
