@@ -41,7 +41,6 @@ export function AddPainting({
       thumbUrl: await firebaseStorage.child(`${Date.now()}-${name}-thumb`)
         .put(thumbImg)
         .then(response => response.ref.getDownloadURL()),
-      originalPrice: price,
       currentPrice: price,
       isSubmitted: false,
       isReviewed: false,

@@ -89,7 +89,6 @@ PaintingTableItem.propTypes = {
     // imgUrl: PropTypes.string.isRequired,
     // liveDescription: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    originalPrice: PropTypes.number.isRequired,
     submittedDescription: PropTypes.string.isRequired,
     thumbUrl: PropTypes.string.isRequired,
   }).isRequired,

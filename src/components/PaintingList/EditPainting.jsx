@@ -18,7 +18,7 @@ export function EditPainting({
   const [description, setDescription] = useState(painting.submittedDescription);
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [price, setPrice] = useState(painting.originalPrice);
+  const [price, setPrice] = useState(painting.currentPrice);
   const [medium, setMedium] = useState(painting.medium);
   const [height, setHeight] = useState(painting.height);
   const [width, setWidth] = useState(painting.width);
@@ -36,7 +36,7 @@ export function EditPainting({
       medium,
       height,
       width,
-      originalPrice: price,
+      currentPrice: price,
     };
     if (user.userType === 'employee') editedPainting.isReviewed = true;
 
