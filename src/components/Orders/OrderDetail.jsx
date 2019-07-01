@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid, Button,
+  Header, Table, Transition, Loader, Segment, Dimmer, Card, Responsive, Item, Grid, Button, Label,
 } from 'semantic-ui-react';
 import { PaintingOrderItem } from './PaintingOrderItem';
 import { Consumer } from '../../ContextProvider';
@@ -76,11 +76,23 @@ export function OrderDetail({ id }) {
             >
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Header
-                  as="h1"
-                  style={{ marginBottom: '2rem' }}
-                  content={`Order number: ${id}`}
-                />
+                <div>
+                  <Header
+                    as="h1"
+                    style={{ marginBottom: '2rem' }}
+                    content={`Order number: ${id}`}
+                  />
+                  {order.isSubmitted ? (
+                    <StatusItem label="Submitted" time={order.submittedTime} color="blue" />
+                  ) : null}
+                  {order.isApproved ? (
+                    <StatusItem label="Approved" time={order.approvedTime} color="green" />
+                  ) : null}
+                  {order.isCancelled ? (
+                    <StatusItem label="Cancelled" time={order.cancelledTime} color="red" />
+                  ) : null}
+
+                </div>
                 {showControls ? (
                   <div>
                     <Button
@@ -231,3 +243,30 @@ export function OrderDetail({ id }) {
 OrderDetail.propTypes = {
   id: PropTypes.number.isRequired,
 };
+
+
+function StatusItem({ label, time, color }) {
+  return (
+    <Label color={color}>
+      {label}
+      <Label.Detail>{formatDate(time)}</Label.Detail>
+    </Label>
+  );
+}
+
+StatusItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+};
+
+function formatDate(inputDate) {
+  return new Date(inputDate).toLocaleString('en-US', {
+    hour12: true,
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}

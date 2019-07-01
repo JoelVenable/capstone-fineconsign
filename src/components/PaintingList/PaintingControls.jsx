@@ -44,7 +44,7 @@ export function PaintingControls({ id }) {
                 .map(item => orders.find(myOrder => myOrder.id === item.orderId))
 
               //  then find the order that triggered the current 'isPendingSale' flag.
-                .find(item => item.isSubmitted && !item.isRejected);
+                .find(item => item.isSubmitted && !item.isCancelled);
               const orderId = order ? order.id : NaN;
 
               return (

@@ -105,7 +105,7 @@ class Provider extends PureComponent {
           isCompleted: false,
           createdTimestamp: new Date(),
           isSubmitted: false,
-          isRejected: false,
+          isCancelled: false,
         };
         return API.orders.create(newCart).then(getOpenCart);
       },
@@ -171,6 +171,7 @@ class Provider extends PureComponent {
         await API.orders.edit(orderId, {
           isCompleted: true,
           orderTotal,
+          approvedTime: new Date(),
         });
 
         await order.orderItems.map((item) => {
