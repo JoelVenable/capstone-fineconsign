@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Tab, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { UserTable } from './UserTable';
@@ -7,7 +7,7 @@ import { EmployeeTableItem } from './EmployeeTableItem';
 import { CustomerTableItem } from './CustomerTableItem';
 import { UserConsumer } from '../../AllUsersContext';
 import { UserTableItem } from './UserTableItem';
-
+import { Context } from '../../ContextProvider';
 
 /*
 
@@ -17,10 +17,11 @@ The only auth check needed here is the user.employee.canEditEmployees (superuser
 
 */
 
+export function UserList() {
+  const {
+    artists, customers, user, employees, edit,
+  } = useContext(Context);
 
-export function UserList({
-  artists, customers, user, employees, edit,
-}) {
   const panes = [
     {
       menuItem: 'Artists',
@@ -28,11 +29,7 @@ export function UserList({
         <Tab.Pane>
           <UserTable>
             {artists.map(artist => (
-              <ArtistTableItem
-                key={artist.id}
-                artist={artist}
-                user={user}
-              />
+              <ArtistTableItem key={artist.id} artist={artist} user={user} />
             ))}
           </UserTable>
         </Tab.Pane>
@@ -43,64 +40,60 @@ export function UserList({
       render: () => (
         <Tab.Pane>
           <UserTable>
-            {customers.map(customer => <CustomerTableItem key={customer.id} customer={customer} />)}
+            {customers.map(customer => (
+              <CustomerTableItem key={customer.id} customer={customer} />
+            ))}
           </UserTable>
         </Tab.Pane>
       ),
     },
   ];
 
-
   if (user.employee.canEditEmployees) {
-    panes.push({
-      menuItem: 'Employees',
-      render: () => (
-        <Tab.Pane>
-          <UserTable>
-            {employees.map(employee => (
-              <EmployeeTableItem
-                key={employee.id}
-                employee={employee}
-                user={user}
-                edit={edit}
-              />
-            ))}
-
-          </UserTable>
-
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: 'All Users',
-      render: () => (
-        <Tab.Pane>
-          <UserTable>
-            <UserConsumer>
-              {context => (
-                <>
-                  {context.users.map(item => <UserTableItem key={item.id} user={item} {...context} />)}
-                </>
-              )}
-            </UserConsumer>
-          </UserTable>
-
-        </Tab.Pane>
-      ),
-    });
+    panes.push(
+      {
+        menuItem: 'Employees',
+        render: () => (
+          <Tab.Pane>
+            <UserTable>
+              {employees.map(employee => (
+                <EmployeeTableItem
+                  key={employee.id}
+                  employee={employee}
+                  user={user}
+                  edit={edit}
+                />
+              ))}
+            </UserTable>
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: 'All Users',
+        render: () => (
+          <Tab.Pane>
+            <UserTable>
+              <UserConsumer>
+                {context => (
+                  <>
+                    {context.users.map(item => (
+                      <UserTableItem key={item.id} user={item} {...context} />
+                    ))}
+                  </>
+                )}
+              </UserConsumer>
+            </UserTable>
+          </Tab.Pane>
+        ),
+      },
+    );
   }
 
-
   return (
-    <Tab
-
-      panes={panes}
-    >
+    <Tab panes={panes}>
       <Tab.Pane>
         <Menu.Item>Helllo</Menu.Item>
-        <UserTable>
-          Im a table
-        </UserTable>
+        <UserTable>Im a table</UserTable>
       </Tab.Pane>
     </Tab>
   );
@@ -110,16 +103,22 @@ UserList.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  artists: PropTypes.arrayOf(PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-  })).isRequired,
-  customers: PropTypes.arrayOf(PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  })).isRequired,
-  employees: PropTypes.arrayOf(PropTypes.shape({
-    canEditEmployees: PropTypes.bool.isRequired,
-  })).isRequired,
+  artists: PropTypes.arrayOf(
+    PropTypes.shape({
+      firstName: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  customers: PropTypes.arrayOf(
+    PropTypes.shape({
+      firstName: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+  employees: PropTypes.arrayOf(
+    PropTypes.shape({
+      canEditEmployees: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
   edit: PropTypes.shape({
     employee: PropTypes.func.isRequired,
   }).isRequired,

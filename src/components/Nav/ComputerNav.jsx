@@ -1,9 +1,9 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Consumer } from '../../ContextProvider';
 import { CartMenuItem } from './CartItem';
 import { SignInButton } from './SignInButton';
+import { SignoutMenuItem } from './SignoutMenuItem';
 
 export function ComputerMenu({ user, history }) {
   // const [activeLink, setactiveLink] = useState(null);
@@ -17,46 +17,39 @@ export function ComputerMenu({ user, history }) {
       case 'employee':
         return (
           <Menu.Menu position="right" size="mini">
-            {employee.canEditUsers
-              ? (
-                <Menu.Item
-                  key="users"
-                  onClick={handleClick}
-                  icon="wrench"
-                  name="Users"
-                  value="/users"
-                />
-              ) : null}
-            {employee.canEditInventory
-              ? (
-                <Menu.Item
-                  key="paintings"
-                  icon="file image"
-                  onClick={handleClick}
-                  name="Paintings"
-                  value="/paintings"
-                />
-              ) : null}
-            {employee.canProcessOrders
-              ? (
-                <Menu.Item
-                  key="orders"
-                  onClick={handleClick}
-                  icon="box"
-                  name="Orders"
-                  value="/orders"
-                />
-              ) : null}
+            {employee.canEditUsers ? (
+              <Menu.Item
+                key="users"
+                onClick={handleClick}
+                icon="wrench"
+                name="Users"
+                value="/users"
+              />
+            ) : null}
+            {employee.canEditInventory ? (
+              <Menu.Item
+                key="paintings"
+                icon="file image"
+                onClick={handleClick}
+                name="Paintings"
+                value="/paintings"
+              />
+            ) : null}
+            {employee.canProcessOrders ? (
+              <Menu.Item
+                key="orders"
+                onClick={handleClick}
+                icon="box"
+                name="Orders"
+                value="/orders"
+              />
+            ) : null}
 
-
-            <SignOutButton />
-
-
+            <SignoutMenuItem />
           </Menu.Menu>
         );
       case 'customer':
         return (
-
           <Menu.Menu position="right">
             <Menu.Item
               key="favorites"
@@ -74,10 +67,11 @@ export function ComputerMenu({ user, history }) {
             />
             <CartMenuItem handleClick={handleClick} showText />
 
-            <SignOutButton />
+            <SignoutMenuItem />
           </Menu.Menu>
         );
-      default: // 'artist' case
+      default:
+        // 'artist' case
         return (
           <Menu.Menu position="right">
             <Menu.Item
@@ -94,8 +88,7 @@ export function ComputerMenu({ user, history }) {
               name="My Account"
               value="/account"
             />
-            <SignOutButton />
-
+            <SignoutMenuItem />
           </Menu.Menu>
         );
     }
@@ -103,24 +96,6 @@ export function ComputerMenu({ user, history }) {
 
   return <SignInButton />;
 }
-
-function SignOutButton() {
-  return (
-    <Consumer>
-      {({ logout }) => (
-        <Menu.Item
-          key="signout"
-          icon="sign-out"
-          text="Sign Out"
-          value="signout"
-          onClick={logout}
-        />
-      )
-      }
-    </Consumer>
-  );
-}
-
 
 ComputerMenu.propTypes = {
   user: PropTypes.shape({
@@ -135,7 +110,6 @@ ComputerMenu.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
-
 
 ComputerMenu.defaultProps = {
   user: null,

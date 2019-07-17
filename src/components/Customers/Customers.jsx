@@ -1,4 +1,7 @@
 import React from 'react';
+import { Consumer } from '../../ContextProvider';
+
+
 
 export function Customers() {
   return (

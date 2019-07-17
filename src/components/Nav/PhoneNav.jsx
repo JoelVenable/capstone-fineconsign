@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Consumer } from '../../ContextProvider';
 import { CartMenuItem } from './CartItem';
 import { SignInButton } from './SignInButton';
+import { SignoutDropdownItem } from './SignoutDropdownItem';
 
 /*
 
@@ -19,7 +19,6 @@ Employee view:
 
 */
 
-
 export function PhoneMenu({ user, history }) {
   function handleClick(_e, { value }) {
     // setactiveLink(value);
@@ -30,48 +29,40 @@ export function PhoneMenu({ user, history }) {
       const emp = user.employee;
       return (
         <Menu.Menu position="right">
-
           <Dropdown item icon="bars">
             <Dropdown.Menu>
-              {emp.canEditEmployees
-                ? (
-                  <Dropdown.Item
-                    key="users"
-                    onClick={handleClick}
-                    icon="wrench"
-                    text="Users"
-                    value="/users"
-                  />
-                ) : null}
-              {emp.canEditInventory
-                ? (
-                  <Dropdown.Item
-                    key="paintings"
-                    onClick={handleClick}
-                    icon="file image"
-                    text="Paintings"
-                    value="/paintings"
-                  />
-                ) : null}
+              {emp.canEditEmployees ? (
+                <Dropdown.Item
+                  key="users"
+                  onClick={handleClick}
+                  icon="wrench"
+                  text="Users"
+                  value="/users"
+                />
+              ) : null}
+              {emp.canEditInventory ? (
+                <Dropdown.Item
+                  key="paintings"
+                  onClick={handleClick}
+                  icon="file image"
+                  text="Paintings"
+                  value="/paintings"
+                />
+              ) : null}
 
-              {emp.canProcessOrders
-                ? (
-                  <Dropdown.Item
-                    key="orders"
-                    onClick={handleClick}
-
-                    icon="box"
-                    text="Orders"
-                    value="/orders"
-                  />
-                ) : null}
-
+              {emp.canProcessOrders ? (
+                <Dropdown.Item
+                  key="orders"
+                  onClick={handleClick}
+                  icon="box"
+                  text="Orders"
+                  value="/orders"
+                />
+              ) : null}
 
               <Dropdown.Divider />
-              <SignOutButton />
+              <SignoutDropdownItem />
             </Dropdown.Menu>
-
-
           </Dropdown>
         </Menu.Menu>
       );
@@ -86,7 +77,6 @@ export function PhoneMenu({ user, history }) {
                 <Dropdown.Item
                   key="favorites"
                   onClick={handleClick}
-
                   icon="paint brush"
                   text="Artists"
                   value="/artists"
@@ -107,11 +97,9 @@ export function PhoneMenu({ user, history }) {
                   value="/account"
                 />
                 <Dropdown.Divider />
-                <SignOutButton />
-
+                <SignoutDropdownItem />
               </Dropdown.Menu>
             </Dropdown>
-
           </Menu.Menu>
         </>
       );
@@ -132,7 +120,6 @@ export function PhoneMenu({ user, history }) {
               <Dropdown.Item
                 key="profile"
                 onClick={handleClick}
-
                 icon="address card"
                 text="My Profile"
                 value="/paintings"
@@ -146,10 +133,9 @@ export function PhoneMenu({ user, history }) {
                 value="/account"
               />
               <Dropdown.Divider />
-              <SignOutButton />
+              <SignoutDropdownItem />
             </Dropdown.Menu>
           </Dropdown>
-
         </Menu.Menu>
       );
     }
@@ -157,24 +143,6 @@ export function PhoneMenu({ user, history }) {
   // else show login button
   return <SignInButton />;
 }
-
-function SignOutButton() {
-  return (
-    <Consumer>
-      {({ logout }) => (
-        <Dropdown.Item
-          key="signout"
-          icon="sign-out"
-          text="Sign Out"
-          value="signout"
-          onClick={logout}
-        />
-      )
-      }
-    </Consumer>
-  );
-}
-
 
 PhoneMenu.propTypes = {
   user: PropTypes.shape({
@@ -184,7 +152,6 @@ PhoneMenu.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
-
 
 PhoneMenu.defaultProps = {
   user: null,

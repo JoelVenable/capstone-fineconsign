@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Tab, Header, Table,
-} from 'semantic-ui-react';
-import { Consumer } from '../../ContextProvider';
+import React, { useState, useEffect, useContext } from 'react';
+import { Tab, Header, Table } from 'semantic-ui-react';
+import { Context } from '../../ContextProvider';
 import { OrderTable } from './OrderTable';
 import { API } from '../../modules/api/API';
-
 
 export function Orders() {
   const [activeTab, setActiveTab] = useState(0);
   const [storeAccount, setStoreAccount] = useState(null);
+  const { orders } = useContext(Context);
 
   const getStoreAccount = () => API.stores.get().then(setStoreAccount);
 
-
-  useEffect(() => { getStoreAccount(); }, []);
-
+  useEffect(() => {
+    getStoreAccount();
+  }, []);
 
   const handleChange = (_e, { activeIndex }) => {
     setActiveTab(activeIndex);
@@ -27,14 +25,11 @@ export function Orders() {
       menuItem: 'Submitted',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {({ orders }) => (
-              <OrderTable ordersList={
-              orders.filter(item => item.isSubmitted && !item.isCompleted && !item.isCancelled)
-              }
-              />
+          <OrderTable
+            ordersList={orders.filter(
+              item => item.isSubmitted && !item.isCompleted && !item.isCancelled,
             )}
-          </Consumer>
+          />
         </Tab.Pane>
       ),
     },
@@ -42,9 +37,11 @@ export function Orders() {
       menuItem: 'Completed',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isCompleted && !item.isCancelled)} />}
-          </Consumer>
+          <OrderTable
+            ordersList={orders.filter(
+              item => item.isCompleted && !item.isCancelled,
+            )}
+          />
         </Tab.Pane>
       ),
     },
@@ -52,9 +49,7 @@ export function Orders() {
       menuItem: 'Cancelled',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {({ orders }) => <OrderTable ordersList={orders.filter(item => item.isCancelled)} />}
-          </Consumer>
+          <OrderTable ordersList={orders.filter(item => item.isCancelled)} />
         </Tab.Pane>
       ),
     },
@@ -68,7 +63,6 @@ export function Orders() {
             <Table.Row>
               <Table.Cell>
                 <Header as="h4" content="Store account balance: " />
-
               </Table.Cell>
               <Table.Cell>
                 <Header as="h4" content={`$${storeAccount.accountBalance}`} />
@@ -77,11 +71,7 @@ export function Orders() {
           </Table.Body>
         </Table>
       ) : null}
-      <Tab
-        activeIndex={activeTab}
-        onTabChange={handleChange}
-        panes={panes}
-      />
+      <Tab activeIndex={activeTab} onTabChange={handleChange} panes={panes} />
     </>
   );
 }

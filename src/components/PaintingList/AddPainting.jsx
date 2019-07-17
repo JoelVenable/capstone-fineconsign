@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import {
-  Input, Form, Button,
-} from 'semantic-ui-react';
+import React, { useState, useContext } from 'react';
+import { Input, Form, Button } from 'semantic-ui-react';
 import './addPainting.css';
 import PropTypes from 'prop-types';
 import { compressImage } from '../utility/compressImage';
+import { Context } from '../../ContextProvider';
 
-export function AddPainting({
-  setActiveTab, user, storageRef, artists, add, history,
-}) {
-  const [artistId, setArtistId] = useState((user.userType === 'artist') ? user.artist.id : null);
+export function AddPainting({ setActiveTab }) {
+  const {
+    user, storageRef, artists, add,
+  } = useContext(Context);
+  const [artistId, setArtistId] = useState(
+    user.userType === 'artist' ? user.artist.id : null,
+  );
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -19,40 +21,42 @@ export function AddPainting({
   const [height, setHeight] = useState(NaN);
   const [width, setWidth] = useState(NaN);
 
-
-  async function handleSubmit(e, firebaseStorage) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     const mainImg = await compressImage(photo, 'mainImg');
     const thumbImg = await compressImage(photo, 'thumbImg');
 
-    add.painting({
-      name,
-      artistId,
-      submittedDescription: description,
-      liveDescription: description,
-      medium,
-      height,
-      width,
-      forSaleDate: null,
-      imgUrl: await firebaseStorage.child(`${Date.now()}-${name}-main`)
-        .put(mainImg)
-        .then(response => response.ref.getDownloadURL()),
-      thumbUrl: await firebaseStorage.child(`${Date.now()}-${name}-thumb`)
-        .put(thumbImg)
-        .then(response => response.ref.getDownloadURL()),
-      currentPrice: price,
-      isSubmitted: false,
-      isReviewed: false,
-      isPendingSale: false,
-      isLive: false,
-      isSold: false,
-    }).then(() => setActiveTab(0));
+    add
+      .painting({
+        name,
+        artistId,
+        submittedDescription: description,
+        liveDescription: description,
+        medium,
+        height,
+        width,
+        forSaleDate: null,
+        imgUrl: await storageRef
+          .child(`${Date.now()}-${name}-main`)
+          .put(mainImg)
+          .then(response => response.ref.getDownloadURL()),
+        thumbUrl: await storageRef
+          .child(`${Date.now()}-${name}-thumb`)
+          .put(thumbImg)
+          .then(response => response.ref.getDownloadURL()),
+        currentPrice: price,
+        isSubmitted: false,
+        isReviewed: false,
+        isPendingSale: false,
+        isLive: false,
+        isSold: false,
+      })
+      .then(() => setActiveTab(0));
   }
 
-
   return (
-    <Form loading={loading} onSubmit={e => handleSubmit(e, storageRef, add, history)}>
+    <Form loading={loading} onSubmit={e => handleSubmit(e)}>
       <Form.Field
         required
         value={name}
@@ -82,7 +86,6 @@ export function AddPainting({
 
         <Form.Field
           width="6"
-
           required
           value={medium}
           onChange={(_e, { value }) => setMedium(value)}
@@ -106,7 +109,6 @@ export function AddPainting({
           control="input"
           width="4"
           required
-
           type="number"
           label="Height in inches"
           onChange={e => setHeight(parseInt(e.target.value, 10))}
@@ -115,7 +117,6 @@ export function AddPainting({
         <Form.Field
           width="4"
           required
-
           control="input"
           type="number"
           label="Width in inches"
@@ -125,7 +126,6 @@ export function AddPainting({
         <Form.Field
           width="8"
           required
-
           control="input"
           type="file"
           label="Photo"
@@ -139,34 +139,15 @@ export function AddPainting({
         onChange={(_e, { value }) => setDescription(value)}
         required
         label="Description"
-
         rows={7}
         placeholder="Painting description"
       />
-
 
       <Button type="submit" content="Save" color="purple" width="4" />
     </Form>
   );
 }
 
-
 AddPainting.propTypes = {
   setActiveTab: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    userType: PropTypes.string.isRequired,
-  }).isRequired,
-  storageRef: PropTypes.shape({
-    child: PropTypes.func.isRequired,
-  }).isRequired,
-  artists: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  })).isRequired,
-  add: PropTypes.shape({
-    painting: PropTypes.func.isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-
 };

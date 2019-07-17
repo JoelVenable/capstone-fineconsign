@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Consumer } from '../../ContextProvider';
+import { Context } from '../../ContextProvider';
 import { PaintingTable } from './PaintingTable';
 import { AddPainting } from './AddPainting';
 
 export function PaintingList({ history }) {
   const [activeTab, setActiveTab] = useState(0);
+  const { paintings, user } = useContext(Context);
 
   const handleChange = (_e, { activeIndex }) => {
     setActiveTab(activeIndex);
@@ -16,19 +17,17 @@ export function PaintingList({ history }) {
       menuItem: 'Drafts',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {({ paintings, user }) => (paintings ? (
-              <PaintingTable
-                user={user}
-                tableType="pending"
-                history={history}
-                paintingList={paintings.filter(
-                  ({ isLive, isPendingSale, isSold }) => !isLive && !isPendingSale && !isSold,
-                )}
-              />
-            ) : null)
-            }
-          </Consumer>
+          {paintings ? (
+            <PaintingTable
+              user={user}
+              tableType="pending"
+              history={history}
+              paintingList={paintings.filter(
+                ({ isLive, isPendingSale, isSold }) =>
+                  !isLive && !isPendingSale && !isSold,
+              )}
+            />
+          ) : null}
         </Tab.Pane>
       ),
     },
@@ -36,18 +35,15 @@ export function PaintingList({ history }) {
       menuItem: 'Active',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {({ paintings, user }) => (
-              <PaintingTable
-                tableType="active"
-                user={user}
-                history={history}
-                paintingList={paintings.filter(
-                  ({ isLive, isSold, isPendingSale }) => isLive && !isSold && !isPendingSale,
-                )}
-              />
+          <PaintingTable
+            tableType="active"
+            user={user}
+            history={history}
+            paintingList={paintings.filter(
+              ({ isLive, isSold, isPendingSale }) =>
+                isLive && !isSold && !isPendingSale,
             )}
-          </Consumer>
+          />
         </Tab.Pane>
       ),
     },
@@ -55,19 +51,15 @@ export function PaintingList({ history }) {
       menuItem: 'Sold',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {({ paintings, user }) => (
-              <PaintingTable
-                tableType="sold"
-                user={user}
-                history={history}
-
-                paintingList={paintings.filter(
-                  ({ isLive, isSold, isPendingSale }) => !isLive && (isPendingSale || isSold),
-                )}
-              />
+          <PaintingTable
+            tableType="sold"
+            user={user}
+            history={history}
+            paintingList={paintings.filter(
+              ({ isLive, isSold, isPendingSale }) =>
+                !isLive && (isPendingSale || isSold),
             )}
-          </Consumer>
+          />
         </Tab.Pane>
       ),
     },
@@ -75,14 +67,7 @@ export function PaintingList({ history }) {
       menuItem: 'Add',
       render: () => (
         <Tab.Pane>
-          <Consumer>
-            {context => (
-              <AddPainting
-                setActiveTab={setActiveTab}
-                {...context}
-              />
-            )}
-          </Consumer>
+          <AddPainting setActiveTab={setActiveTab} />
         </Tab.Pane>
       ),
     },
@@ -92,13 +77,8 @@ export function PaintingList({ history }) {
   //   setActiveTab(activeIndex);
   // }
 
-
   return (
-    <Tab
-      activeIndex={activeTab}
-      onTabChange={handleChange}
-      panes={panes}
-    />
+    <Tab activeIndex={activeTab} onTabChange={handleChange} panes={panes} />
   );
 }
 

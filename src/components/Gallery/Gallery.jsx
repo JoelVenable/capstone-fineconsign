@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Grid, Icon, Table, Checkbox,
 } from 'semantic-ui-react';
-import { Consumer } from '../../ContextProvider';
+import { Context } from '../../ContextProvider';
 import { PaintingCard } from '../Paintings/PaintingCard';
 import { FilterArtists } from '../utility/FilterArtists';
-
 
 export function Gallery() {
   const [artistId, setArtistId] = useState(null);
   const [sold, setSold] = useState(false);
+  const { paintings } = useContext(Context);
+
   return (
     <>
       <Table basic>
@@ -28,43 +29,25 @@ export function Gallery() {
                   setSold(data.checked);
                 }}
               />
-
             </Table.HeaderCell>
-
           </Table.Row>
         </Table.Header>
       </Table>
 
       <Grid container>
-        {filterPaintings(artistId, sold)}
-
+        {paintings
+          .filter(painting =>
+            (sold
+              ? painting.isSold || painting.isPendingSale
+              : painting.isLive && !painting.isSold))
+          .filter(painting =>
+            (artistId ? painting.artistId === artistId : true))
+          .map(painting => (
+            <Grid.Column mobile={16} tablet={8} computer={5} key={painting.id}>
+              <PaintingCard {...painting} />
+            </Grid.Column>
+          ))}
       </Grid>
     </>
-  );
-}
-
-
-function filterPaintings(artistId, sold) {
-  return (
-    <Consumer>
-      {({ paintings }) => paintings
-        .filter(painting => (sold ? painting.isSold || painting.isPendingSale : painting.isLive && !painting.isSold))
-        .filter(painting => (artistId ? painting.artistId === artistId : true))
-        .map(showPainting)}
-    </Consumer>
-  );
-}
-
-
-function showPainting(painting) {
-  return (
-    <Grid.Column
-      mobile={16}
-      tablet={8}
-      computer={5}
-      key={painting.id}
-    >
-      <PaintingCard {...painting} />
-    </Grid.Column>
   );
 }

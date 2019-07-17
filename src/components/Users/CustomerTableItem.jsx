@@ -1,20 +1,12 @@
 import React from 'react';
 import {
-  Image,
-  Button,
-  Icon,
-  Table,
-  Header,
-  // Label,
+  Image, Icon, Table, Header,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-export function CustomerTableItem({
-  customer,
-}) {
+export function CustomerTableItem({ customer }) {
   return (
     <Table.Row>
-
       <Table.Cell>
         <Header as="h4" image>
           {customer.imageUrl ? (
@@ -34,14 +26,8 @@ export function CustomerTableItem({
           </Header.Content>
         </Header>
       </Table.Cell>
-      <Table.Cell>
-        {/* {showStatus(artist)} */}
-      </Table.Cell>
-      <Table.Cell>
-        {/* {showControls(artist)} */}
-
-      </Table.Cell>
-
+      <Table.Cell>{/* {showStatus(artist)} */}</Table.Cell>
+      <Table.Cell>{/* {showControls(artist)} */}</Table.Cell>
     </Table.Row>
   );
 }
@@ -49,22 +35,9 @@ export function CustomerTableItem({
 CustomerTableItem.propTypes = {
   customer: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-
-function EditButton({ id, history }) {
-  return (
-    <Button icon>
-      <Icon name="edit" onClick={() => history.push(`/paintings/${id}/edit`)} />
-    </Button>
-  );
-}
-
-
-EditButton.propTypes = {
-  id: PropTypes.number.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+    lastName: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string,
   }).isRequired,
 };

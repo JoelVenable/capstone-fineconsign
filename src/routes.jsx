@@ -5,14 +5,16 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Users } from './components/Users/Users';
 import { Gallery } from './components/Gallery/Gallery';
 import { Orders } from './components/Orders/Orders';
 import { PaintingDetail } from './components/Paintings/PaintingDetail';
 import { PaintingList } from './components/PaintingList/PaintingList';
 import { Artists } from './components/Artists/Artists';
 import {
-  checkEmployeeAccess, checkLoggedIn, checkNotCustomer, canEditArtistPermissions,
+  checkEmployeeAccess,
+  checkLoggedIn,
+  checkNotCustomer,
+  canEditArtistPermissions,
 } from './modules/checkRoute';
 import { Account } from './components/Account/Account';
 import { Consumer } from './ContextProvider';
@@ -21,20 +23,22 @@ import { EditPainting } from './components/PaintingList/EditPainting';
 import { EditArtist } from './components/Artists/EditArtist';
 import { Cart } from './components/Cart/Cart';
 import { OrderDetail } from './components/Orders/OrderDetail';
-
+import { UserList } from './components/Users/UserList';
 
 export const checkProtectedRoutes = user => [
   {
     path: '/users',
-    render: props => <Users {...props} />,
+    render: props => <UserList {...props} />,
     isAuthorized: checkEmployeeAccess(user, 'canEditUsers'),
     exact: true,
-  }, {
+  },
+  {
     path: '/orders',
     render: props => <Orders {...props} />,
     isAuthorized: checkEmployeeAccess(user, 'canProcessOrders'),
     exact: true,
-  }, {
+  },
+  {
     path: '/orders/:orderId(\\d+)',
     render: (props) => {
       const id = parseInt(props.match.params.orderId, 10);
@@ -42,12 +46,14 @@ export const checkProtectedRoutes = user => [
     },
     isAuthorized: checkLoggedIn(user),
     exact: true,
-  }, {
+  },
+  {
     path: '/paintings',
     render: props => <PaintingList {...props} />,
     isAuthorized: checkNotCustomer(user),
     exact: true,
-  }, {
+  },
+  {
     path: '/paintings/:paintingId(\\d+)/edit',
     render: ({ history, match }) => (
       <Consumer>
@@ -68,8 +74,10 @@ export const checkProtectedRoutes = user => [
                 showError('This is not your painting!');
               }
             } else if (!user.employee.canEditInventory) {
-              showError('You do not have permission to edit paintings.'
-                + 'Please talk to your supervisor.');
+              showError(
+                'You do not have permission to edit paintings.'
+                  + 'Please talk to your supervisor.',
+              );
               painting = null;
             }
 
@@ -85,15 +93,19 @@ export const checkProtectedRoutes = user => [
                 artists={artists}
               />
             ) : null;
-          } return null;
+          }
+          return null;
         }}
       </Consumer>
     ),
     isAuthorized: checkNotCustomer(user),
     exact: true,
-  }, {
+  },
+  {
     path: '/account',
-    render: props => <Consumer>{context => <Account {...context} {...props} />}</Consumer>,
+    render: props => (
+      <Consumer>{context => <Account {...context} {...props} />}</Consumer>
+    ),
     isAuthorized: checkLoggedIn(user),
     exact: true,
   },
@@ -105,7 +117,8 @@ export const checkProtectedRoutes = user => [
     },
     isAuthorized: true,
     exact: true,
-  }, {
+  },
+  {
     path: '/artists/:artistId(\\d+)/edit',
     render: ({ history, match }) => (
       <Consumer>
@@ -126,8 +139,11 @@ export const checkProtectedRoutes = user => [
                 showError('This is not your profile!', history.goBack);
               }
             } else if (!user.employee.canEditCustomers) {
-              showError('You do not have permission to edit artists.'
-                + 'Please talk to your supervisor.', history.goBack);
+              showError(
+                'You do not have permission to edit artists.'
+                  + 'Please talk to your supervisor.',
+                history.goBack,
+              );
               artist = null;
             }
 
@@ -142,7 +158,8 @@ export const checkProtectedRoutes = user => [
                 history={history}
               />
             ) : null;
-          } return null;
+          }
+          return null;
         }}
       </Consumer>
     ),
@@ -152,7 +169,6 @@ export const checkProtectedRoutes = user => [
   },
 ];
 
-
 export const routes = user => [
   {
     path: '/artists',
@@ -161,7 +177,12 @@ export const routes = user => [
   },
   {
     path: '/artists/:artistId(\\d+)',
-    render: props => <ArtistProfile {...props} id={parseInt(props.match.params.artistId, 10)} />,
+    render: props => (
+      <ArtistProfile
+        {...props}
+        id={parseInt(props.match.params.artistId, 10)}
+      />
+    ),
     exact: true,
   },
   {

@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Header, Image, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { Consumer } from '../../ContextProvider';
+import { Context } from '../../ContextProvider';
 
 export function ArtistNameLink({ id, isLink }) {
-  return (
-    <Consumer>
-      {({ artists }) => {
-        const found = artists.find(artist => artist.id === id);
-        if (found) {
-          return isLink ? (
-            <Link to={`/artists/${id}`}>
-              <InternalLink {...found} />
-            </Link>
-          ) : (
-            <InternalLink {...found} />
-          );
-        } return null;
-      }}
-    </Consumer>
-  );
+  const { artists } = useContext(Context);
+  const found = artists.find(artist => artist.id === id);
+
+  if (found) {
+    return isLink ? (
+      <Link to={`/artists/${id}`}>
+        <InternalLink {...found} />
+      </Link>
+    ) : (
+      <InternalLink {...found} />
+    );
+  }
+  return null;
 }
 
 ArtistNameLink.propTypes = {
@@ -31,7 +28,6 @@ ArtistNameLink.propTypes = {
 ArtistNameLink.defaultProps = {
   isLink: true,
 };
-
 
 function InternalLink({
   avatarUrl, firstName, lastName, hometown,
@@ -45,9 +41,7 @@ function InternalLink({
       )}
       <Header.Content>
         {`${firstName} ${lastName}`}
-        <Header.Subheader>
-          {hometown}
-        </Header.Subheader>
+        <Header.Subheader>{hometown}</Header.Subheader>
       </Header.Content>
     </Header>
   );

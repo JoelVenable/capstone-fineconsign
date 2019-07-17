@@ -1,28 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
-import { Consumer } from '../../ContextProvider';
-
+import { Context } from '../../ContextProvider';
 
 export function FilterArtists({
-  setArtist, showOnlyActive, inline, selection, clearable, placeholder,
+  setArtist,
+  showOnlyActive,
+  inline,
+  selection,
+  clearable,
+  placeholder,
 }) {
+  const { artists } = useContext(Context);
   function handleChange(_e, { value: artistId }) {
     setArtist(artistId);
   }
   return (
-    <Consumer>
-      {({ artists }) => (
-        <Dropdown
-          placeholder={placeholder}
-          inline={inline}
-          selection={selection}
-          clearable={clearable}
-          onChange={handleChange}
-          options={showOnlyActive ? showActive(artists) : showAll(artists)}
-        />
-      )}
-    </Consumer>
+    <Dropdown
+      placeholder={placeholder}
+      inline={inline}
+      selection={selection}
+      clearable={clearable}
+      onChange={handleChange}
+      options={showOnlyActive ? showActive(artists) : showAll(artists)}
+    />
   );
 }
 
@@ -35,14 +36,14 @@ function showAll(artists) {
 }
 
 function showActive(artists) {
-  return artists.filter(artist => artist.paintings.length > 0).map(artist => ({
-    value: artist.id,
-    text: `${artist.firstName} ${artist.lastName}`,
-    iamge: { avatar: true, src: artist.artistImageUrl },
-
-  }));
+  return artists
+    .filter(artist => artist.paintings.length > 0)
+    .map(artist => ({
+      value: artist.id,
+      text: `${artist.firstName} ${artist.lastName}`,
+      iamge: { avatar: true, src: artist.artistImageUrl },
+    }));
 }
-
 
 FilterArtists.propTypes = {
   setArtist: PropTypes.func.isRequired,

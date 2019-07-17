@@ -15,7 +15,7 @@ import { ConfirmDialog } from './components/utility/ConfirmDialog';
 import { SelectLoginRegister } from './components/Auth/SelectLoginRegister';
 
 
-const Context = React.createContext();
+export const Context = React.createContext();
 
 try {
   firebase.initializeApp(firebaseCredentials);

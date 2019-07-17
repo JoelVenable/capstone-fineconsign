@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Segment, Header, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Consumer } from '../../ContextProvider';
+import { Context } from '../../ContextProvider';
 import { AccountOrderTableItem } from './AccountOrderTableItem';
 
-export function Account({ user }) {
+export function Account() {
+  const { orders, user } = useContext(Context);
   let data = {};
   if (user) {
     if (user.userType === 'artist') {
@@ -32,9 +33,12 @@ export function Account({ user }) {
                   <p>{data.address}</p>
                   <p>{`${data.city}, ${data.state} ${data.zipcode}`}</p>
                 </>
-              )}
+)}
             />
-            <AccountRow header="Account Balance: " content={`$${data.accountBalance}`} />
+            <AccountRow
+              header="Account Balance: "
+              content={`$${data.accountBalance}`}
+            />
           </Table.Body>
         </Table>
       </Segment>
@@ -44,51 +48,40 @@ export function Account({ user }) {
             <Header content="My Orders" />
           </Segment>
           <Segment>
-            <Consumer>
-              {({ orders }) => (
-                <Table>
-                  <Table.Body>
-                    {orders ? orders
-                      .filter(({ customerId, isSubmitted }) => customerId === data.id && isSubmitted)
-                      .map(order => <AccountOrderTableItem order={order} key={order.id} />) : <> </>}
-                  </Table.Body>
-                </Table>
-
-
-              )}
-            </Consumer>
+            <Table>
+              <Table.Body>
+                {orders ? (
+                  orders
+                    .filter(
+                      ({ customerId, isSubmitted }) =>
+                        customerId === data.id && isSubmitted,
+                    )
+                    .map(order => (
+                      <AccountOrderTableItem order={order} key={order.id} />
+                    ))
+                ) : (
+                  <> </>
+                )}
+              </Table.Body>
+            </Table>
           </Segment>
         </>
       ) : null}
     </Segment.Group>
-
   ) : (
     <Segment.Group>
       <Segment>
         <Header content="No User found" />
       </Segment>
-
     </Segment.Group>
   );
 }
 
-
-Account.propTypes = {
-  user: PropTypes.shape({
-    userType: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-
 function AccountRow({ header, content }) {
   return (
     <Table.Row>
-      <Table.Cell width={4}>
-        {header}
-      </Table.Cell>
-      <Table.Cell width={6}>
-        {content}
-      </Table.Cell>
+      <Table.Cell width={4}>{header}</Table.Cell>
+      <Table.Cell width={6}>{content}</Table.Cell>
     </Table.Row>
   );
 }

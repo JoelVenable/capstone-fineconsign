@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Menu } from 'semantic-ui-react';
-import { Consumer } from '../../ContextProvider';
-
+import { Context } from '../../ContextProvider';
 
 export function SignInButton() {
+  const { showLogin } = useContext(Context);
   return (
-    <Consumer>
-      {({ showLogin }) => (
-        <Menu.Menu position="right">
-          <Menu.Item
-            icon="sign-in"
-            onClick={(e) => {
-              e.preventDefault();
-              showLogin();
-            }}
-          />
-        </Menu.Menu>
-      )}
-    </Consumer>
+    <Menu.Menu position="right">
+      <Menu.Item
+        icon="sign-in"
+        onClick={(e) => {
+          e.preventDefault();
+          showLogin();
+        }}
+      />
+    </Menu.Menu>
   );
 }
