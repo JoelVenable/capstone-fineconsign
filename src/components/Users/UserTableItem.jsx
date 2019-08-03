@@ -9,10 +9,12 @@ import {
   // Label,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Contxt } from '../../ContextProvider';
+import { Context } from '../../ContextProvider';
 
 export function UserTableItem({
-  user: { username, email, userType, isActive, id },
+  user: {
+    username, email, userType, isActive, id,
+  },
   edit,
   //  user,
 }) {
