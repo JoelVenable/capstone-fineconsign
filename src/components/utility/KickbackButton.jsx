@@ -21,11 +21,11 @@ export function KickbackButton({ id }) {
   return (
     <Popup
       content="Return painting to artist for corrections"
-      trigger={
+      trigger={(
         <Button icon color="violet">
           <Icon name="undo" onClick={handleClick} />
         </Button>
-      }
+)}
     />
   );
 }

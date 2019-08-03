@@ -22,10 +22,10 @@
     "typescript": "^3.5.1"
   },
   "scripts": {
-    "start": "npm-run-all -p api watch webpack",
+    "start": "npx npm-run-all -p api watch webpack",
     "watch": "npx esw -w --changed --fix src/**/*.{js,jsx}",
     "webpack": "react-scripts start",
-    "api": "npx json-server --watch api/database.json --port 8088",
+    "api": "json-server --watch api/database.json --port 8088",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

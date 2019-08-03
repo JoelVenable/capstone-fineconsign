@@ -103,22 +103,6 @@ UserList.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  artists: PropTypes.arrayOf(
-    PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  customers: PropTypes.arrayOf(
-    PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-  employees: PropTypes.arrayOf(
-    PropTypes.shape({
-      canEditEmployees: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
   edit: PropTypes.shape({
     employee: PropTypes.func.isRequired,
   }).isRequired,

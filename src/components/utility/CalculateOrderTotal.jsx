@@ -8,12 +8,12 @@ export function CalculateOrderTotal({ orderId }) {
   const order = orders.find(item => item.id === orderId);
   return order.orderItems.reduce(
     (acc, item) =>
-      !item.isCancelled
-        ? acc +
-          paintings.find(painting => painting.id === item.paintingId)
+      (!item.isCancelled
+        ? acc
+          + paintings.find(painting => painting.id === item.paintingId)
             .currentPrice
-        : acc,
-    0
+        : acc),
+    0,
   );
 }
 

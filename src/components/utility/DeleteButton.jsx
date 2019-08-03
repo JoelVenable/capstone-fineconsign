@@ -14,8 +14,7 @@ export function DeleteButton({ id, type, showText }) {
       text: 'This action cannot be reversed!', // The inner content of text to be displayed
       id, // The id to be passed to the delete function when confirmed (optional)
       confirmAction: async () => {
-        if (type === 'painting')
-          await API.paintings.edit(id, { artistId: null });
+        if (type === 'painting') await API.paintings.edit(id, { artistId: null });
         return remove[type](id);
       }, // Function called when action is confirmed
       confirmBtnColor: 'red', // String value.  Accepts color of confirmation button.
@@ -28,11 +27,11 @@ export function DeleteButton({ id, type, showText }) {
   return (
     <Popup
       content={`Delete this ${type}`}
-      trigger={
+      trigger={(
         <Button color="red" width="4" onClick={handleClick} icon={!showText}>
           {showText ? 'Delete draft' : <Icon name="trash alternate" />}
         </Button>
-      }
+)}
     />
   );
 }

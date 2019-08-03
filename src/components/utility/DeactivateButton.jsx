@@ -21,11 +21,11 @@ export function DeactivateButton({ id }) {
   return (
     <Popup
       content="Remove painting from live display"
-      trigger={
+      trigger={(
         <Button icon color="purple">
           <Icon name="undo" onClick={handleConfirm} />
         </Button>
-      }
+)}
     />
   );
 }

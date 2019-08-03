@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, Icon, Image, Header, Transition } from 'semantic-ui-react';
+import {
+  Button, Icon, Image, Header, Transition,
+} from 'semantic-ui-react';
 import { Context } from '../../ContextProvider';
 import largeImg from './assets/gallery-lg.jpg';
 

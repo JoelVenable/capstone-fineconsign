@@ -21,11 +21,11 @@ export function GoLiveButton({ id }) {
   return (
     <Popup
       content="Show this painting on the customer facing site"
-      trigger={
+      trigger={(
         <Button icon color="green" onClick={handleClick}>
           <Icon name="send" />
         </Button>
-      }
+)}
     />
   );
 }
