@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Container, Grid, Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // import { API } from '../../modules/api/API';
@@ -15,9 +15,12 @@ export function PaintingDetail({ id }) {
 
   const painting = paintings.find(pntg => pntg.id === id);
 
-  if (user) {
-    if (user.userType === 'customer') setShowBuyButton(true);
-  } else setShowBuyButton(true);
+  useEffect(() => {
+    if (user) {
+      if (user.userType === 'customer') setShowBuyButton(true);
+    } else setShowBuyButton(true);
+  }, [user]);
+
 
   // const [painting, setPainting] = React.useState([]);
   // setPainting(getPainting(id));
