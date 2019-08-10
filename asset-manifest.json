@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/capstone-fineconsign/static/css/main.504ebd62.chunk.css",
+    "main.js": "/capstone-fineconsign/static/js/main.fab99a29.chunk.js",
+    "main.js.map": "/capstone-fineconsign/static/js/main.fab99a29.chunk.js.map",
+    "runtime~main.js": "/capstone-fineconsign/static/js/runtime~main.df1d0769.js",
+    "runtime~main.js.map": "/capstone-fineconsign/static/js/runtime~main.df1d0769.js.map",
+    "static/css/2.7afb1056.chunk.css": "/capstone-fineconsign/static/css/2.7afb1056.chunk.css",
+    "static/js/2.69f089c4.chunk.js": "/capstone-fineconsign/static/js/2.69f089c4.chunk.js",
+    "static/js/2.69f089c4.chunk.js.map": "/capstone-fineconsign/static/js/2.69f089c4.chunk.js.map",
+    "index.html": "/capstone-fineconsign/index.html",
+    "precache-manifest.720cfc1c73357c1ec4b6e69e8afbd61d.js": "/capstone-fineconsign/precache-manifest.720cfc1c73357c1ec4b6e69e8afbd61d.js",
+    "service-worker.js": "/capstone-fineconsign/service-worker.js",
+    "static/css/2.7afb1056.chunk.css.map": "/capstone-fineconsign/static/css/2.7afb1056.chunk.css.map",
+    "static/css/main.504ebd62.chunk.css.map": "/capstone-fineconsign/static/css/main.504ebd62.chunk.css.map",
+    "static/media/semantic.min.css": "/capstone-fineconsign/static/media/outline-icons.ef60a4f6.woff",
+    "static/media/gallery-lg.jpg": "/capstone-fineconsign/static/media/gallery-lg.35e56c7a.jpg",
+    "static/media/hero-1024-2.jpg": "/capstone-fineconsign/static/media/hero-1024-2.ae4bc4c5.jpg",
+    "static/media/hero-1080p.jpg": "/capstone-fineconsign/static/media/hero-1080p.105caf1a.jpg",
+    "static/media/hero-4k.jpg": "/capstone-fineconsign/static/media/hero-4k.07c6dcba.jpg",
+    "static/media/hero-mobile-retina.jpg": "/capstone-fineconsign/static/media/hero-mobile-retina.45ddd260.jpg",
+    "static/media/hero-mobile-small.jpg": "/capstone-fineconsign/static/media/hero-mobile-small.bc825967.jpg",
+    "static/media/hero-retina2.jpg": "/capstone-fineconsign/static/media/hero-retina2.3d3ec0ed.jpg"
+  }
+}
