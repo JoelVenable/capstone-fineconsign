@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2fb1cc961d2d157da6c3b32932f88419",
+    "revision": "b8db66b5e17da1d28630543002e8c266",
     "url": "/capstone-fineconsign/index.html"
   },
   {
-    "revision": "e13f290f37d3ea61d1b0",
+    "revision": "41448f641c61117eee45",
     "url": "/capstone-fineconsign/static/css/2.7afb1056.chunk.css"
   },
   {
-    "revision": "b9b9bad211432e499fc6",
+    "revision": "26d8bbefd62726b9249d",
     "url": "/capstone-fineconsign/static/css/main.504ebd62.chunk.css"
   },
   {
-    "revision": "e13f290f37d3ea61d1b0",
-    "url": "/capstone-fineconsign/static/js/2.1b2d3cc9.chunk.js"
+    "revision": "41448f641c61117eee45",
+    "url": "/capstone-fineconsign/static/js/2.be601c81.chunk.js"
   },
   {
-    "revision": "b9b9bad211432e499fc6",
-    "url": "/capstone-fineconsign/static/js/main.926dd8ef.chunk.js"
+    "revision": "26d8bbefd62726b9249d",
+    "url": "/capstone-fineconsign/static/js/main.7a84f72d.chunk.js"
   },
   {
     "revision": "7e9b3b15b1b7a461d647",
